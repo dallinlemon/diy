@@ -1,0 +1,18 @@
+<p>read-csv-component works!</p>
+
+<div class="form-group">
+    <label for="file">Choose File</label>
+    <input type="file"
+           id="file"
+           (change)="handleFileInput($any($event.target).files)">
+</div>
+
+<button id="startButton" (click)="readFile()">read file</button>
+
+<div id="outputDiv">
+    <ul>
+        <li *ngFor="let item of output; let i = index"> 
+            {{ item.Date }}, {{ item.Description}}, {{ item.Debit }}, {{ item.Credit }}
+        </li>
+    </ul>
+</div>
