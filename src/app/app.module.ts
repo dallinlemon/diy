@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReadFileComponentComponent } from './components/read-file-component/read-file-component.component';
 import { ReadCsvComponentComponent } from './components/read-csv-component/read-csv-component.component';
+import { DisplayCsvItemComponent } from './display-csv-item/display-csv-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ReadFileComponentComponent,
-    ReadCsvComponentComponent
+    ReadCsvComponentComponent,
+    DisplayCsvItemComponent
   ],
   imports: [
     BrowserModule,
