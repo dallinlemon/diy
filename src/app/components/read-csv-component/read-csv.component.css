@@ -1,0 +1,65 @@
+.list {
+  display: grid;
+  grid-template-columns:  200px auto 200px 200px;
+  /* margin: 10px; */
+  border-bottom: 1px solid rgb(0, 0, 0);
+}  
+
+#labels {
+  display: grid;
+  grid-template-columns:  200px auto 200px 200px;
+  font-size: 30px;
+  border-bottom: 5px solid rgb(0, 0, 0);
+}
+
+.date {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.description {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.debit {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.credit {
+  grid-column-start: 4;
+  grid-column-end: 5; 
+}
+
+.display-center {
+  text-align: center;
+}
+
+.display-left {
+  text-align: left;
+}
+
+#date {
+  border-right: rgb(0, 0, 0) 1px solid;
+  padding: 10px;
+  text-align: center;
+}
+
+#description {
+  border-right: rgb(0, 0, 0) 1px solid;
+  padding: 10px;
+  text-align: center;
+}
+
+#debit {
+  border-right: rgb(0, 0, 0) 1px solid;
+  padding: 10px;
+  text-align: center;
+}
+
+#creditDisplay {
+  border-right: rgb(0, 0, 0) 1px solid;
+  padding: 10px;
+  text-align: center;
+}

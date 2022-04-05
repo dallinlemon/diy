@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReadFileComponentComponent } from './read-file-component.component';
+import { ReadFileComponent } from './read-file.component';
 
 describe('ReadFileComponentComponent', () => {
-  let component: ReadFileComponentComponent;
-  let fixture: ComponentFixture<ReadFileComponentComponent>;
+  let component: ReadFileComponent;
+  let fixture: ComponentFixture<ReadFileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReadFileComponentComponent ]
+      declarations: [ ReadFileComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReadFileComponentComponent);
+    fixture = TestBed.createComponent(ReadFileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
