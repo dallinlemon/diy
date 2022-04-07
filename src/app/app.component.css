@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 350px auto;
+  height: 100vh;
+  width: 100vw;
+}
+
+.item1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  background-color: #8e21f3;
+}
+
+.item2{
+  grid-column-start: 2;
+  grid-column-end: 3;
+}

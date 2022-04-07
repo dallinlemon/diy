@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReadFileComponent } from './read-file.component';
+import { BudgetViewComponent } from './budget-view.component';
 
-describe('ReadFileComponentComponent', () => {
-  let component: ReadFileComponent;
-  let fixture: ComponentFixture<ReadFileComponent>;
+describe('BudgetViewComponent', () => {
+  let component: BudgetViewComponent;
+  let fixture: ComponentFixture<BudgetViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReadFileComponent ]
+      declarations: [ BudgetViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReadFileComponent);
+    fixture = TestBed.createComponent(BudgetViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

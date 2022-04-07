@@ -1,0 +1,32 @@
+.grid-container {
+  display: grid;
+  grid-template-columns:  70% 30%;
+  grid-template-rows: 100px auto;
+  height: 100%;
+  width: 100%;
+}
+
+.top-bar {
+  background-color: #bb1d1d;
+  text-align: center;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+.right-view {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  background-color: #693699;
+}
+
+.left-view {
+  background-color: #5df321;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
