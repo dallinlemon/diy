@@ -6,4 +6,5 @@
  */
 export enum RecordTypes {
     AMERICAFIRST = 'AmericaFirst',
+    WELLS_FARGO = 'WellsFargo',
 }
