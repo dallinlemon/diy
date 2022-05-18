@@ -3,14 +3,14 @@ import { parse as parseOFX } from 'ofx-js';
 
 @Component({
   selector: 'app-read-file-component',
-  templateUrl: './read-file-component.component.html',
-  styleUrls: ['./read-file-component.component.css']
+  templateUrl: './read-file.component.html',
+  styleUrls: ['./read-file.component.css']
 })
-export class ReadFileComponentComponent implements OnInit {
+export class ReadFileComponent implements OnInit {
   output: string = 'works';
-  
+
   constructor() { }
-  
+
   ngOnInit(): void {
   }
 
