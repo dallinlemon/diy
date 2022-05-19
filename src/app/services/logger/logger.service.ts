@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+// TODO: update this logger to take the class or function name and append it to the log
 @Injectable({
   providedIn: 'root'
 })
@@ -44,7 +44,7 @@ export class LoggerService {
     console.log('>> TRACE: ' + message);
   }
 
-  
+
 
 
 }
