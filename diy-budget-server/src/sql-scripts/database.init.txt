@@ -19,7 +19,6 @@ Create TABLE IF NOT EXISTS budgets (
 
 Create TABLE IF NOT EXISTS accounts (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    user_id INTEGER NOT NULL, // remove this
     budget_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     notes TEXT,

@@ -40,13 +40,13 @@ export default class AccountDao extends DatabaseDao {
 
   public insert(data: Account): Promise<ReturnType> {
     return this.db.run(
-        `INSERT INTO ${TableNames.ACCOUNTS} (${AccountsColumns.USER_ID}, ${AccountsColumns.BUDGET_ID},
+        `INSERT INTO ${TableNames.ACCOUNTS} ( ${AccountsColumns.BUDGET_ID},
           ${AccountsColumns.NAME}, ${AccountsColumns.NOTES}, ${AccountsColumns.ACTIVE})
-          VALUES (${data.user_id}, ${data.budget_id}, "${data.name}", "${data.notes}", ${data.active})`);
+          VALUES (${data.budget_id}, "${data.name}", "${data.notes}", ${data.active})`);
   }
 
   public update(data: Account): Promise<ReturnType> {
-    return this.db.run(`UPDATE ${TableNames.ACCOUNTS} SET ${AccountsColumns.USER_ID} = ${data.user_id},
+    return this.db.run(`UPDATE ${TableNames.ACCOUNTS} SET 
       ${AccountsColumns.BUDGET_ID} = ${data.budget_id},
       ${AccountsColumns.NAME} = "${data.name}", ${AccountsColumns.NOTES} = "${data.notes}",
       ${AccountsColumns.ACTIVE} = ${data.active}

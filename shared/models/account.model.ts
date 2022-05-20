@@ -1,14 +1,12 @@
 import NamedItem from "./named-item.model";
-import UserIdItemModel from "./user-id-item.model";
 
 /**
  * Account Model
  */
-export default class Account extends UserIdItemModel {
+export default class Account extends NamedItem {
 
   constructor(
     id: number,
-    user_id: number,
     public budget_id: number,
     name: string,
     public active: boolean,
@@ -16,7 +14,7 @@ export default class Account extends UserIdItemModel {
     notes?: string,
 
   ) {
-    super(id, user_id, name, created_at, notes);
+    super(id, created_at, name, notes);
   }
 
   /**
