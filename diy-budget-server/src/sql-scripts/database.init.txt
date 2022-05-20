@@ -63,7 +63,6 @@ Create TABLE IF NOT EXISTS record_index (
     category_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     notes TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (record_id) REFERENCES records(id),
     FOREIGN KEY (category_id) REFERENCES categories(id),
     PRIMARY KEY (record_id, category_id)

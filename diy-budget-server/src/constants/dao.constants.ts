@@ -21,7 +21,6 @@ export enum UserColumns {
 }
 export enum AccountsColumns {
   ID = 'id',
-  USER_ID = 'user_id',
   BUDGET_ID = 'budget_id',
   NAME = 'name',
   NOTES = 'notes',
@@ -65,6 +64,6 @@ export enum RecordIndexColumns {
   RECORD_ID = 'record_id',
   CATEGORY_ID = 'category_id',
   NAME = 'name',
+  AMOUNT = 'amount',
   NOTES = 'notes',
-  CREATED_AT = 'created_at'
 }
