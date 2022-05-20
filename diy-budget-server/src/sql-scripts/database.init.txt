@@ -1,0 +1,71 @@
+-- SQLite
+Create TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL,
+    first_name TEXT,
+    last_name TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+Create TABLE IF NOT EXISTS budgets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    user_id INTEGER NOT NULL,
+    name TEXT,
+    notes TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+Create TABLE IF NOT EXISTS accounts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    user_id INTEGER NOT NULL, // remove this
+    budget_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    notes TEXT,
+    active BOOLEAN NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (budget_id) REFERENCES budgets(id)
+);
+
+Create TABLE IF NOT EXISTS my_groups (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    budget_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    notes TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (budget_id) REFERENCES budgets(id)
+);
+
+Create TABLE IF NOT EXISTS categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    group_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    notes TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (group_id) REFERENCES my_groups(id)
+);
+
+Create TABLE IF NOT EXISTS records (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    account_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+    payee TEXT NOT NULL,
+    memo TEXT,
+    amount INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (account_id) REFERENCES accounts(id)
+);
+
+Create TABLE IF NOT EXISTS record_index (
+    record_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    notes TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (record_id) REFERENCES records(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id),
+    PRIMARY KEY (record_id, category_id)
+);
