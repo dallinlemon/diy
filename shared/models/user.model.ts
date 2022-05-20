@@ -6,14 +6,13 @@ import DatabaseItemModel from "./database-item.model";
 export default class User extends DatabaseItemModel {
 
   constructor(
-    public id: number,
+    id: number,
     public username: string,
     public password: string,
-    public email: string,
-    public first_name:string,
-    public last_name: string,
-    public created_at: any
+    created_at: any,
+    public first_name?:string,
+    public last_name?: string,
     ) {
-    super();
+    super(id, created_at);
   }
 }
