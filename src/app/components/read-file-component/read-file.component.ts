@@ -8,9 +8,9 @@ import { parse as parseOFX } from 'ofx-js';
 })
 export class ReadFileComponent implements OnInit {
   output: string = 'works';
-  
+
   constructor() { }
-  
+
   ngOnInit(): void {
   }
 
