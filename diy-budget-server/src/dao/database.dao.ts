@@ -20,7 +20,7 @@ export default abstract class DatabaseDao {
    * @constructor
    * @private use getInstance()
    */
-  public constructor(...options: DatabaseDaoOption[]) {
+  protected constructor(...options: DatabaseDaoOption[]) {
     options.forEach((option) => {
       option(this);
     });
@@ -35,6 +35,7 @@ export default abstract class DatabaseDao {
 
   public static async openDatabase(): Promise<any> {
     try {
+      console.log(`Opening database: ${databasePath}${databaseName}`);
       const tempDb = await open({
         filename: `${databasePath}${databaseName}`,
         driver: sqlite3.Database
@@ -59,7 +60,7 @@ export default abstract class DatabaseDao {
   }
 
   // TODO - add methods to update, delete, insert that accept an array and execute them all in a single transaction
-  public abstract getAll(): Promise<any>;
+  public abstract getAll(): Promise<any[]>;
   public abstract getById(id: number): Promise<any>;
   public abstract insert(data: DatabaseItem): Promise<ReturnType>;
   public abstract update(data: DatabaseItem): Promise<ReturnType>;

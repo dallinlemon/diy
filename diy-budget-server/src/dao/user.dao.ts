@@ -22,7 +22,7 @@ export default class UserDao extends DatabaseDao {
     return UserDao.instance as UserDao;
   }
 
-  public getAll(): Promise<User> {
+  public getAll(): Promise<User[]> {
     return this.db.all(`SELECT * FROM ${TableNames.USERS}`);
   }
 
@@ -49,3 +49,9 @@ export default class UserDao extends DatabaseDao {
   }
 
 }
+
+(async () => {
+  const userDao = await UserDao.getInstance();
+  const users = await userDao.getAll();
+  console.log(users);
+})();

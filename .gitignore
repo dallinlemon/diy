@@ -1,44 +1,103 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # Compiled output
+diy-budget-server/dist
+angular-frontend/dist
 /dist
+diy-budget-server/tmp
+angular-frontend/tmp
 /tmp
+diy-budget-server/out-tsc
+angular-frontend/out-tsc
 /out-tsc
+diy-budget-server/bazel-out
+angular-frontend/bazel-out
 /bazel-out
 
 # Node
+diy-budget-server/node_modules
+angular-frontend/node_modules
 /node_modules
-npm-debug.log
-yarn-error.log
+diy-budget-server/npm-debug.log
+angular-frontend/npm-debug.log
+/npm-debug.log
+diy-budget-server/yarn-error.log
+angular-frontend/yarn-error.log
+/yarn-error.log
+
 
 # IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+diy-budget-server/.idea
+angular-frontend/.idea
+/idea
+diy-budget-server/.project
+angular-frontend/.project
+/project
+diy-budget-server/.classpath
+angular-frontend/.classpath
+/classpath
+diy-budget-server/.c9
+angular-frontend/.c9
+.c9
+diy-budget-server/*.launch
+angular-frontend/*.launch
+/*.launch
+diy-budget-server/.settings/
+angular-frontend/.settings/
+/.settings
+diy-budget-server/*.sublime-workspace
+angular-frontend/*.sublime-workspace
+/*.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+diy-budget-server/.vscode/*
+angular-frontend/.vscode/*
+/.vscode
+diy-budget-server/!.vscode/settings.json
+angular-frontend/!.vscode/settings.json
+/!.vscode/settings.json
+diy-budget-server/!.vscode/tasks.json
+angular-frontend/!.vscode/tasks.json
+/!.vscode/tasks.json
+diy-budget-server/!.vscode/launch.json
+angular-frontend/!.vscode/launch.json
+/!.vscode/launch.json
+diy-budget-server/!.vscode/extensions.json
+angular-frontend/!.vscode/extensions.json
+/!.vscode/extensions.json
+diy-budget-server/.history/*
+angular-frontend/.history/*
+/.history
 
 # Miscellaneous
+diy-budget-server/.angular/cache
+angular-frontend/.angular/cache
 /.angular/cache
-.sass-cache/
+diy-budget-server/.sass-cache/
+angular-frontend/.sass-cache/
+/.sass-cache
+diy-budget-server/connect.lock
+angular-frontend/connect.lock
 /connect.lock
+diy-budget-server/coverage
+angular-frontend/coverage
 /coverage
+diy-budget-server/libpeerconnection.log
+angular-frontend/libpeerconnection.log
 /libpeerconnection.log
-testem.log
+diy-budget-server/testem.log
+angular-frontend/testem.log
+/testem.log
+diy-budget-server/typings
+angular-frontend/typings
 /typings
 
 # System files
-.DS_Store
-Thumbs.db
+diy-budget-server/.DS_Store
+angular-frontend/.DS_Store
+/.DS_Store
+diy-budget-server/Thumbs.db
+angular-frontend/Thumbs.db
+/Thumbs.db
 
 /diy-budget-server/src/data
