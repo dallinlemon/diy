@@ -1,0 +1,18 @@
+<div (click)="testRedux()" id="group-menu">
+  <p>Groups Menu</p>
+</div>
+<div id="group-header" class="flex">
+  <div id="align-left">
+    <h3 id="cat-title">CATEGORY</h3>
+  </div>
+  <div id="align-right" class="flex">
+    <h3 class="fixed-width">ASSIGNED</h3>
+    <h3 class="fixed-width">ACTIVITY</h3>
+    <h3 class="fixed-width padding-right">AVAILABLE</h3>
+  </div>
+</div>
+<div *ngIf="groups">
+  <div *ngFor="let group of groups">
+    <group-view [group]="group" [checked]="false"></group-view>
+  </div>
+</div>

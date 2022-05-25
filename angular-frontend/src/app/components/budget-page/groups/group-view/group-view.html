@@ -1,0 +1,16 @@
+<div *ngIf="group" class="flex root-div">
+  <div class="align-left flex">
+    <!-- <input type="checkbox" [checked]="checked"/> -->
+    <app-arrow class="arrow" classList="group-arrow" (click)="toggleCategories()"></app-arrow>
+    <div class="name">{{group.name}}</div>
+  </div>
+  <div class="align-right flex">
+    <div class="fixed-width">{{assigned |  currency }}</div>
+    <div class="fixed-width">{{activity | currency}}</div>
+    <div class="fixed-width padding-right">{{available | currency}}</div>
+  </div>
+</div>
+<div *ngIf="categories && show">
+  <category-view *ngFor="let category of categories" [category]="category"
+    (recalculate)="updateAssigned($event)"></category-view>
+</div>

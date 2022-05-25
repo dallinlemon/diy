@@ -1,0 +1,39 @@
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.align-left {
+  width: 50%;
+  justify-content: flex-start;
+}
+
+.align-right {
+  width: 50%;
+  justify-content: space-around;
+}
+
+.root-div {
+  height: 50px;
+  /* border-top: 1px solid #000000; */
+  border-bottom: 1px solid #000000;
+  background-color: rgb(192, 192, 192);
+}
+
+.fixed-width {
+  width: 100%;
+  text-align: right;
+}
+
+.padding-right {
+  padding-right: 10px;
+}
+
+.arrow {
+  padding-left: 10px;
+}
+.name {
+  padding-left: 10px;
+}

@@ -1,0 +1,13 @@
+<div *ngIf="category" class="flex root-cat-div">
+  <div class="align-left flex">
+    <!-- <input type="checkbox" [checked]="checked"/> -->
+    <p class="name">{{category.name}}</p>
+
+  </div>
+  <div class="align-right flex">
+    <input name="money" class="fixed-width text-box" type="text" (change)="updateAssigned($event)"
+      value="{{assigned |  currency }}"/>
+    <p class="fixed-width">{{activity | currency}}</p>
+    <p class="fixed-width padding-right">{{available | currency}}</p>
+  </div>
+</div>
