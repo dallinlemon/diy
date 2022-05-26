@@ -29,24 +29,25 @@ export class LoggerService {
     this._logLevel = value;
   }
 
-  public error(className: string, functionName: string, message: string) {
+  public error(className: string, functionName: string, message: string, error: any) {
     console.log('--------------------------------------------------');
-    console.error(`>> ERROR: ${className} -- ${functionName} | ${message}`);
+    console.error(`>> ERROR: ${className} -- ${functionName}() | ${message}`);
+    console.log('>>> ERROR: ', error);
     console.log('--------------------------------------------------');
   }
 
   public info(className: string, functionName: string, message: string) {
     if (this._logLevel < 1) return;
-    console.log(`>> INFO: ${className} -- ${functionName} | ${message}`);
+    console.log(`>> INFO: ${className} -- ${functionName}() | ${message}`);
   }
 
   public debug(className: string, functionName: string, message: string) {
     if (this._logLevel < 2) return;
-    console.log(`>> DEBUG: ${className} -- ${functionName} | ${message}`);
+    console.log(`>> DEBUG: ${className} -- ${functionName}() | ${message}`);
   }
 
   public trace(className: string, functionName: string, message: string) {
     if (this._logLevel >= 3) return;
-    console.log(`>> TRACE: ${className} -- ${functionName} | ${message}`);
+    console.log(`>> TRACE: ${className} -- ${functionName}() | ${message}`);
   }
 }

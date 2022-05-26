@@ -30,7 +30,7 @@ export class IngestRecordsService {
         rawRecord.Debit,
         rawRecord.Credit,
       );
-      
+
       bankRecords.push(bankRecord);
     });
     return bankRecords;
@@ -47,7 +47,7 @@ export class IngestRecordsService {
         rawRecord.Blank,
         rawRecord.Description,
       );
-      
+
       wellsFargo.push(fargoWells);
     });
     return wellsFargo;
@@ -55,14 +55,14 @@ export class IngestRecordsService {
 
 
   public ReadCsv(File: File, recordType: RecordTypes): Promise<BankRecord[]> {
-    
+
     return new Promise((resolve, reject) => {
       try {
         papaParse(File, {
           header: true,
           dynamicTyping: true,
           complete: (results: any) => {
-            this.Log.debug('Got ' + results.data.length + ' rows'); 
+            this.Log.debug(IngestRecordsService.name, 'ReadCsv', 'Got ' + results.data.length + ' rows');
             if(recordType === RecordTypes.AMERICAFIRST) {
               resolve(this.mapAmericaFirstToBankRecord(results.data));
             } else {
@@ -78,14 +78,14 @@ export class IngestRecordsService {
 
 
   public WFCsv(File: File, recordType: RecordTypes): Promise<WellsFargo[]> {
-    
+
     return new Promise((resolve, reject) => {
       try {
         papaParse(File, {
           header: true,
           dynamicTyping: true,
           complete: (results: any) => {
-            this.Log.debug('Got ' + results.data.length + ' rows'); 
+            this.Log.debug(IngestRecordsService.name, 'WFCsv', 'Got ' + results.data.length + ' rows');
             if(recordType === RecordTypes.WELLS_FARGO) {
               resolve(this.mapWellsFargoToBankRecord(results.data));
             } else {
@@ -101,14 +101,14 @@ export class IngestRecordsService {
 
 
   public ReadWFCsv(File: File, recordType: RecordTypes): Promise<BankRecord[]> {
-    
+
     return new Promise((resolve, reject) => {
       try {
         papaParse(File, {
           header: true,
           dynamicTyping: true,
           complete: (results: any) => {
-            this.Log.debug('Got ' + results.data.length + ' rows'); 
+            this.Log.debug(IngestRecordsService.name, 'ReadWFC', 'Got ' + results.data.length + ' rows');
             if(recordType === RecordTypes.WELLS_FARGO) {
               resolve(this.mapAmericaFirstToBankRecord(results.data));
             } else {

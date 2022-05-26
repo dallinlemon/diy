@@ -28,7 +28,9 @@ export class CategoryView implements OnInit {
     private store: Store<RootStoreInjection>
     ) {
       this.categoryState$ = store.select('categoriesReducer');
-      this.categoryState$.subscribe(this.onCategoryChanged);
+      this.categoryState$.subscribe((categoryState: CategoryState) => {
+
+      });
   }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class CategoryView implements OnInit {
 
   updateAvailable(){
     this.available = this.assigned - this.activity;
-    console.log('available', this.available);
+    // console.log('available updated', this.available);
   }
 
   updateAssigned(event: any){
@@ -58,8 +60,5 @@ export class CategoryView implements OnInit {
   }
   triggerRecalculate() {
     this.RecalculateEvent.emit();
-  }
-  onCategoryChanged(categories: CategoryState) {
-    console.log('Category saved', categories);
   }
 }

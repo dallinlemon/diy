@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-// TODO: update this logger to take the class or function name and append it to the log
+
+type LogLevel = 0 | 1 | 2 | 3;
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,7 @@ export class LoggerService {
    * 2 = debug
    * 3 = trace
    */
-  private _logLevel: 0 | 1 | 2 | 3 = 3;
+  private _logLevel: LogLevel = 2;
 
   constructor() { }
 
@@ -23,25 +24,26 @@ export class LoggerService {
     this._logLevel = value;
   }
 
-  public error(message: string) {
+  public error(className: string, functionName: string, message: string, error: any) {
     console.log('--------------------------------------------------');
-    console.error('>> ERROR: ' + message);
+    console.error(`>> ERROR: ${className} | ${functionName}() | ${message}`);
+    console.log(`>>> ERROR: ${error.message} | `, error);
     console.log('--------------------------------------------------');
   }
 
-  public info(message: string) {
+  public info(className: string, functionName: string, message: string) {
     if (this._logLevel < 1) return;
-    console.log('>> INFO: ' + message);
+    console.log(`>> INFO: ${className} | ${functionName}() | ${message}`);
   }
 
-  public debug(message: string) {
+  public debug(className: string, functionName: string, message: string) {
     if (this._logLevel < 2) return;
-    console.log('>> DEBUG: ' + message);
+    console.log(`>> DEBUG: ${className} | ${functionName}() | ${message}`);
   }
 
-  public trace(message: string) {
-    if (this._logLevel >= 3) return;
-    console.log('>> TRACE: ' + message);
+  public trace(className: string, functionName: string, message: string) {
+    if (this._logLevel < 3) return;
+    console.log(`>> TRACE: ${className} | ${functionName}() | ${message}`);
   }
 
 
