@@ -9,6 +9,7 @@ export default class Category extends NamedItem {
     id: number,
     public group_id: number,
     name: string,
+    public assigned: number,
     created_at: Date,
     notes?: string,
   ) {

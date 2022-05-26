@@ -1,5 +1,5 @@
 import NamedItem from "./named-item.model";
-
+// TODO add hidden field
 /**
  * Group Model
  */
