@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 type LogLevel = 0 | 1 | 2 | 3;
-@Injectable({
-  providedIn: 'root'
-})
+// @Injectable({
+//   providedIn: 'root'
+// })
 export class LoggerService {
   /**
    * controls which log methods execute
@@ -12,7 +12,7 @@ export class LoggerService {
    * 2 = debug
    * 3 = trace
    */
-  private _logLevel: LogLevel = 2;
+  private _logLevel: LogLevel = 3;
 
   constructor() { }
 
@@ -36,9 +36,9 @@ export class LoggerService {
     console.log(`>> INFO: ${className} | ${functionName}() | ${message}`);
   }
 
-  public debug(className: string, functionName: string, message: string) {
+  public debug(className: string, functionName: string, message: string, data?: any) {
     if (this._logLevel < 2) return;
-    console.log(`>> DEBUG: ${className} | ${functionName}() | ${message}`);
+    console.log(`>> DEBUG: ${className} | ${functionName}() | ${message}`, data || '');
   }
 
   public trace(className: string, functionName: string, message: string) {

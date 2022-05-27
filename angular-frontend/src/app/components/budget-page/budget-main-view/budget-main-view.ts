@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { GroupState, setGroups } from 'src/app/store/actions/groups.actions';
 import { RootStoreInjection } from 'src/app/types/store.types';
 import { GroupStoreService } from 'src/app/services/store/group-store.service';
-import groups from 'src/app/mock-data/arrays/groups';
 import Group from 'shared/models/group.model';
 import { BaseComponent } from '../../base-component.ts/base-component';
 @Component({
