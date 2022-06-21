@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import Category from 'shared/models/category.model';
-import Record from 'shared/models/record.model';
+import Category from '../../../../models/category.model';
+import Record from '../../../../models/record.model';
 import { CurrencyPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -11,6 +11,8 @@ import { RecordStoreService } from 'src/app/services/store/record-store.service'
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
 import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
 import { BudgetMenuTypes } from 'src/app/types/budget-menu-types.enum';
+import { MonthSelectionStoreService } from 'src/app/services/store/month-selection-store.service';
+import { MonthSelectionState } from 'src/app/store/actions/month-selection.actions';
 
 @Component({
   selector: 'category-view',
@@ -37,9 +39,10 @@ export class CategoryView extends BaseComponent implements OnInit {
     private recordStoreService: RecordStoreService,
     private categoryStoreService: CategoriesStoreService,
     private budgetMenuStoreService: BudgetMenuStoreService,
+    private monthSelectionStoreService: MonthSelectionStoreService,
     ) {
       super();
-      this.categoryState$ = store.select('categoriesReducer');
+      this.categoryState$ = this.store.select('categoriesReducer');
       this.categoryState$.subscribe((categoryState: CategoryState) => {
 
       });
@@ -51,11 +54,17 @@ export class CategoryView extends BaseComponent implements OnInit {
       this.activity = this.records.reduce((total, currentRecord) => {
         return total + currentRecord.amount;
       }, 0);
-      this.assigned = this.category.assigned;
+      this.categoryStoreService.categories$.subscribe((categoriesState: CategoryState) => {
+        this.updateAssignedDisplay();
+      });
       this.updateAvailable();
       this.parentToggledSubscription = this.parentToggled.subscribe((checked: boolean) => {
         this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'parentToggled', 'subscription was called');
         this.checked = checked;
+      });
+      this.monthSelectionStoreService.monthSelection$.subscribe((monthState: MonthSelectionState) => {
+        this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'monthSelectionStoreService', 'subscription was called');
+        this.updateAssignedDisplay();
       });
     }
   }
@@ -64,13 +73,15 @@ export class CategoryView extends BaseComponent implements OnInit {
     this.available = this.assigned - this.activity;
     // console.log('available updated', this.available);
   }
-
-  updateAssigned(event: any){
+  updateAssignedDisplay() {
+    this.assigned = this.categoryStoreService.getAssigned(this.category.id);
+    this.updateAvailable();
+  }
+  onAssignedChanged(event: any){
     this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'updateAssigned', `was called with value ${event.target.value}`);
     const input = event.target.value.replace(/[^0-9.]/g, '');
-    this.assigned = Number.parseFloat(input);
-    this.categoryStoreService.updateCategories({...this.category, assigned: this.assigned} as Category);
-    this.updateAvailable();
+    const assigned = Number.parseFloat(input);
+    this.categoryStoreService.setAssigned(this.category.id, assigned);
   }
   triggerRecalculate() {
     this.RecalculateEvent.emit();

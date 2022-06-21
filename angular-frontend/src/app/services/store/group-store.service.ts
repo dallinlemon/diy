@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import Group from "shared/models/group.model";
+import Group from "../../models/group.model";
 import { GroupState, resetGroups, setGroups } from "src/app/store/actions/groups.actions";
 import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";
+import { CategoriesStoreService } from "./category-store.service";
+import { RecordStoreService } from "./record-store.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,11 @@ export class GroupStoreService extends BaseService {
   groups$: Observable<GroupState>
   checkedGroups: Map<number, boolean> = new Map<number, boolean>();
 
-  constructor(private store: Store<RootStoreInjection>) {
+  constructor(
+    private store: Store<RootStoreInjection>,
+    private categoriesStoreService: CategoriesStoreService,
+    private recordStoreService: RecordStoreService,
+    ) {
     super();
     this.groups$ = store.select('groupsReducer');
     this.groups$.subscribe((Groups: GroupState) => {
@@ -76,5 +82,16 @@ export class GroupStoreService extends BaseService {
     });
     this.logger.info(GroupStoreService.name, 'deleteCheckedGroups', 'checked groups removed from store');
     this.logger.debug(GroupStoreService.name, 'deleteCheckedGroups', `checked groups ->`, this.checkedGroups);
+  }
+
+  public getAssigned(groupId: number): number {
+    this.logger.trace(GroupStoreService.name, 'getAssigned', `was called with ${groupId}`);
+    const categories = this.categoriesStoreService.categories.filter(category => category.group_id === groupId);
+    let assigned: number = 0;
+    categories.forEach(category => {
+      assigned += this.categoriesStoreService.getAssigned(category.id);
+    });
+    return assigned;
+
   }
 }

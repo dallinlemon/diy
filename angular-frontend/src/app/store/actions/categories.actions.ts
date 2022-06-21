@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import Category from 'shared/models/category.model';
+import Category from '../../models/category.model';
 
 export interface CategoryState {
   categories: Category[];

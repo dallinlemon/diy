@@ -1,93 +1,93 @@
-import Category from 'shared/models/category.model';
+import Category from '../../models/category.model';
 const categories: Category[] = [
-  {
-    id: 1,
-    group_id: 1,
-    name: "Test Category 1",
-    assigned: new Map([
-      ["key1", 1],
-      ["key2", 1]
-  ]),
-    notes: "Test notes",
-    created_at: new Date()
-  } as Category,
-  {
-    id: 2,
-    group_id: 1,
-    name: "Test Category 2",
-    assigned: new Map([
-      ["key1", 1],
-      ["key2", 1]
-  ]),
-    notes: "Test notes",
-    created_at: new Date()
-  } as Category,
-  {
-    id: 3,
-    group_id: 2,
-    name: "Test Category 3",
-    assigned: new Map([
-      ["key1", 1],
-      ["key2", 1]
-  ]),
-    notes: "Test notes",
-    created_at: new Date()
-  } as Category,
-  {
-    id: 4,
-    group_id: 1,
-    name: "Test Category 4",
-    assigned: new Map([
-      ["key1", 1],
-      ["key2", 1]
-  ]),
-    notes: "Test notes",
-    created_at: new Date()
-  } as Category,
-  {
-    id: 5,
-    group_id: 2,
-    name: "Test Category 5",
-    assigned: new Map([
-      ["key1", 1],
-      ["key2", 1]
-  ]),
-    notes: "Test notes",
-    created_at: new Date()
-  } as Category,
-  {
-    id: 6,
-    group_id: 3,
-    name: "Test Category 6",
-    assigned: new Map([
-      ["key1", 1],
-      ["key2", 1]
-  ]),
-    notes: "Test notes",
-    created_at: new Date()
-  } as Category,
-  {
-    id: 7,
-    group_id: 4,
-    name: "Test Category 7",
-    assigned: new Map([
-      ["key1", 1],
-      ["key2", 1]
-  ]),
-    notes: "Test notes",
-    created_at: new Date()
-  } as Category,
-  {
-    id: 8,
-    group_id: 5,
-    name: "Test Category 8",
-    assigned: new Map([
-      ["key1", 1],
-      ["key2", 1]
-  ]),
-    notes: "Test notes",
-    created_at: new Date()
-  } as Category
+  new Category(
+    1,
+    1,
+    "Test Category 1",
+    new Map([
+      ["6/2022", 1],
+      ["5/2022", 1]
+    ]),
+    new Date(),
+    "Test notes 1",
+  ),
+  new Category(
+    2,
+    1,
+    "Test Category 2",
+    new Map([
+      ["6/2022", 1],
+      ["5/2022", 1]
+    ]),
+    new Date(),
+    "Test notes",
+  ),
+  new Category(
+    3,
+    2,
+    "Test Category 3",
+    new Map([
+      ["6/2022", 1],
+      ["5/2022", 1]
+    ]),
+    new Date(),
+    "Test notes",
+  ),
+  new Category(
+    4,
+    1,
+    "Test Category 4",
+    new Map([
+      ["6/2022", 1],
+      ["5/2022", 1]
+    ]),
+    new Date(),
+    "Test notes",
+  ),
+  new Category(
+    5,
+    2,
+    "Test Category 5",
+    new Map([
+      ["6/2022", 1],
+      ["5/2022", 1]
+    ]),
+    new Date(),
+    "Test notes",
+  ),
+  new Category(
+    6,
+    3,
+    "Test Category 6",
+    new Map([
+      ["6/2022", 1],
+      ["5/2022", 1]
+    ]),
+    new Date(),
+    "Test notes",
+  ),
+  new Category(
+    7,
+    4,
+    "Test Category 6",
+    new Map([
+      ["6/2022", 1],
+      ["5/2022", 1]
+    ]),
+    new Date(),
+    "Test notes",
+  ),
+  new Category(
+    8,
+    5,
+    "Test Category 8",
+    new Map([
+      ["6/2022", 1],
+      ["5/2022", 1]
+    ]),
+    new Date(),
+    "Test notes",
+  ),
 ] as Category[];
 
 export default categories;

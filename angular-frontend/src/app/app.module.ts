@@ -18,6 +18,8 @@ import { CurrencyPipe } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { rootStore } from './store/store';
 import { CategoryAvailableMenu } from './components/budget-side-view/category-avaiable-menu/category-available-menu';
+import { MonthSelectorMainComponent } from './components/budget-page/month-selector/month-selector-main/month-selector-main';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -33,13 +35,18 @@ import { CategoryAvailableMenu } from './components/budget-side-view/category-av
     GroupView,
     Arrow,
     CategoryView,
-    CategoryAvailableMenu
+    CategoryAvailableMenu,
+    MonthSelectorMainComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot(rootStore)
+    StoreModule.forRoot(rootStore),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx Demo App',
+      logOnly: true,
+    })
   ],
   providers: [
     CurrencyPipe

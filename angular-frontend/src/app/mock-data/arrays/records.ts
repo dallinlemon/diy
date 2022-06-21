@@ -1,4 +1,4 @@
-import Record from 'shared/models/record.model';
+import Record from '../../models/record.model';
 const mockRecords: Record[] = [
   {
     id: 1,

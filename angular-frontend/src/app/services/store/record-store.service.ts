@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { trace } from "console";
 import { Observable } from "rxjs";
-import Record from "shared/models/record.model";
+import Record from "../../models/record.model";
 import { RecordState, resetRecords, setRecords } from "src/app/store/actions/records.actions";
 import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";

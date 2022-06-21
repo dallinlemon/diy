@@ -16,14 +16,14 @@ export default class Category extends NamedItem {
     super(id, created_at, name, notes);
   }
 
-  public getAssigned(date: Date | string): number {
-    return this.assigned.get((date instanceof Date) ? this.formatAssignedKey(date) : date) ?? 0;
+  public getAssigned(date: Date): number {
+    return this.assigned.get(this.formatAssignedKey(date)) ?? 0;
   }
   public setAssigned(date: Date | string, value: number): void {
     this.assigned.set((date instanceof Date) ? this.formatAssignedKey(date) : date, value);
   }
 
   protected formatAssignedKey(date: Date): string {
-    return `${date.getUTCDate()}/${date.getUTCFullYear()}`;
+    return `${date.getUTCMonth()}/${date.getUTCFullYear()}`;
   }
 }

@@ -1,4 +1,4 @@
-import Group from "shared/models/group.model";
+import Group from "../../models/group.model";
 
 const groups: Group[] = [
   {

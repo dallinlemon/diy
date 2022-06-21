@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import Category from 'shared/models/category.model';
+import Category from '../../../models/category.model';
 import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
 import { RecordStoreService } from 'src/app/services/store/record-store.service';

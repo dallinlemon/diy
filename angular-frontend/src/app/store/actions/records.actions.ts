@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import Record from "shared/models/record.model";
+import Record from "../../models/record.model";
 
 export interface RecordState {
   records: Record[];

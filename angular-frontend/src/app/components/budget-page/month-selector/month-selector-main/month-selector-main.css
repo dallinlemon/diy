@@ -1,0 +1,12 @@
+#arrow-button {
+  width: 40px;
+  padding: 20px;
+}
+#content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}

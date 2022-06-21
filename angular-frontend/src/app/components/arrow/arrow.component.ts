@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
-import Group from 'shared/models/group.model';
+import Group from '../../models/group.model';
 
 @Component({
   selector: 'app-arrow',

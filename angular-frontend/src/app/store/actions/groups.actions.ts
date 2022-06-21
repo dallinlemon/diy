@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import Group from "shared/models/group.model";
+import Group from "../../models/group.model";
 
 export interface GroupState {
   groups: Group[];

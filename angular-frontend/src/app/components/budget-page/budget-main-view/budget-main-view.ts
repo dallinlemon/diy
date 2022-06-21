@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { GroupState, setGroups } from 'src/app/store/actions/groups.actions';
 import { RootStoreInjection } from 'src/app/types/store.types';
 import { GroupStoreService } from 'src/app/services/store/group-store.service';
-import Group from 'shared/models/group.model';
+import Group from '../../../models/group.model';
 import { BaseComponent } from '../../base-component.ts/base-component';
 @Component({
   selector: 'budget-main-view',
@@ -15,21 +15,21 @@ export class BudgetMainView extends BaseComponent implements OnInit {
 
   constructor(
     private store: Store<RootStoreInjection>,
-    private GroupStoreService: GroupStoreService,
+    private groupStoreService: GroupStoreService,
     private cdr: ChangeDetectorRef,
   ) {
     super();
-    this.groups = this.GroupStoreService.groups;
+    this.groups = this.groupStoreService.groups;
   }
 
   ngOnInit(): void {
-    this.GroupStoreService.groups$.subscribe((groupState: GroupState) => {
+    this.groupStoreService.groups$.subscribe((groupState: GroupState) => {
     this.groups = groupState.groups.filter(group => group.budget_id === 1);
   });
   }
 
   public addGroup() {
-    this.GroupStoreService.addGroup({
+    this.groupStoreService.addGroup({
       id: 15,
       budget_id: 1,
       name: "Test Group 15",
@@ -45,7 +45,7 @@ export class BudgetMainView extends BaseComponent implements OnInit {
 
   public deleteGroup() {
     this.logger.trace(BudgetMainView.name, 'deleteGroup', 'was called');
-    this.GroupStoreService.deleteCheckedGroups();
+    this.groupStoreService.deleteCheckedGroups();
   }
 
 }

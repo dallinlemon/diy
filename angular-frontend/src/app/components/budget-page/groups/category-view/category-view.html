@@ -6,7 +6,7 @@
 
   </div>
   <div class="align-right flex">
-    <input name="money" class="fixed-width text-box" type="text" (change)="updateAssigned($event)"
+    <input name="money" class="fixed-width text-box" type="text" (change)="onAssignedChanged($event)"
       value="{{assigned |  currency }}"/>
     <p class="fixed-width">{{activity | currency}}</p>
     <div class="fixed-width">

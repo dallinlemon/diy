@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import Category from "shared/models/category.model";
+import Category from "../../models/category.model";
 import { CategoryState, resetCategories, setCategories } from "src/app/store/actions/categories.actions";
 import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";
+import { MonthSelectionStoreService } from "./month-selection-store.service";
 
 
 @Injectable({
@@ -15,7 +16,10 @@ export class CategoriesStoreService extends BaseService {
   categories$: Observable<CategoryState>
   checkedCategories: Map<number, boolean> = new Map<number, boolean>();
 
-  constructor(private store: Store<RootStoreInjection>) {
+  constructor(
+    private store: Store<RootStoreInjection>,
+    private monthSelectionStoreService: MonthSelectionStoreService,
+    ) {
     super();
     this.categories$ = store.select('categoriesReducer');
     this.categories$.subscribe((Categories: CategoryState) => {
@@ -79,22 +83,22 @@ export class CategoriesStoreService extends BaseService {
     this.logger.debug(CategoriesStoreService.name, 'deleteCheckedCategories', `checked categories -> `, this.checkedCategories);
   }
 
-  public getAssigned(categoryId: number, date: string): number {
-    this.logger.trace(CategoriesStoreService.name, 'getAssigned', `was called for ${date}`);
+  public getAssigned(categoryId: number, date?: Date): number {
+    this.logger.trace(CategoriesStoreService.name, 'getAssigned', `was called for ${categoryId} @ ${date}`);
     let assigned: number = 0;
     this.categories.forEach(category => {
       if (category.id === categoryId) {
-        assigned = category.assigned.get(date) ?? 0;
+        assigned = category.getAssigned(date ?? this.monthSelectionStoreService.selectedDate ?? new Date());
       }
     });
     return assigned;
   }
 
-  public setAssigned(categoryId: number, date: string, amount: number) {
+  public setAssigned(categoryId: number, amount: number, date?: string) {
     this.logger.trace(CategoriesStoreService.name, 'setAssigned', `was called for ${date}, ${amount}`);
     this.categories.forEach(category => {
       if (category.id === categoryId) {
-        category.assigned.set(date, amount);
+        category.assigned.set(date ?? this.monthSelectionStoreService.selectedDateString, amount);
       }
     });
     this.setCategories(this.categories);

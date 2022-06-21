@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import Group from 'shared/models/group.model';
-import Category from 'shared/models/category.model';
+import Group from '../../../../models/group.model';
+import Category from '../../../../models/category.model';
 import { GroupStoreService } from 'src/app/services/store/group-store.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
 import { RecordStoreService } from 'src/app/services/store/record-store.service';
-import Record from 'shared/models/record.model';
+import Record from '../../../../models/record.model';
 import { BaseComponent } from 'src/app/components/base-component.ts/base-component';
 import { Subject } from 'rxjs';
+import { MonthSelectionStoreService } from 'src/app/services/store/month-selection-store.service';
 
 @Component({
   selector: 'group-view',
@@ -27,32 +28,37 @@ export class GroupView extends BaseComponent implements OnInit {
 
 
   constructor(
-    private GroupStoreService: GroupStoreService,
-    private CategoryStoreService: CategoriesStoreService,
-    private RecordStoreService: RecordStoreService,
+    private groupStoreService: GroupStoreService,
+    private categoryStoreService: CategoriesStoreService,
+    private recordStoreService: RecordStoreService,
+    private monthSelectionStoreService: MonthSelectionStoreService,
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.records = this.RecordStoreService.records.filter((record: any) => this.categories.some(category => category.id === record.category_id));
+    this.records = this.recordStoreService.records.filter((record: any) => this.categories.some(category => category.id === record.category_id));
 
     this.assigned = this.categories.reduce((total, currentCategory) => {
-      return total + currentCategory.assigned;
+      return total + currentCategory.getAssigned(new Date());
     }, 0);
 
-    this.CategoryStoreService.categories$.subscribe(state => {
+    this.categoryStoreService.categories$.subscribe(state => {
       this.logger.trace(`${GroupView.name} ${this.group.id}`, 'categoriesSubscription', 'was called');
       this.categories = state.categories.filter(category => category.group_id === this.group.id);
       this.updateAssigned(null);
     });
-    this.RecordStoreService.records$.subscribe(state => {
+    this.recordStoreService.records$.subscribe(state => {
       this.logger.trace(`${GroupView.name} ${this.group.id}`, 'recordsSubscription', 'was called');
       this.records = state.records.filter(record => this.categories.some(category => category.id === record.category_id));
       this.activity = this.records.reduce((total, currentRecord) => {
         return total + currentRecord.amount;
       }, 0);
       this.updateAvailable();
+    });
+    this.monthSelectionStoreService.monthSelection$.subscribe(state => {
+      this.logger.trace(`${GroupView.name} ${this.group.id}`, 'monthSelectionSubscription', 'was called');
+      this.updateAssigned(null);
     });
   }
 
@@ -65,9 +71,7 @@ export class GroupView extends BaseComponent implements OnInit {
   }
 
   updateAssigned(event: any){
-    this.assigned = this.categories.reduce((total, currentCategory) => {
-      return total + currentCategory.assigned;
-    }, 0);
+    this.assigned = this.groupStoreService.getAssigned(this.group.id);
     this.updateAvailable();
   }
 
@@ -75,18 +79,18 @@ export class GroupView extends BaseComponent implements OnInit {
   checkboxClicked(_event: any){
     this.logger.trace(`${GroupView.name} ${this.group.id}`, 'checkboxClicked', `was called when value was ${this.checked}`);
     this.checked = !this.checked;
-    this.GroupStoreService.checkGroup(this.group.id, this.checked);
+    this.groupStoreService.checkGroup(this.group.id, this.checked);
     this.emitToggleEvent();
   }
 
   childToggled(event: any) {
     this.logger.trace(`${GroupView.name} ${this.group.id}`, 'childToggled', `was called with value ${event}`);
     this.checked = false;
-    this.GroupStoreService.checkGroup(this.group.id, this.checked);
+    this.groupStoreService.checkGroup(this.group.id, this.checked);
   }
 
   groupNameChanged(event: any) {
-    this.GroupStoreService.updateGroup({
+    this.groupStoreService.updateGroup({
       ...this.group,
       name: event.target.value
     } as Group);
