@@ -1,4 +1,8 @@
+
 type LogLevel = 0 | 1 | 2 | 3;
+// @Injectable({
+//   providedIn: 'root'
+// })
 export class LoggerService {
   /**
    * controls which log methods execute
@@ -51,3 +55,4 @@ export class LoggerService {
     console.log(`>> TRACE: ${className} -- ${functionName}() | ${message}`);
   }
 }
+

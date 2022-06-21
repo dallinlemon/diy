@@ -78,4 +78,25 @@ export class CategoriesStoreService extends BaseService {
     this.logger.info(CategoriesStoreService.name, 'deleteCheckedCategories', 'checked categories removed from store');
     this.logger.debug(CategoriesStoreService.name, 'deleteCheckedCategories', `checked categories -> `, this.checkedCategories);
   }
+
+  public getAssigned(categoryId: number, date: string): number {
+    this.logger.trace(CategoriesStoreService.name, 'getAssigned', `was called for ${date}`);
+    let assigned: number = 0;
+    this.categories.forEach(category => {
+      if (category.id === categoryId) {
+        assigned = category.assigned.get(date) ?? 0;
+      }
+    });
+    return assigned;
+  }
+
+  public setAssigned(categoryId: number, date: string, amount: number) {
+    this.logger.trace(CategoriesStoreService.name, 'setAssigned', `was called for ${date}, ${amount}`);
+    this.categories.forEach(category => {
+      if (category.id === categoryId) {
+        category.assigned.set(date, amount);
+      }
+    });
+    this.setCategories(this.categories);
+  }
 }

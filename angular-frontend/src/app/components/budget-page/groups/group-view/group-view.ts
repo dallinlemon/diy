@@ -85,6 +85,13 @@ export class GroupView extends BaseComponent implements OnInit {
     this.GroupStoreService.checkGroup(this.group.id, this.checked);
   }
 
+  groupNameChanged(event: any) {
+    this.GroupStoreService.updateGroup({
+      ...this.group,
+      name: event.target.value
+    } as Group);
+  }
+
   emitToggleEvent() {
     this.toggleSubject.next(this.checked);
   }

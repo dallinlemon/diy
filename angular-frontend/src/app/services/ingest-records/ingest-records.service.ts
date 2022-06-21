@@ -5,16 +5,17 @@ import WellsFargoRecord from 'src/app/models/records/wellsfargo-bank-model';
 import { WellsFargo } from 'src/app/models/records/wf';
 import { BankRecord } from '../../models/records/bank-record.model';
 import { RecordTypes } from '../../types/record-types.enum';
+import { BaseService } from '../base-service';
 import { LoggerService } from '../logger/logger.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class IngestRecordsService {
+export class IngestRecordsService extends BaseService {
 
-  constructor(
-    private Log: LoggerService,
-  ) { }
+  constructor() {
+    super();
+  }
 
   /**
    * Maps the results of using papaParse on AmericaFirstRecord to a BankRecord array.
@@ -62,7 +63,7 @@ export class IngestRecordsService {
           header: true,
           dynamicTyping: true,
           complete: (results: any) => {
-            this.Log.debug(IngestRecordsService.name, 'ReadCsv', 'Got ' + results.data.length + ' rows');
+            this.logger.debug(IngestRecordsService.name, 'ReadCsv', 'Got ' + results.data.length + ' rows');
             if(recordType === RecordTypes.AMERICAFIRST) {
               resolve(this.mapAmericaFirstToBankRecord(results.data));
             } else {
@@ -85,7 +86,7 @@ export class IngestRecordsService {
           header: true,
           dynamicTyping: true,
           complete: (results: any) => {
-            this.Log.debug(IngestRecordsService.name, 'WFCsv', 'Got ' + results.data.length + ' rows');
+            this.logger.debug(IngestRecordsService.name, 'WFCsv', 'Got ' + results.data.length + ' rows');
             if(recordType === RecordTypes.WELLS_FARGO) {
               resolve(this.mapWellsFargoToBankRecord(results.data));
             } else {
@@ -108,7 +109,7 @@ export class IngestRecordsService {
           header: true,
           dynamicTyping: true,
           complete: (results: any) => {
-            this.Log.debug(IngestRecordsService.name, 'ReadWFC', 'Got ' + results.data.length + ' rows');
+            this.logger.debug(IngestRecordsService.name, 'ReadWFC', 'Got ' + results.data.length + ' rows');
             if(recordType === RecordTypes.WELLS_FARGO) {
               resolve(this.mapAmericaFirstToBankRecord(results.data));
             } else {

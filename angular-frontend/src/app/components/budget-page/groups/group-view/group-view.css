@@ -44,3 +44,10 @@
   width: 17px;
   height: 17px;
 }
+
+#name-input {
+  padding-left: 10px;
+  border: none;
+  background-color: rgb(192, 192, 192);
+  outline: none;
+}

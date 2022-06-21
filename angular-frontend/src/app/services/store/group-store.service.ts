@@ -19,7 +19,7 @@ export class GroupStoreService extends BaseService {
     this.groups$ = store.select('groupsReducer');
     this.groups$.subscribe((Groups: GroupState) => {
       this.logger.trace(GroupStoreService.name, 'subscription', 'was called');
-      this.groups = Groups.groups;
+      this.groups = [...Groups.groups];
     });
   }
 

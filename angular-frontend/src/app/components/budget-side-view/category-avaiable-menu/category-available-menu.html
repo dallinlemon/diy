@@ -1,0 +1,7 @@
+<div *ngIf="menu">
+  <p>Move from category {{menu.id}}</p>
+  <input type="number">
+  <p>To</p>
+  <select ng-model="selectedCategory" ng-options="choice for choice in test"></select>
+
+</div>

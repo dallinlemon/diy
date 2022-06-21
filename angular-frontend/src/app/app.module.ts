@@ -9,7 +9,7 @@ import { TopBarComponent } from './components/top-bar-component/top-bar.componen
 import { SideBarComponent } from './components/side-bar-component/side-bar.component';
 import { BudgetViewComponent } from './components/budget-page/budget-view/budget-view.component';
 import { BudgetMainView } from './components/budget-page/budget-main-view/budget-main-view';
-import { BudgetSideView } from './components/budget-page/budget-side-view/budget-side-view';
+import { BudgetSideView } from './components/budget-side-view/budget-side-view';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GroupView } from './components/budget-page/groups/group-view/group-view';
 import { Arrow } from './components/arrow/arrow.component';
@@ -17,6 +17,7 @@ import { CategoryView } from './components/budget-page/groups/category-view/cate
 import { CurrencyPipe } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { rootStore } from './store/store';
+import { CategoryAvailableMenu } from './components/budget-side-view/category-avaiable-menu/category-available-menu';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { rootStore } from './store/store';
     BudgetSideView,
     GroupView,
     Arrow,
-    CategoryView
+    CategoryView,
+    CategoryAvailableMenu
   ],
   imports: [
     BrowserModule,

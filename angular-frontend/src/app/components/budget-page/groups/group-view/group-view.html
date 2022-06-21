@@ -2,7 +2,8 @@
   <div class="align-left flex">
     <input type="checkbox" [checked]="checked" class="checkbox" (click)="checkboxClicked($event)"/>
     <app-arrow class="arrow" classList="group-arrow" (click)="toggleCategories()"></app-arrow>
-    <div class="name">{{group.name}}</div>
+    <input type="text" id="name-input" value="{{group.name}}"
+      (change)="groupNameChanged($event)">
   </div>
   <div class="align-right flex">
     <div class="fixed-width">{{assigned | currency }}</div>

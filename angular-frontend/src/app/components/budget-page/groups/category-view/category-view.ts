@@ -9,6 +9,8 @@ import { CategoryState } from 'src/app/store/actions/categories.actions';
 import { BaseComponent } from 'src/app/components/base-component.ts/base-component';
 import { RecordStoreService } from 'src/app/services/store/record-store.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
+import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
+import { BudgetMenuTypes } from 'src/app/types/budget-menu-types.enum';
 
 @Component({
   selector: 'category-view',
@@ -23,7 +25,7 @@ export class CategoryView extends BaseComponent implements OnInit {
   private parentToggledSubscription: Subscription;
   checked:boolean;
   records: Record[] = [];
-  assigned: number = 0;
+  assigned: number;
   activity: number = 0;
   available: number = 0;
   formattedAmount: any = 0;
@@ -34,6 +36,7 @@ export class CategoryView extends BaseComponent implements OnInit {
     private store: Store<RootStoreInjection>,
     private recordStoreService: RecordStoreService,
     private categoryStoreService: CategoriesStoreService,
+    private budgetMenuStoreService: BudgetMenuStoreService,
     ) {
       super();
       this.categoryState$ = store.select('categoriesReducer');
@@ -64,8 +67,7 @@ export class CategoryView extends BaseComponent implements OnInit {
 
   updateAssigned(event: any){
     this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'updateAssigned', `was called with value ${event.target.value}`);
-    let input = event.target.value.substring(1, event.target.value.length - 1);
-    input = input.replace(/,/g, '');
+    const input = event.target.value.replace(/[^0-9.]/g, '');
     this.assigned = Number.parseFloat(input);
     this.categoryStoreService.updateCategories({...this.category, assigned: this.assigned} as Category);
     this.updateAvailable();
@@ -79,5 +81,22 @@ export class CategoryView extends BaseComponent implements OnInit {
     this.checked = !this.checked;
     this.childToggledEvent.emit();
     // this.GroupStoreService.checkGroup(this.group.id, this.checked);
+  }
+
+  categoryNameChanged(event: any) {
+    this.categoryStoreService.updateCategories({
+      ...this.category,
+      name: event.target.value
+    } as Category);
+  }
+
+  availablePressed(event: any) {
+    this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'availablePressed', `was called with value`);
+    // const input = event.target.value.replace(/[^0-9.]/g, '');
+    this.budgetMenuStoreService.setMenu({
+      ...this.budgetMenuStoreService.menu,
+      type: BudgetMenuTypes.CATEGORY_AVAILABLE,
+      id: this.category.id
+    });
   }
 }

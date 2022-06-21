@@ -43,3 +43,14 @@
   padding: 7px;
   background-color: rgb(255, 255, 255);
 }
+#name-input {
+  padding-left: 10px;
+  border: none;
+  background-color: rgb(241, 241, 241);
+  outline: none;
+}
+
+#available {
+  width: fit-content;
+  border: none;
+}
