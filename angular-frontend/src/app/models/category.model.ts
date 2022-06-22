@@ -17,13 +17,20 @@ export default class Category extends NamedItem {
   }
 
   public getAssigned(date: Date): number {
-    return this.assigned.get(this.formatAssignedKey(date)) ?? 0;
+    this.logger.debug(Category.name, 'getAssigned', `was called with ${date}`);
+    this.logger.debug(Category.name, 'getAssigned', this.formatAssignedKey(date));
+    const result = this.assigned.get(this.formatAssignedKey(date)) ?? 0;
+    this.logger.debug(Category.name, 'getAssigned', `returned ${result}`);
+    return result;
   }
   public setAssigned(date: Date | string, value: number): void {
-    this.assigned.set((date instanceof Date) ? this.formatAssignedKey(date) : date, value);
+    this.logger.debug(Category.name, 'setAssigned', `was called with ${value}`);
+    const finalDateKey = (date instanceof Date) ? this.formatAssignedKey(date) : date
+    this.assigned.set(finalDateKey, value);
   }
 
   protected formatAssignedKey(date: Date): string {
-    return `${date.getUTCMonth()}/${date.getUTCFullYear()}`;
+    this.logger.debug(Category.name, 'formatAssignedKey', `was called with ${date}`);
+    return `${date.getUTCMonth() + 1}/${date.getUTCFullYear()}`;
   }
 }

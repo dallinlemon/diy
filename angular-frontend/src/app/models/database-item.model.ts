@@ -1,9 +1,10 @@
+import { LoggerService } from "../services/logger/logger.service";
 
 /**
  * DatabaseItem Model
  */
 export default abstract class DatabaseItemModel {
-
+  protected logger = new LoggerService();
   /**
    * creates instance of DatabaseItemModel.
    * @param {number} id Database id of this instance.

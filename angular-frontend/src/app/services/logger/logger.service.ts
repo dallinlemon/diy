@@ -12,15 +12,15 @@ export class LoggerService {
    * 2 = debug
    * 3 = trace
    */
-  private _logLevel: LogLevel = 3;
+  private _logLevel: LogLevel = 2;
 
   constructor() { }
 
-  get logLevel(): 0 | 1 | 2 | 3 {
+  get logLevel(): LogLevel {
     return this._logLevel;
   }
 
-  set logLevel(value: 0 | 1 | 2 | 3) {
+  set logLevel(value: LogLevel) {
     this._logLevel = value;
   }
 
