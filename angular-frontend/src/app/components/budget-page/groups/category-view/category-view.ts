@@ -13,6 +13,7 @@ import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.servi
 import { BudgetMenuTypes } from 'src/app/types/budget-menu-types.enum';
 import { MonthSelectionStoreService } from 'src/app/services/store/month-selection-store.service';
 import { MonthSelectionState } from 'src/app/store/actions/month-selection.actions';
+import { RecordState } from 'src/app/store/actions/records.actions';
 
 @Component({
   selector: 'category-view',
@@ -31,7 +32,7 @@ export class CategoryView extends BaseComponent implements OnInit {
   activity: number = 0;
   available: number = 0;
   formattedAmount: any = 0;
-  categoryState$: Observable<CategoryState>
+  records$: Observable<RecordState>
 
   constructor(
     private currencyPipe: CurrencyPipe,
@@ -42,18 +43,10 @@ export class CategoryView extends BaseComponent implements OnInit {
     private monthSelectionStoreService: MonthSelectionStoreService,
     ) {
       super();
-      this.categoryState$ = this.store.select('categoriesReducer');
-      this.categoryState$.subscribe((categoryState: CategoryState) => {
-
-      });
   }
 
   ngOnInit(): void {
     if (this.category) {
-      this.records = this.recordStoreService.records.filter((record: any) => record.category_id === this.category?.id);
-      this.activity = this.records.reduce((total, currentRecord) => {
-        return total + currentRecord.amount;
-      }, 0);
       this.categoryStoreService.categories$.subscribe((categoriesState: CategoryState) => {
         this.updateAssignedDisplay();
       });
@@ -65,8 +58,22 @@ export class CategoryView extends BaseComponent implements OnInit {
       this.monthSelectionStoreService.monthSelection$.subscribe((monthState: MonthSelectionState) => {
         this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'monthSelectionStoreService', 'subscription was called');
         this.updateAssignedDisplay();
+        this.updateActivity();
+      });
+      this.records$ = this.store.select('recordsReducer');
+      this.records$.subscribe((categoryState: RecordState) => {
+        this.records = this.categoryStoreService.getMonthsRecords(this.category.id);
+        this.updateActivity();
       });
     }
+  }
+
+  updateActivity() {
+    this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'updateActivity', 'event was called');
+    this.activity = this.categoryStoreService.getMonthsRecords(this.category.id).reduce((total, currentRecord) => {
+      return total + currentRecord.amount;
+    }, 0);
+    this.updateAvailable();
   }
 
   updateAvailable(){

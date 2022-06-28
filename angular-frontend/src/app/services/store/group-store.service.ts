@@ -7,6 +7,8 @@ import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";
 import { CategoriesStoreService } from "./category-store.service";
 import { RecordStoreService } from "./record-store.service";
+import Record from "../../models/record.model";
+import { group } from "@angular/animations";
 
 @Injectable({
   providedIn: 'root'
@@ -93,5 +95,27 @@ export class GroupStoreService extends BaseService {
     });
     return assigned;
 
+  }
+
+  public getMonthsRecords(groupId: number): Record[] {
+    this.logger.trace(CategoriesStoreService.name, 'getMonthsRecords', `was called for ${groupId}`);
+    let monthsRecords: Record[] = [];
+      this.categoriesStoreService.categories.forEach(category => {
+        if (category.group_id === groupId) {
+          this.recordStoreService.records.forEach(record => {
+            this.addRecord(this.categoriesStoreService.getMonthsRecords(category.id), monthsRecords);
+          });
+        }
+      });
+    return monthsRecords;
+  }
+
+  private addRecord(records: Record[], monthArray: Record[]): void {
+    this.logger.trace(GroupStoreService.name, 'addRecord', `was called for ${records}`);
+    records.forEach(record => {
+      if(!monthArray.find(element => element.id === record.id)) {
+        monthArray.push(record);
+      }
+    });
   }
 }

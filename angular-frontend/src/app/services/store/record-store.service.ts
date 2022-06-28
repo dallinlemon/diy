@@ -6,6 +6,7 @@ import Record from "../../models/record.model";
 import { RecordState, resetRecords, setRecords } from "src/app/store/actions/records.actions";
 import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";
+import { MonthSelectionStoreService } from "./month-selection-store.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class RecordStoreService extends BaseService {
   records$: Observable<RecordState>
   checkedRecords: Map<number, boolean> = new Map<number, boolean>();
 
-  constructor(private store: Store<RootStoreInjection>) {
+  constructor(private store: Store<RootStoreInjection>, private monthStoreService: MonthSelectionStoreService) {
     super();
     this.records$ = store.select('recordsReducer');
     this.records$.subscribe((Records: RecordState) => {
@@ -76,4 +77,6 @@ export class RecordStoreService extends BaseService {
     this.logger.info(RecordStoreService.name, 'deleteCheckedRecords', 'checked record removed from store');
     this.logger.debug(RecordStoreService.name, 'deleteCheckedRecords', `checked record -> `, this.checkedRecords);
   }
+
+  
 }

@@ -6,7 +6,8 @@ import { CategoryState, resetCategories, setCategories } from "src/app/store/act
 import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";
 import { MonthSelectionStoreService } from "./month-selection-store.service";
-
+import Record from "../../models/record.model";
+import { RecordStoreService } from "./record-store.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class CategoriesStoreService extends BaseService {
 
   constructor(
     private store: Store<RootStoreInjection>,
-    private monthSelectionStoreService: MonthSelectionStoreService,
+    private monthStoreService: MonthSelectionStoreService,
+    private recordStoreService: RecordStoreService,
     ) {
     super();
     this.categories$ = store.select('categoriesReducer');
@@ -88,7 +90,7 @@ export class CategoriesStoreService extends BaseService {
     let assigned: number = 0;
     this.categories.forEach(category => {
       if (category.id === categoryId) {
-        assigned = category.getAssigned(date ?? this.monthSelectionStoreService.selectedDate ?? new Date());
+        assigned = category.getAssigned(date ?? this.monthStoreService.selectedDate ?? new Date());
       }
     });
     return assigned;
@@ -98,9 +100,22 @@ export class CategoriesStoreService extends BaseService {
     this.logger.trace(CategoriesStoreService.name, 'setAssigned', `was called for ${date}, ${amount}`);
     this.categories.forEach(category => {
       if (category.id === categoryId) {
-        category.assigned.set(date ?? this.monthSelectionStoreService.selectedDateString, amount);
+        category.assigned.set(date ?? this.monthStoreService.selectedDateString, amount);
       }
     });
     this.setCategories(this.categories);
+  }
+
+  public getMonthsRecords(categoryId: number): Record[] {
+    this.logger.trace(RecordStoreService.name, 'getMonthsRecords', 'was called');
+    const months: Record[] = [];
+    this.recordStoreService.records.forEach(element => {
+      if (element.date.getUTCMonth() === this.monthStoreService.selectedDate.getUTCMonth() && element.category_id === categoryId) {
+        months.push(element);
+      }
+    }
+    );
+    this.logger.debug(RecordStoreService.name, 'getMonthsRecords', `months -> `, months);
+    return months;
   }
 }

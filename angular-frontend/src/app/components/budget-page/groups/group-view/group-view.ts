@@ -50,7 +50,7 @@ export class GroupView extends BaseComponent implements OnInit {
     });
     this.recordStoreService.records$.subscribe(state => {
       this.logger.trace(`${GroupView.name} ${this.group.id}`, 'recordsSubscription', 'was called');
-      this.records = state.records.filter(record => this.categories.some(category => category.id === record.category_id));
+      this.records = this.groupStoreService.getMonthsRecords(this.group.id);
       this.activity = this.records.reduce((total, currentRecord) => {
         return total + currentRecord.amount;
       }, 0);
@@ -58,6 +58,7 @@ export class GroupView extends BaseComponent implements OnInit {
     });
     this.monthSelectionStoreService.monthSelection$.subscribe(state => {
       this.logger.trace(`${GroupView.name} ${this.group.id}`, 'monthSelectionSubscription', 'was called');
+      this.updateActivity();
       this.updateAssigned(null);
     });
   }
@@ -72,6 +73,13 @@ export class GroupView extends BaseComponent implements OnInit {
 
   updateAssigned(event: any){
     this.assigned = this.groupStoreService.getAssigned(this.group.id);
+    this.updateAvailable();
+  }
+
+  updateActivity() {
+    this.activity = this.groupStoreService.getMonthsRecords(this.group.id).reduce((total, currentRecord) => {
+      return total + currentRecord.amount;
+    }, 0);
     this.updateAvailable();
   }
 

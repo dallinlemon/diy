@@ -4,7 +4,7 @@ const mockRecords: Record[] = [
     id: 1,
     account_id: 1,
     category_id: 1,
-    date: new Date(),
+    date: createOffsetMonth(0),
     payee: "Test Payee",
     memo: "Test Memo",
     amount: 10.00,
@@ -14,7 +14,7 @@ const mockRecords: Record[] = [
     id: 2,
     account_id: 1,
     category_id: 2,
-    date: new Date(),
+    date: createOffsetMonth(0),
     payee: "Test Payee",
     memo: "Test Memo",
     amount: 150.00,
@@ -24,7 +24,7 @@ const mockRecords: Record[] = [
     id: 3,
     account_id: 1,
     category_id: 1,
-    date: new Date(),
+    date: createOffsetMonth(1),
     payee: "Test Payee",
     memo: "Test Memo",
     amount: 50.00,
@@ -34,7 +34,7 @@ const mockRecords: Record[] = [
     id: 4,
     account_id: 2,
     category_id: 8,
-    date: new Date(),
+    date: createOffsetMonth(2),
     payee: "Test Payee",
     memo: "Test Memo",
     amount: 1500,
@@ -44,7 +44,7 @@ const mockRecords: Record[] = [
     id: 5,
     account_id: 1,
     category_id: 1,
-    date: new Date(),
+    date: createOffsetMonth(3),
     payee: "Test Payee",
     memo: "Test Memo",
     amount: 100.00,
@@ -53,3 +53,10 @@ const mockRecords: Record[] = [
 ];
 
 export default mockRecords;
+
+function createOffsetMonth(offset: number) {
+  const date = new Date();
+  date.setMonth(date.getMonth() - offset);
+  return date;
+}
+
