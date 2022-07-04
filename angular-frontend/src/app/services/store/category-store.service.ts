@@ -32,14 +32,14 @@ export class CategoriesStoreService extends BaseService {
 
   public addCategories(category: Category) {
     this.logger.trace(CategoriesStoreService.name, 'addCategories', 'Setting Categories with new record');
-    this.setCategories([...this.categories, category]);
+    this.setCategories([...this.categories, new Category(category.id, category.group_id, category.name, category.assigned, category.created_at, category.notes)]);
   }
 
   public updateCategories(category: Category) {
     this.logger.trace(CategoriesStoreService.name, 'updateCategories', `was called for category ${category.id}`);
     this.categories.forEach((element, index) => {
       if (element.id === category.id) {
-        this.categories[index] = category;
+        this.categories[index] = new Category(category.id, category.group_id, category.name, category.assigned, category.created_at, category.notes);
       }
     });
     this.setCategories(this.categories);

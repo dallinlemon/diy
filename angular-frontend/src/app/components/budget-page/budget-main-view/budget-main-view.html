@@ -1,7 +1,11 @@
-<div id="group-menu">
-  <button (click)="deleteGroup()" class="btn btn-primary">Delete</button>
-  <!-- <button (click)="deleteGroup()" class="btn btn-primary">delete Group</button> -->
-  <p>Groups Menu</p>
+<div id="group-menu" class="flex">
+  <div id="menu-align-left">
+    <button (click)="addGroup()" class="btn btn-primary left-spacing menu-buttons">Add Group</button>
+    <button (click)="deleteGroup()" class="btn btn-primary left-spacing menu-buttons">Delete</button>
+  </div>
+  <div id="menu-align-right">
+    <p>Groups Menu</p>
+  </div>
 </div>
 <div id="group-header" class="flex">
   <div id="align-left">
@@ -15,6 +19,9 @@
 </div>
 <div *ngIf="groups">
   <div *ngFor="let group of groups">
-    <group-view [group]="group"></group-view>
+    <group-view [currentGroup]="group"></group-view>
   </div>
 </div>
+
+<add-group-popup
+  [createButtonPressed]="createButtonPressed.asObservable()"></add-group-popup>

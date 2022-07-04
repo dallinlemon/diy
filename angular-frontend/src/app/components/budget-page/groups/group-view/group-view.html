@@ -1,8 +1,8 @@
-<div *ngIf="group" class="flex root-div">
+<div *ngIf="currentGroup" class="flex root-div">
   <div class="align-left flex">
     <input type="checkbox" [checked]="checked" class="checkbox" (click)="checkboxClicked($event)"/>
-    <app-arrow class="arrow" classList="group-arrow" (click)="toggleCategories()"></app-arrow>
-    <input type="text" id="name-input" value="{{group.name}}"
+    <app-arrow class="arrow" classList="group-arrow" [show]="show" (click)="toggleCategories()"></app-arrow>
+    <input type="text" id="name-input" value="{{currentGroup.name}}"
       (change)="groupNameChanged($event)">
   </div>
   <div class="align-right flex">

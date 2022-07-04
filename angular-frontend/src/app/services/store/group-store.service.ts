@@ -33,14 +33,14 @@ export class GroupStoreService extends BaseService {
 
   public addGroup(group: Group) {
     this.logger.trace(GroupStoreService.name, 'addGroup', 'Setting Groups with new record');
-    this.setGroups([...this.groups, group]);
+    this.setGroups([...this.groups, new Group(group.id, group.budget_id, group.name, group.show, group.created_at, group.notes)]);
   }
 
   public updateGroup(group: Group) {
     this.logger.trace(GroupStoreService.name, 'updateGroup', `was called for group ${group.id}`);
     this.groups.forEach((element, index) => {
       if (element.id === group.id) {
-        this.groups[index] = group;
+        this.groups[index] = new Group(group.id, group.budget_id, group.name, group.show, group.created_at, group.notes);
       }
     });
     this.setGroups(this.groups);

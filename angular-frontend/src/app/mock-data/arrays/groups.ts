@@ -1,41 +1,46 @@
 import Group from "../../models/group.model";
 
 const groups: Group[] = [
-  {
-    id: 1,
-    budget_id: 1,
-    name: "Test Group 1",
-    notes: "",
-    created_at: new Date()
-  } as Group,
-  {
-    id: 2,
-    budget_id: 1,
-    name: "Test Group 2",
-    notes: "",
-    created_at: new Date()
-  } as Group,
-  {
-    id: 3,
-    budget_id: 1,
-    name: "Test Group 3",
-    notes: "",
-    created_at: new Date()
-  } as Group,
-  {
-    id: 4,
-    budget_id: 2,
-    name: "Test Group 4",
-    notes: "",
-    created_at: new Date()
-  } as Group,
-  {
-    id: 5,
-    budget_id: 1,
-    name: "Test Group 5",
-    notes: "",
-    created_at: new Date()
-  } as Group
+  new Group(
+    1,
+    1,
+    "Test Group 1",
+    true,
+    new Date(),
+    "",
+  ),
+  new Group(
+    2,
+    1,
+    "Test Group 2",
+    false,
+    new Date(),
+    "",
+  ),
+  new Group(
+    3,
+    1,
+    "Test Group 3",
+    true,
+    new Date(),
+    "",
+  ),
+  new Group(
+    4,
+    1,
+    "Test Group 4",
+    true,
+    new Date(),
+    "",
+  ),
+  new Group(
+    5,
+    1,
+    "Test Group 5",
+    true,
+    new Date(),
+    "",
+  ),
 ];
 
 export default groups;

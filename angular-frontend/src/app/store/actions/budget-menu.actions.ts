@@ -12,7 +12,7 @@ export interface BudgetMenuState {
 }
 export const initialState: BudgetMenuState = {
   menu: {
-    type: BudgetMenuTypes.BLANK,
+    type: BudgetMenuTypes.CATEGORY_AVAILABLE,
     display: true,
     id: 0
   }

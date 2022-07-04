@@ -81,8 +81,12 @@ export class CategoryView extends BaseComponent implements OnInit {
     // console.log('available updated', this.available);
   }
   updateAssignedDisplay() {
-    this.assigned = this.categoryStoreService.getAssigned(this.category.id);
-    this.updateAvailable();
+    try {
+      this.assigned = this.categoryStoreService.getAssigned(this.category.id);
+      this.updateAvailable();
+    } catch (error) {
+      this.logger.error(CategoryView.name, `${this.category.id}`, `updateAssignedDisplay ${this.category.id}`, error);
+    }
   }
   onAssignedChanged(event: any){
     this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'updateAssigned', `was called with value ${event.target.value}`);
@@ -102,6 +106,10 @@ export class CategoryView extends BaseComponent implements OnInit {
   }
 
   categoryNameChanged(event: any) {
+    this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'categoryNameChanged', `was called with value ${event.target.value}`);
+
+    const temp = new Category(this.category.id, this.category.group_id, this.category.name, this.category.assigned, this.category.created_at, this.category.notes);
+    temp.getAssigned(new Date);
     this.categoryStoreService.updateCategories({
       ...this.category,
       name: event.target.value

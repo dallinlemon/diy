@@ -21,11 +21,12 @@
   height: 50px;
   border-top: 1px solid #000000;
   border-bottom: 1px solid #000000;
-  background-color: #5df321;
+  background-color: rgb(241, 241, 241);
 }
 
 #group-header {
   height: 50px;
+  background-color: rgb(241, 241, 241);
   border-bottom: 1px solid #000000;
 }
 
@@ -35,4 +36,27 @@
 }
 .padding-right {
   padding-right: 10px;
+}
+
+
+#menu-align-left {
+  width: 50%;
+  text-align: left;
+}
+#menu-align-left div {
+  padding-left: 10px;
+    padding-right: 10px;
+}
+
+.menu-buttons {
+  padding: 4px;
+}
+
+#menu-align-right {
+  width: 50%;
+  text-align: left;
+}
+
+.left-spacing {
+  margin-left: 15px;
 }

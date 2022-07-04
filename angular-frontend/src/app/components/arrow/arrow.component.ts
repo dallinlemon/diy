@@ -1,6 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
-import Group from '../../models/group.model';
 
 @Component({
   selector: 'app-arrow',
@@ -18,12 +17,18 @@ import Group from '../../models/group.model';
 })
 export class Arrow implements OnInit {
   @Input() public classList: string = 'large-arrow';
+  @Input() public show: boolean;
   state: string = 'default';
 
 
   constructor() { }
 
   ngOnInit(): void {
+    if(this.show) {
+      this.state = 'default';
+    } else {
+      this.state = 'rotated';
+    }
   }
 
   rotate() {

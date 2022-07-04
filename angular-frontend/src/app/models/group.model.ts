@@ -9,6 +9,7 @@ export default class Group extends NamedItem {
     id: number,
     public budget_id: number,
     name: string,
+    public show: boolean,
     created_at: Date,
     notes?: string,
   ) {
@@ -29,5 +30,22 @@ export default class Group extends NamedItem {
    */
   setBudgetId(budget_id: number): void {
     this.budget_id = budget_id;
+  }
+
+  /**
+   * Gets the toggle state of the object.
+   * @returns {boolean}
+   */
+  getShowing(): boolean {
+    return this.show;
+  }
+
+  /**
+   * Sets the toggle state of the object.
+   * @param {boolean} showing
+   * @returns {void}
+   */
+  setShowing(show: boolean): void {
+    this.show = show;
   }
 }
