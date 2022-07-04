@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import Category from '../../../../models/category.model';
-import Record from '../../../../models/record.model';
+import Category from '../../../models/category.model';
+import Record from '../../../models/record.model';
 import { CurrencyPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import Group from '../../../../models/group.model';
-import Category from '../../../../models/category.model';
+import Group from '../../../models/group.model';
+import Category from '../../../models/category.model';
 import { GroupStoreService } from 'src/app/services/store/group-store.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
 import { RecordStoreService } from 'src/app/services/store/record-store.service';
-import Record from '../../../../models/record.model';
+import Record from '../../../models/record.model';
 import { BaseComponent } from 'src/app/components/base-component.ts/base-component';
 import { Subject } from 'rxjs';
 import { MonthSelectionStoreService } from 'src/app/services/store/month-selection-store.service';
