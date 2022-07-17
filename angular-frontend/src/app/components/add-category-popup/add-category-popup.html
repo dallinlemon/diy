@@ -1,0 +1,31 @@
+<div class="overlay" *ngIf="popup">
+  <div class="popup">
+      <h2>Create A Category</h2>
+      <a class="close" (click)="popup = false">&times;</a>
+      <div class="content">
+        <div id="row-1">
+          <div id="group-section">
+            <mat-form-field>
+              <mat-label>Category</mat-label>
+              <mat-select [(ngModel)]="categoryGroupID">
+                <div *ngFor="let group of groups">
+                  <mat-option value="{{group.id}}">{{group.name}}</mat-option>
+                </div>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div id="name-section">
+            Name: <input type="text" id="name-input" (input)="categoryNameChanged($event)">
+          </div>
+        </div>
+        <div id="notes-section">
+          Notes:
+          <textarea id="notes-input" [ngModel]="categoryNotes" (input)="categoryNotesChanged($event)" >
+          </textarea>
+        </div>
+      </div>
+      <div>
+        <button id="create-button" (click)="createCategory()" class="btn btn-primary">Create Category</button>
+      </div>
+  </div>
+</div>

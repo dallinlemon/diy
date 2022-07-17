@@ -6,18 +6,23 @@ import { GroupStoreService } from 'src/app/services/store/group-store.service';
 import Group from '../../../models/group.model';
 import { BaseComponent } from '../../base-component.ts/base-component';
 import { Subject } from 'rxjs';
+import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
+import { CategoryState } from 'src/app/store/actions/categories.actions';
 @Component({
   selector: 'budget-main-view',
   templateUrl: './budget-main-view.html',
   styleUrls: ['./budget-main-view.css'],
 })
 export class BudgetMainView extends BaseComponent implements OnInit {
-  public createButtonPressed: Subject<null> = new Subject();
+  public createGroupPressed: Subject<null> = new Subject();
+  public createCategoryPressed: Subject<null> = new Subject();
   public groups: Group[];
-  public popup: boolean = false;
+  public groupPopup: boolean = false;
+  public categoryPopup: boolean = false;
   constructor(
     private store: Store<RootStoreInjection>,
     private groupStoreService: GroupStoreService,
+    private categoryStoreService: CategoriesStoreService,
     private cdr: ChangeDetectorRef,
   ) {
     super();
@@ -25,18 +30,23 @@ export class BudgetMainView extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.groupStoreService.groups$.subscribe((groupState: GroupState) => {
-    this.groups = groupState.groups.filter(group => group.budget_id === 1);
-  });
+      this.reloadGroups();
+    });
+    this.categoryStoreService.categories$.subscribe((categoryState: CategoryState) => {
+      this.reloadGroups();
+    });
+  }
+
+  public reloadGroups() {
+    this.groups = this.groupStoreService.groups.filter(group => group.budget_id === 1);
   }
 
   public addGroup() {
-    // this.groupStoreService.addGroup(new Group(15, 1, "Test Group 15", true, new Date(), ''));
-    // this.logger.info(BudgetMainView.name, 'addGroup', 'group added');
-    this.emitCreateEvent();
+    this.emitCreateGroupEvent();
   }
 
-  public updateGroup() {
-    // this.GroupStoreService.updateGroup(group);
+  public addCategory() {
+    this.emitCreateCategoryEvent();
   }
 
   public deleteGroup() {
@@ -44,8 +54,12 @@ export class BudgetMainView extends BaseComponent implements OnInit {
     this.groupStoreService.deleteCheckedGroups();
   }
 
-  emitCreateEvent() {
-    this.createButtonPressed.next(null);
+  emitCreateGroupEvent() {
+    this.createGroupPressed.next(null);
+  }
+
+  emitCreateCategoryEvent() {
+    this.createCategoryPressed.next(null);
   }
 
 }

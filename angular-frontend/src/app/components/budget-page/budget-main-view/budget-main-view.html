@@ -1,6 +1,7 @@
 <div id="group-menu" class="flex">
   <div id="menu-align-left">
     <button (click)="addGroup()" class="btn btn-primary left-spacing menu-buttons">Add Group</button>
+    <button (click)="addCategory()" class="btn btn-primary left-spacing menu-buttons">Add Category</button>
     <button (click)="deleteGroup()" class="btn btn-primary left-spacing menu-buttons">Delete</button>
   </div>
   <div id="menu-align-right">
@@ -24,4 +25,6 @@
 </div>
 
 <add-group-popup
-  [createButtonPressed]="createButtonPressed.asObservable()"></add-group-popup>
+  [createButtonPressed]="createGroupPressed.asObservable()"></add-group-popup>
+<add-category-popup
+  [createButtonPressed]="createCategoryPressed.asObservable()"></add-category-popup>

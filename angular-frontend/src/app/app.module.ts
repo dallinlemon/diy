@@ -24,6 +24,8 @@ import { AddGroupPopup } from './components/add-group-popup/add-group-popup';
 import { FormsModule } from '@angular/forms';
 import { CategoryMenu } from './components/budget-side-view/category-menu/category-menu';
 import { BudgetTopBarView } from './components/budget-page/budget-top-bar/budget-top-bar';
+import { AddCategoryPopup } from './components/add-category-popup/add-category-popup';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import { BudgetTopBarView } from './components/budget-page/budget-top-bar/budget
     MonthSelectorMainComponent,
     AddGroupPopup,
     BudgetTopBarView,
+    AddCategoryPopup,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +58,7 @@ import { BudgetTopBarView } from './components/budget-page/budget-top-bar/budget
     //   logOnly: true,
     // }),
     FormsModule,
+    MatSelectModule,
   ],
   providers: [
     CurrencyPipe
