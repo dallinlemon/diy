@@ -7,7 +7,8 @@
 }
 
 #top-bar {
-  background-color: #bb1d1d;
+  /* background-color: #bb1d1d; */
+  background-color: rgb(235, 235, 235);
   text-align: center;
   grid-column-start: 1;
   grid-column-end: 4;

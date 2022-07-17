@@ -23,6 +23,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AddGroupPopup } from './components/add-group-popup/add-group-popup';
 import { FormsModule } from '@angular/forms';
 import { CategoryMenu } from './components/budget-side-view/category-menu/category-menu';
+import { BudgetTopBarView } from './components/budget-page/budget-top-bar/budget-top-bar';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CategoryMenu } from './components/budget-side-view/category-menu/catego
     CategoryMenu,
     MonthSelectorMainComponent,
     AddGroupPopup,
+    BudgetTopBarView,
   ],
   imports: [
     BrowserModule,

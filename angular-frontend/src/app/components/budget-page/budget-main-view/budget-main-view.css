@@ -21,12 +21,12 @@
   height: 50px;
   border-top: 1px solid #000000;
   border-bottom: 1px solid #000000;
-  background-color: rgb(241, 241, 241);
+  /* background-color: rgb(241, 241, 241); */
 }
 
 #group-header {
   height: 50px;
-  background-color: rgb(241, 241, 241);
+  /* background-color: rgb(241, 241, 241); */
   border-bottom: 1px solid #000000;
 }
 

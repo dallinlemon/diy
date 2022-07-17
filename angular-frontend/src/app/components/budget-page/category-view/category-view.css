@@ -15,10 +15,11 @@
   justify-content: space-around;
 }
 .root-cat-div {
-  height: 50px;
+  height: 40px;
   /* border-top: 1px solid #000000; */
   border-bottom: 1px solid #000000;
-  background-color: rgb(241, 241, 241);
+  /* background-color: rgb(241, 241, 241); */
+
 }
 .fixed-width {
   width: 100%;
@@ -36,21 +37,22 @@
 .text-box {
   border: none;
   padding: 7px;
-  background-color: rgb(241, 241, 241);
+  /* background-color: rgb(241, 241, 241); */
 }
 
 .text-box:focus {
   padding: 7px;
-  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(255, 255, 255); */
 }
 #name-input {
   padding-left: 10px;
   border: none;
-  background-color: rgb(241, 241, 241);
+  /* background-color: rgb(241, 241, 241); */
   outline: none;
 }
 
 #available {
   width: fit-content;
   border: none;
+  background-color: rgb(255, 255, 255);
 }

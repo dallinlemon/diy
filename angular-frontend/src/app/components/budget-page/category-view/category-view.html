@@ -9,8 +9,8 @@
     <input name="money" class="fixed-width text-box" type="text" (change)="onAssignedChanged($event)"
       value="{{assigned |  currency }}" onfocus="this.select()"/>
     <p class="fixed-width">{{activity | currency}}</p>
-    <div class="fixed-width">
-      <button class="fixed-width padding-right" id="available"
+    <div class="fixed-width padding-right">
+      <button class="fixed-width" id="available"
         (click)="availablePressed($event)">{{available | currency}}</button>
     </div>
   </div>

@@ -20,7 +20,8 @@
   height: 50px;
   /* border-top: 1px solid #000000; */
   border-bottom: 1px solid #000000;
-  background-color: rgb(192, 192, 192);
+  /* background-color: rgb(192, 192, 192); */
+  background-color: rgb(235, 235, 235);
 }
 
 .fixed-width {
@@ -48,6 +49,7 @@
 #name-input {
   padding-left: 10px;
   border: none;
-  background-color: rgb(192, 192, 192);
+  /* background-color: rgb(192, 192, 192); */
+  background-color: rgb(235, 235, 235);
   outline: none;
 }

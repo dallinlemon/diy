@@ -16,7 +16,10 @@ export class RecordStoreService extends BaseService {
   records$: Observable<RecordState>
   checkedRecords: Map<number, boolean> = new Map<number, boolean>();
 
-  constructor(private store: Store<RootStoreInjection>, private monthStoreService: MonthSelectionStoreService) {
+  constructor(
+    private store: Store<RootStoreInjection>,
+    private monthStoreService: MonthSelectionStoreService
+  ) {
     super();
     this.records$ = store.select('recordsReducer');
     this.records$.subscribe((Records: RecordState) => {
@@ -78,5 +81,13 @@ export class RecordStoreService extends BaseService {
     this.logger.debug(RecordStoreService.name, 'deleteCheckedRecords', `checked record -> `, this.checkedRecords);
   }
 
-  
+  public getTotalMonthlyActivity() {
+    this.logger.trace(RecordStoreService.name, 'getTotalMonthlyActivity', 'was called');
+    const month: number = this.monthStoreService.selectedDate.getMonth() + 1;
+    const totalActivity: number = this.records.reduce((acc, curr) => {
+      return month === curr.date.getMonth() + 1 ? acc + curr.amount : acc;
+    }, 0);
+    this.logger.info(RecordStoreService.name, 'getTotalMonthlyActivity', `total monthly activity -> ${totalActivity}`);
+    return totalActivity;
+  }
 }

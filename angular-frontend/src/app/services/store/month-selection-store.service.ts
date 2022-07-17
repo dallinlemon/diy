@@ -30,7 +30,7 @@ export class MonthSelectionStoreService extends BaseService {
   get selectedDate(): Date {
     return this._selectedDate;
   }
-    get selectedDateString(): string {
+  get selectedDateString(): string {
     return `${this._selectedDate.getUTCMonth() + 1}/${this._selectedDate.getUTCFullYear()}`;
   }
 }

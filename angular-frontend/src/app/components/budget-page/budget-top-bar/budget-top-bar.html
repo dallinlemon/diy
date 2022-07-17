@@ -1,0 +1,11 @@
+<div id="content">
+  <month-selector-main></month-selector-main>
+  <div id="total-assigned" [style.backgroundColor]="backgroundColor">
+    <div id="column-1">
+      <div id="total-available">{{totalAvailable | currency}}</div>
+      <div id="message">{{message}}</div>
+    </div>
+    <img *ngIf="!switchIcon" src="assets/x-icon.png" alt="x-icon" class="icon"/>
+    <img *ngIf="switchIcon" src="assets/check-icon.png" alt="x-icon" class="icon"/>
+  </div>
+</div>
