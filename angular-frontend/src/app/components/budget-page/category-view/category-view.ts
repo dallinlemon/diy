@@ -54,6 +54,8 @@ export class CategoryView extends BaseComponent implements OnInit {
       this.parentToggledSubscription = this.parentToggled.subscribe((checked: boolean) => {
         this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'parentToggled', 'subscription was called');
         this.checked = checked;
+        this.categoryStoreService.checkCategory(this.category.id, this.checked);
+        this.dispatchNewMenu(BudgetMenuTypes.CATEGORY);
       });
       this.monthSelectionStoreService.monthSelection$.subscribe((monthState: MonthSelectionState) => {
         this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'monthSelectionStoreService', 'subscription was called');
@@ -98,11 +100,24 @@ export class CategoryView extends BaseComponent implements OnInit {
     this.RecalculateEvent.emit();
   }
 
-  checkboxClicked(_event: any){
+  checkboxClicked(event: any){
     this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'checkboxClicked', `was called when value was ${this.checked}`);
     this.checked = !this.checked;
+    this.categoryStoreService.checkCategory(this.category.id, this.checked);
     this.childToggledEvent.emit();
-    // this.GroupStoreService.checkGroup(this.group.id, this.checked);
+    this.dispatchNewMenu(BudgetMenuTypes.CATEGORY);
+    event.stopPropagation();
+  }
+
+  categoryClicked(event: any){
+    this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'categoryClicked', `was called`);
+    if(!this.checked) {
+      this.checked = true;
+      this.categoryStoreService.checkCategory(this.category.id, this.checked);
+      this.childToggledEvent.emit();
+      this.dispatchNewMenu(BudgetMenuTypes.CATEGORY);
+    }
+    event.stopPropagation();
   }
 
   categoryNameChanged(event: any) {
@@ -122,7 +137,15 @@ export class CategoryView extends BaseComponent implements OnInit {
     this.budgetMenuStoreService.setMenu({
       ...this.budgetMenuStoreService.menu,
       type: BudgetMenuTypes.CATEGORY_AVAILABLE,
-      id: this.category.id
     });
+  }
+
+  dispatchNewMenu(menuType: BudgetMenuTypes) {
+    this.budgetMenuStoreService.setBudgetMenuType(menuType);
+  }
+
+  onfocus(event: any) {
+    this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'onfocus', `was called`);
+    event.target.select();
   }
 }

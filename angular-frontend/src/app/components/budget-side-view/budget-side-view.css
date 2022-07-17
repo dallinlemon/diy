@@ -23,7 +23,7 @@
 }
 
 .left-view {
-  background-color: #5df321;
+  /* background-color: #5df321; */
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;

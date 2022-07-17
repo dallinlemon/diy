@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import Category from "../../models/category.model";
 import { CategoryState, resetCategories, setCategories } from "src/app/store/actions/categories.actions";
 import { RootStoreInjection } from "src/app/types/store.types";
@@ -8,6 +8,8 @@ import { BaseService } from "../base-service";
 import { MonthSelectionStoreService } from "./month-selection-store.service";
 import Record from "../../models/record.model";
 import { RecordStoreService } from "./record-store.service";
+import { BudgetMenuStoreService } from "./budget-menu.service";
+import { BudgetMenuTypes } from "src/app/types/budget-menu-types.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +17,14 @@ import { RecordStoreService } from "./record-store.service";
 export class CategoriesStoreService extends BaseService {
   categories: Category[] =[];
   categories$: Observable<CategoryState>
-  checkedCategories: Map<number, boolean> = new Map<number, boolean>();
-
+  private checkedCategories: Map<number, boolean> = new Map<number, boolean>();
+  public checkedCategoriesSubject: Subject<number> = new Subject<number>();
+  public checkedCategories$ = this.checkedCategoriesSubject.asObservable();
   constructor(
     private store: Store<RootStoreInjection>,
     private monthStoreService: MonthSelectionStoreService,
     private recordStoreService: RecordStoreService,
+    private menuStoreService: BudgetMenuStoreService,
     ) {
     super();
     this.categories$ = store.select('categoriesReducer');
@@ -64,10 +68,12 @@ export class CategoriesStoreService extends BaseService {
     this.logger.info(CategoriesStoreService.name, 'setCategories', 'categories store was set');
   }
 
-  public checkCategories(categoryId: number, checked: boolean) {
-    this.logger.trace(CategoriesStoreService.name, 'checkCategories', `was called with ${categoryId} and ${checked}`);
+  public checkCategory(categoryId: number, checked: boolean) {
+    this.logger.trace(CategoriesStoreService.name, 'checkCategory', `was called with ${categoryId} and ${checked}`);
     this.checkedCategories.set(categoryId, checked);
-    this.logger.debug(CategoriesStoreService.name, 'checkCategories', `checked categories -> `, this.checkedCategories);
+    this.menuStoreService.setBudgetMenuType(BudgetMenuTypes.CATEGORY);
+    this.checkedCategoriesSubject.next(this.totalChecked());
+    this.logger.debug(CategoriesStoreService.name, 'checkCategory', `checked categories -> `, this.checkedCategories);
   }
 
   public deleteCheckedCategories() {
@@ -83,6 +89,28 @@ export class CategoriesStoreService extends BaseService {
     });
     this.logger.info(CategoriesStoreService.name, 'deleteCheckedCategories', 'checked categories removed from store');
     this.logger.debug(CategoriesStoreService.name, 'deleteCheckedCategories', `checked categories -> `, this.checkedCategories);
+  }
+
+  public getCheckedCategories(): Category[] {
+    this.logger.trace(CategoriesStoreService.name, 'getCheckedCategories', 'was called');
+    const result: Category[] = [];
+    this.checkedCategories.forEach((value, key) => {
+      if (value && key) {
+        result.push(this.categories.find(element => element.id === key) as Category); // as Category because this should alway find a category and never return undefined
+      }
+    });
+    return result;
+  }
+
+
+  private totalChecked(): number {
+    let total: number = 0;
+    this.checkedCategories.forEach((value, key) => {
+      if (value) {
+        total++;
+      }
+    });
+    return total;
   }
 
   public getAssigned(categoryId: number, date?: Date): number {

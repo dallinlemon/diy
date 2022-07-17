@@ -4,7 +4,6 @@ import { BudgetMenuTypes } from 'src/app/types/budget-menu-types.enum';
 export type BudgetMenu = {
   type: BudgetMenuTypes;
   display: boolean;
-  id: number;
 }
 
 export interface BudgetMenuState {
@@ -12,9 +11,8 @@ export interface BudgetMenuState {
 }
 export const initialState: BudgetMenuState = {
   menu: {
-    type: BudgetMenuTypes.CATEGORY_AVAILABLE,
+    type: BudgetMenuTypes.CATEGORY,
     display: true,
-    id: 0
   }
 };
 

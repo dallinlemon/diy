@@ -17,11 +17,12 @@ import { CategoryView } from './components/budget-page/category-view/category-vi
 import { CurrencyPipe } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { rootStore } from './store/store';
-import { CategoryAvailableMenu } from './components/budget-side-view/category-menu/category-available-menu';
+import { CategoryAvailableMenu } from './components/budget-side-view/category-available-menu/category-available-menu';
 import { MonthSelectorMainComponent } from './components/budget-page/month-selector/month-selector-main/month-selector-main';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AddGroupPopup } from './components/add-group-popup/add-group-popup';
 import { FormsModule } from '@angular/forms';
+import { CategoryMenu } from './components/budget-side-view/category-menu/category-menu';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { FormsModule } from '@angular/forms';
     Arrow,
     CategoryView,
     CategoryAvailableMenu,
+    CategoryMenu,
     MonthSelectorMainComponent,
     AddGroupPopup,
   ],

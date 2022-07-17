@@ -25,14 +25,14 @@
   grid-row-start: 2;
   grid-row-end: 3;
   background-color: #ffffff;
-  border-top: #5df321 solid 1px;
 }
 
 .right-view {
-  background-color: #5df321;
+  background-color: #ffffff;
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 3;
+  border-left: #000000 solid 1px;
 }
 

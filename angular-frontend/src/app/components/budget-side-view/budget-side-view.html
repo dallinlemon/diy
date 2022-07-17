@@ -1,4 +1,2 @@
-<p>Budget Menu</p>
-<div *ngIf="menu.type === 'category-available'">
-  <category-available-menu></category-available-menu>
-</div>
+<category-available-menu *ngIf="menu.type === menuNames.CATEGORY_AVAILABLE"></category-available-menu>
+<category-menu *ngIf="menu.type === menuNames.CATEGORY"></category-menu>

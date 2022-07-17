@@ -1,0 +1,20 @@
+<h3 id="title">
+  {{menuTitle}}
+</h3>
+<div *ngIf="multipleChecked" id="category-list">
+  {{categoryList}}
+</div>
+
+<div *ngIf="!multipleChecked" class="card">
+  targets -- TODO: Implement this
+</div>
+
+<div class="card" id="available-card">
+  Available Balance
+  <div>{{available}}</div>
+</div>
+
+<div *ngIf="!multipleChecked" class="card">
+  Notes
+  <textarea id="notes-input" (change)="onNoteChange($event)"></textarea>
+</div>

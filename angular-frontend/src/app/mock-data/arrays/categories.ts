@@ -5,7 +5,7 @@ const categories: Category[] = [
     1,
     "Test Category 1",
     new Map([
-      ["6/2022", 1],
+      ["7/2022", 1],
       ["5/2022", 1]
     ]),
     new Date(),
@@ -16,7 +16,7 @@ const categories: Category[] = [
     1,
     "Test Category 2",
     new Map([
-      ["6/2022", 1],
+      ["7/2022", 1],
       ["5/2022", 1]
     ]),
     new Date(),
@@ -27,7 +27,7 @@ const categories: Category[] = [
     2,
     "Test Category 3",
     new Map([
-      ["6/2022", 1],
+      ["7/2022", 1],
       ["5/2022", 1]
     ]),
     new Date(),
@@ -38,7 +38,7 @@ const categories: Category[] = [
     1,
     "Test Category 4",
     new Map([
-      ["6/2022", 1],
+      ["7/2022", 1],
       ["5/2022", 1]
     ]),
     new Date(),
@@ -49,7 +49,7 @@ const categories: Category[] = [
     2,
     "Test Category 5",
     new Map([
-      ["6/2022", 1],
+      ["7/2022", 1],
       ["5/2022", 1]
     ]),
     new Date(),
@@ -60,7 +60,7 @@ const categories: Category[] = [
     3,
     "Test Category 6",
     new Map([
-      ["6/2022", 1],
+      ["7/2022", 1],
       ["5/2022", 1]
     ]),
     new Date(),
@@ -71,7 +71,7 @@ const categories: Category[] = [
     4,
     "Test Category 6",
     new Map([
-      ["6/2022", 1],
+      ["7/2022", 1],
       ["5/2022", 1]
     ]),
     new Date(),
@@ -82,7 +82,7 @@ const categories: Category[] = [
     5,
     "Test Category 8",
     new Map([
-      ["6/2022", 1],
+      ["7/2022", 1],
       ["5/2022", 1]
     ]),
     new Date(),

@@ -30,10 +30,6 @@ export class BudgetMenuStoreService extends BaseService {
     this.logger.trace(BudgetMenuStoreService.name, 'setBudgetMenu', `was called with display ${display}`);
     this.setMenu({...this.menu, display: display});
   }
-  setBudgetMenuId(focusedId: number) {
-    this.logger.trace(BudgetMenuStoreService.name, 'setBudgetMenu', `was called with id ${focusedId}`);
-    this.setMenu({...this.menu, id: focusedId});
-  }
 
   public resetMenu() {
     this.logger.trace(BudgetMenuStoreService.name, 'resetBudgetMenu', 'was called');

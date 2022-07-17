@@ -1,4 +1,4 @@
-<div *ngIf="category" class="flex root-cat-div">
+<div *ngIf="category" class="flex root-cat-div" (click)="categoryClicked($event)">
   <div class="align-left flex">
     <input type="checkbox" [checked]="checked" class="checkbox" (click)="checkboxClicked($event)"/>
     <input type="text" id="name-input" value="{{category.name}}"
@@ -7,7 +7,7 @@
   </div>
   <div class="align-right flex">
     <input name="money" class="fixed-width text-box" type="text" (change)="onAssignedChanged($event)"
-      value="{{assigned |  currency }}"/>
+      value="{{assigned |  currency }}" onfocus="this.select()"/>
     <p class="fixed-width">{{activity | currency}}</p>
     <div class="fixed-width">
       <button class="fixed-width padding-right" id="available"
