@@ -1,7 +1,7 @@
-import Account from "shared/models/account.model";
-import { AccountsColumns, TableNames} from "../constants/dao.constants";
-import DatabaseDao from "./database.dao";
-import { ReturnType } from "./return.type";
+import Account from '../models/account.model';
+import { AccountsColumns, TableNames} from '../constants/dao.constants';
+import DatabaseDao from './database.dao';
+import { ReturnType } from './return.type';
 
 /**
  * Singleton dao class that interacts with the database.

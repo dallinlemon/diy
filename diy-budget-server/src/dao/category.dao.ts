@@ -1,7 +1,7 @@
-import Category from "shared/models/category.model";
-import { TableNames, CategoriesColumns} from "../constants/dao.constants";
-import DatabaseDao from "./database.dao";
-import { ReturnType } from "./return.type";
+import Category from '../models/category.model';
+import { TableNames, CategoriesColumns} from '../constants/dao.constants';
+import DatabaseDao from './database.dao';
+import { ReturnType } from './return.type';
 
 /**
  * Singleton dao class that interacts with the database.

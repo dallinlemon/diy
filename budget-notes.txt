@@ -1,21 +1,32 @@
 feature main view
----allow users to rename groups and categories
----make the arrows default to down
-allow users to add groups / categories
+allow users to add categories
+available should change green when positive, grey when 0, and red when negitive
 
-feature months
-allow users to move bettween months with arrows in the header
-filter records used to calculate ui to selected month
+figure out how to make assigned carry over to the next month
 
 feature budget menu
 update menu when user clicks on a category
 if the user selects more than one category show a total menu for all selected 
 
+complete Auto-Assign section
+	Assigned last month
+	Spent Last Month
+	Average Assigned
+	Average Spent
+	Reset Available Amount - if there is more assigned then spent removes assigned until available is 0
+	Reset Assigned Amount - sets assigned to 0.
+
 feature budget header
-show month selection component on the top left
 show budget balance centered in the header
 when the user clicks the budget balance show a modal that gives a break down of the current status of the budget
 
 stretch
 allow users to put math operators in number input fields
 make category avilable number into a button that allows you to move money bettween categories
+save last know activity and available totals in category object to optimize budget loading. 
+
+add log flows to logging - will help section off logs into more usable records.
+make logs user identifiable - session identifiable?
+add endpoint that stores logs in files on server.
+
+responsive view

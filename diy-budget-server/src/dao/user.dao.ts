@@ -1,4 +1,4 @@
-import User from 'shared/models/user.model';
+import User from '../models/user.model';
 import { TableNames, UserColumns } from "../constants/dao.constants";
 import DatabaseDao from "./database.dao";
 import { ReturnType } from "./return.type";

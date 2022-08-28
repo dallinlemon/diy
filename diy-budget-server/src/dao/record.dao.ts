@@ -1,7 +1,7 @@
-import Record from "shared/models/record.model";
-import { ReturnType } from "./return.type";
-import { RecordsColumns, TableNames } from "../constants/dao.constants";
-import DatabaseDao from "./database.dao";
+import Record from '../models/record.model';
+import { ReturnType } from './return.type';
+import { RecordsColumns, TableNames } from '../constants/dao.constants';
+import DatabaseDao from './database.dao';
 
 /**
  * Singleton dao class that interacts with the database.

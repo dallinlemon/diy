@@ -20,7 +20,7 @@ export default abstract class DatabaseDao {
    * @constructor
    * @private use getInstance()
    */
-  protected constructor(...options: DatabaseDaoOption[]) {
+  public constructor(...options: DatabaseDaoOption[]) {
     options.forEach((option) => {
       option(this);
     });
