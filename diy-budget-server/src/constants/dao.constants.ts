@@ -1,6 +1,10 @@
 
-export const databasePath: string = '../data/';
-export const databaseName: string = 'database.db';
+export const dataFolder = 'data/';
+export const backupsFolder = `${dataFolder}backups/databases/`; 
+export const databaseName: string = 'database';
+export const databaseExtension: string = '.sqlite';
+export const databasePath: string = `${dataFolder}${databaseName}${databaseExtension}`;
+
 export enum TableNames {
   USERS = 'users',
   BUDGETS = 'budgets',

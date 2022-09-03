@@ -1,12 +1,13 @@
 import DatabaseDao from "./database.dao";
-import RecordIndex from "shared/models/record-index.model";
-import { ReturnType } from "./return.type";
+import RecordIndex from "../models/record-index.model";
+import { ReturnType } from "../models/return.type";
 import { RecordIndexColumns, TableNames } from "../constants/dao.constants";
+import DaoActions from '../models/interfaces/Dao.actions';
 
 /**
  * Singleton dao class that interacts with the database.
  */
-export default class RecordIndexDao extends DatabaseDao {
+export default class RecordIndexDao extends DatabaseDao implements DaoActions {
 
   /**
    * Get the singleton instance of the database handler.
@@ -16,24 +17,24 @@ export default class RecordIndexDao extends DatabaseDao {
   public static async getInstance(): Promise<RecordIndexDao> {
     if (!RecordIndexDao.instance) {
       RecordIndexDao.instance = new RecordIndexDao(
-        await RecordIndexDao.withOpenDatabase()
+        await RecordIndexDao.withDatabaseHandler()
       );
     }
     return RecordIndexDao.instance as RecordIndexDao;
   }
 
   public getAll(): Promise<RecordIndex[]> {
-    return this.db.all(`SELECT * FROM ${TableNames.RECORD_INDEX}`);
+    return this.dbHandler.all(`SELECT * FROM ${TableNames.RECORD_INDEX}`);
   }
 
   public getByIds(record_id: number, category_id: number): Promise<RecordIndex> {
-    return this.db.get(`SELECT * FROM ${TableNames.RECORD_INDEX} WHERE
+    return this.dbHandler.get(`SELECT * FROM ${TableNames.RECORD_INDEX} WHERE
     ${RecordIndexColumns.RECORD_ID} = ${record_id}
     AND ${RecordIndexColumns.CATEGORY_ID} = ${category_id}`);
   }
 
   public insert(data: RecordIndex): Promise<ReturnType> {
-    return this.db.run(
+    return this.dbHandler.run(
       `INSERT INTO ${TableNames.RECORD_INDEX} (
         ${RecordIndexColumns.RECORD_ID}, ${RecordIndexColumns.CATEGORY_ID}, ${RecordIndexColumns.NAME},
         ${RecordIndexColumns.AMOUNT}, ${RecordIndexColumns.NOTES})
@@ -41,7 +42,7 @@ export default class RecordIndexDao extends DatabaseDao {
       }
 
   public update(data: RecordIndex): Promise<ReturnType> {
-    return this.db.run(`UPDATE ${TableNames.RECORD_INDEX} SET
+    return this.dbHandler.run(`UPDATE ${TableNames.RECORD_INDEX} SET
     ${RecordIndexColumns.RECORD_ID} = ${data.record_id},
     ${RecordIndexColumns.CATEGORY_ID} = ${data.category_id},
     ${RecordIndexColumns.NAME} = "${data.name}",
@@ -52,7 +53,7 @@ export default class RecordIndexDao extends DatabaseDao {
   }
 
   public deleteById(record_id: number): Promise<ReturnType> {
-    return this.db.run(`DELETE FROM ${TableNames.RECORD_INDEX} WHERE ${RecordIndexColumns.RECORD_ID} = ${record_id}`);
+    return this.dbHandler.run(`DELETE FROM ${TableNames.RECORD_INDEX} WHERE ${RecordIndexColumns.RECORD_ID} = ${record_id}`);
   }
 
   public getById(id: number): Promise<any> {

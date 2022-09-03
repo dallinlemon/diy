@@ -1,7 +1,7 @@
-import User from "shared/models/user.model";
-import UserDao from "../dao/user.dao";
-import { BaseService } from "./base-service"
-import { ReturnType } from "../dao/return.type";
+import User from '../models/user.model';
+import UserDao from '../dao/user.dao';
+import { BaseService } from './base-service';
+import { ReturnType } from '../models/return.type';
 
 export default class UserService extends BaseService {
   private static instance: UserService;

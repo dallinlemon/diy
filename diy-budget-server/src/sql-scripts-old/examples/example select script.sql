@@ -1,1 +1,1 @@
-SELECT * FROM TestData.dbo.TestingTable
+SELECT *Data.dbo.TestingTable FROM Test

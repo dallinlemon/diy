@@ -5,16 +5,37 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "pwa-node",
+      "name": "Debug Start",
       "request": "launch",
-      "name": "Launch Program",
+      "runtimeArgs": [
+        "run-script",
+        "start"
+      ],
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}\\src\\dao\\database-handler.dao.ts",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "type": "node",
+      "outputCapture": "std",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Debug Test-dev",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "test"
+      ],
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeVersion": "default",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node",
+      "outputCapture": "std",
+      "console": "integratedTerminal"
     }
   ]
 }

@@ -32,6 +32,7 @@ Create TABLE IF NOT EXISTS my_groups (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     budget_id INTEGER NOT NULL,
     name TEXT NOT NULL,
+    show BOOLEAN NOT NULL CHECK (show IN (0, 1))
     notes TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (budget_id) REFERENCES budgets(id)

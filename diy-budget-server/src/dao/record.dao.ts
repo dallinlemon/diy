@@ -1,12 +1,13 @@
 import Record from '../models/record.model';
-import { ReturnType } from './return.type';
+import { ReturnType } from '../models/return.type';
 import { RecordsColumns, TableNames } from '../constants/dao.constants';
 import DatabaseDao from './database.dao';
+import DaoActions from '../models/interfaces/Dao.actions';
 
 /**
  * Singleton dao class that interacts with the database.
  */
-export default class RecordDao extends DatabaseDao {
+export default class RecordDao extends DatabaseDao implements DaoActions {
 
   /**
    * Get the singleton instance of the database handler.
@@ -16,29 +17,29 @@ export default class RecordDao extends DatabaseDao {
   public static async getInstance(): Promise<RecordDao> {
     if (!RecordDao.instance) {
       RecordDao.instance = new RecordDao(
-        await RecordDao.withOpenDatabase()
+        await RecordDao.withDatabaseHandler()
       );
     }
     return RecordDao.instance as RecordDao;
   }
 
   public getAll(): Promise<Record[]> {
-    return this.db.all(`SELECT * FROM ${TableNames.RECORDS}`);
+    return this.dbHandler.all(`SELECT * FROM ${TableNames.RECORDS}`);
   }
 
   public getById(id: number): Promise<Record> {
-    return this.db.get(`SELECT * FROM ${TableNames.RECORDS} WHERE ${RecordsColumns.ID} = ${id}`);
+    return this.dbHandler.get(`SELECT * FROM ${TableNames.RECORDS} WHERE ${RecordsColumns.ID} = ${id}`);
   }
 
   public getByAccountId(account_id: number): Promise<Record[]> {
-    return this.db.all(`SELECT * FROM ${TableNames.RECORDS} WHERE ${RecordsColumns.ACCOUNT_ID} = ${account_id}`);
+    return this.dbHandler.all(`SELECT * FROM ${TableNames.RECORDS} WHERE ${RecordsColumns.ACCOUNT_ID} = ${account_id}`);
   }
 
   // todo: add get by date range
   // todo: add get by certain date
 
   public insert(data: Record): Promise<ReturnType> {
-    return this.db.run(
+    return this.dbHandler.run(
         `INSERT INTO ${TableNames.RECORDS} (
           ${RecordsColumns.ACCOUNT_ID}, ${RecordsColumns.DATE}, ${RecordsColumns.PAYEE},
           ${RecordsColumns.MEMO}, ${RecordsColumns.AMOUNT})
@@ -46,7 +47,7 @@ export default class RecordDao extends DatabaseDao {
   }
 
   public update(data: Record): Promise<ReturnType> {
-    return this.db.run(`UPDATE ${TableNames.RECORDS} SET
+    return this.dbHandler.run(`UPDATE ${TableNames.RECORDS} SET
       ${RecordsColumns.ACCOUNT_ID} = ${data.account_id},
       ${RecordsColumns.DATE} = ${data.date},
       ${RecordsColumns.PAYEE} = "${data.payee}",
@@ -56,6 +57,6 @@ export default class RecordDao extends DatabaseDao {
   }
 
   public deleteById(id: number): Promise<ReturnType> {
-    return this.db.run(`DELETE FROM ${TableNames.RECORDS} WHERE ${RecordsColumns.ID} = ${id}`);
+    return this.dbHandler.run(`DELETE FROM ${TableNames.RECORDS} WHERE ${RecordsColumns.ID} = ${id}`);
   }
 }

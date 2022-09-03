@@ -1,19 +1,18 @@
-import { open } from "sqlite";
-import sqlite3 from "sqlite3";
-import { DatabaseItem } from "shared/types";
-import { LoggerService } from "../services/logger.service";
-import { databasePath, databaseName } from "../constants/dao.constants";
-import { ReturnType } from "./return.type";
+import { open } from 'sqlite';
+import sqlite3 from 'sqlite3';
+import { databasePath, databaseName, databaseExtension } from "../constants/dao.constants";
+import BaseClass from '../services/base-class';
+import DatabaseHandler from '../services/database.handler';
+import FileManagerService from '../services/file-manager.service';
 
 type DatabaseDaoOption = (h: DatabaseDao) => void;
 /**
  * Singleton dao class that interacts with the database.
  */
-export default abstract class DatabaseDao {
+export default abstract class DatabaseDao extends BaseClass {
   protected static instance: DatabaseDao;
-  private static staticLogger: LoggerService = LoggerService.getInstance();
-  protected db;
-  private logger: LoggerService = LoggerService.getInstance();
+  protected dbHandler;
+  protected databaseHandler: DatabaseHandler;
 
   /**
    * Creates a new database handler object.
@@ -21,49 +20,30 @@ export default abstract class DatabaseDao {
    * @private use getInstance()
    */
   public constructor(...options: DatabaseDaoOption[]) {
+    super();
+    this.fileManagerService = new FileManagerService();
     options.forEach((option) => {
       option(this);
     });
   }
 
-  public static async withOpenDatabase(): Promise<DatabaseDaoOption> {
-    const tempDb = await DatabaseDao.openDatabase();
+  public static async withDatabaseHandler(): Promise<DatabaseDaoOption> {
+    const tempDbHandler = await DatabaseHandler.getInstance();
+
     return (h: DatabaseDao) => {
-      h.db = tempDb;
+      h.dbHandler = tempDbHandler;
     };
   }
 
-  public static async openDatabase(): Promise<any> {
-    try {
-      console.log(`Opening database: ${databasePath}${databaseName}`);
-      const tempDb = await open({
-        filename: `${databasePath}${databaseName}`,
-        driver: sqlite3.Database
-      });
-      this.staticLogger.debug(DatabaseDao.name, this.openDatabase.name, 'Database connection established.');
-      return tempDb;
-    } catch (err) {
-      this.staticLogger.debug(DatabaseDao.name, this.openDatabase.name, `Error opening database: ${err.message}`);
-      Promise.reject(err);
-    }
+  public async closeDatabase(): Promise<boolean> {
+    return this.dbHandler.closeDatabase();
   }
 
-  private async closeDatabase(): Promise<boolean> {
-    try {
-      await this.db.close();
-      this.logger.debug(DatabaseDao.name, this.closeDatabase.name, 'DatabaseDao | Database connection terminated.');
-      return true;
-    } catch (err) {
-      this.logger.debug(DatabaseDao.name, this.closeDatabase.name, `Error closing database: ${err.message}`);
-      return false;
-    }
-  }
-
-  // TODO - add methods to update, delete, insert that accept an array and execute them all in a single transaction
-  public abstract getAll(): Promise<any[]>;
-  public abstract getById(id: number): Promise<any>;
-  public abstract insert(data: DatabaseItem): Promise<ReturnType>;
-  public abstract update(data: DatabaseItem): Promise<ReturnType>;
-  public abstract deleteById(id: number): Promise<ReturnType>;
+  // // TODO - add methods to update, delete, insert that accept an array and execute them all in a single transaction
+  // public abstract getAll(): Promise<any[]>;
+  // public abstract getById(id: number): Promise<any>;
+  // public abstract insert(data: DatabaseItemModel): Promise<ReturnType>;
+  // public abstract update(data: DatabaseItemModel): Promise<ReturnType>;
+  // public abstract deleteById(id: number): Promise<ReturnType>;
 
 }

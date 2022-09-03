@@ -4,12 +4,12 @@ import NamedItem from "./named-item.model";
  * Group Model
  */
 export default class Group extends NamedItem {
-
+  private _show: 0 | 1;
   constructor(
     id: number,
     public budget_id: number,
     name: string,
-    public show: boolean,
+    show: boolean,
     created_at: Date,
     notes?: string,
   ) {
@@ -36,16 +36,15 @@ export default class Group extends NamedItem {
    * Gets the toggle state of the object.
    * @returns {boolean}
    */
-  getShowing(): boolean {
-    return this.show;
+  get show(): boolean {
+    return (this._show === 1) ? true : false; 
   }
 
   /**
    * Sets the toggle state of the object.
-   * @param {boolean} showing
-   * @returns {void}
+   * @param {boolean} show should show on the frontend
    */
-  setShowing(show: boolean): void {
-    this.show = show;
+  set show(show: boolean) {
+    this._show = show ? 1 : 0;
   }
 }

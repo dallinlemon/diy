@@ -3,7 +3,7 @@ import DatabaseItemModel from "./database-item.model";
 /**
  * Record Model
  */
-export default class RecordIndex  {
+export default class RecordIndex extends DatabaseItemModel {
 
   constructor(
     public record_id: number,
@@ -11,7 +11,8 @@ export default class RecordIndex  {
     public name: string,
     public amount: number,
     public notes: string,
+    created_at: Date,
   ) {
-    // intentionally left blank
+    super(null, created_at);
   }
 }
