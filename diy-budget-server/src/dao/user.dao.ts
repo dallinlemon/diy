@@ -24,24 +24,29 @@ export default class UserDao extends DatabaseDao implements DaoActions {
   }
 
   public getAll(): Promise<User[]> {
-    return this.dbHandler.all(`SELECT * FROM ${TableNames.USERS}`);
+    return this.dbHandler.run(`SELECT * FROM ${TableNames.USERS}`);
   }
 
   public getById(id: number): Promise<User> {
-    return this.dbHandler.get(`SELECT * FROM ${TableNames.USERS} WHERE ${UserColumns.ID} = ${id}`);
+    return this.dbHandler.run(`SELECT * FROM ${TableNames.USERS} WHERE ${UserColumns.ID} = ${id}`);
   }
 
-  public insert(data: User): Promise<ReturnType> {
-    return this.dbHandler.run(
-        `INSERT INTO ${TableNames.USERS} (${UserColumns.USERNAME}, ${UserColumns.PASSWORD},
-          ${UserColumns.FIRST_NAME}, ${UserColumns.lAST_NAME})
-          VALUES (${data.username}, ${data.password}, ${data.first_name}, ${data.last_name})`);
+  public async insert(data: User): Promise<ReturnType> {
+    try {
+      const sql =  `INSERT INTO ${TableNames.USERS} (${UserColumns.USERNAME}, ${UserColumns.PASSWORD},
+        ${UserColumns.FIRST_NAME}, ${UserColumns.LAST_NAME})
+        VALUES ("${data.username}", "${data.password}", "${data.first_name}", "${data.last_name}")`;
+      return this.dbHandler.run(sql);
+    } catch (error) {
+      this.logger.error(UserDao.name, 'insert', `Error inserting user:`, error);
+      return Promise.reject(error);
+    }
   }
 
   public update(data: User): Promise<ReturnType> {
     return this.dbHandler.run(`UPDATE ${TableNames.USERS} SET ${UserColumns.USERNAME} = ${data.username},
       ${UserColumns.PASSWORD} = ${data.password}, ${UserColumns.FIRST_NAME} = ${data.first_name},
-      ${UserColumns.lAST_NAME} = ${data.last_name}
+      ${UserColumns.LAST_NAME} = ${data.last_name}
       WHERE ${UserColumns.ID} = ${data.id}`);
   }
 
@@ -51,15 +56,15 @@ export default class UserDao extends DatabaseDao implements DaoActions {
 
 }
 
-(async () => {
-  try { 
-    console.log('path', __dirname);
-    const userDao = await UserDao.getInstance();
-    const users = await userDao.getAll();
-    console.log(users);
+// (async () => {
+//   try { 
+//     console.log('path', __dirname);
+//     const userDao = await UserDao.getInstance();
+//     const users = await userDao.getAll();
+//     console.log(users);
 
-  } catch (error) {
-    console.log('found top level error');
-    console.log(error.message);
-  }
-})();
+//   } catch (error) {
+//     console.log('found top level error');
+//     console.log(error.message);
+//   }
+// })();

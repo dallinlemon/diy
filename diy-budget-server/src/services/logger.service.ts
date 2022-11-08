@@ -51,7 +51,7 @@ export class LoggerService {
   }
 
   public trace(className: string, functionName: string, message: string) {
-    if (this._logLevel >= 3) return;
+    if (this._logLevel < 3) return;
     console.log(`>> TRACE: ${className} -- ${functionName}() | ${message}`);
   }
 }

@@ -26,8 +26,14 @@ export default class UserService extends BaseService {
     return this.dao.getById(id);
   }
 
-  public insert(data: User): Promise<ReturnType> {
-    return this.dao.insert(data);
+  public async insert(data: User): Promise<boolean> { 
+    try {
+      const result = await this.dao.insert(data);
+      return (result && (result.changes > 0 && result.lastID)) ? true : false;
+    } catch (error) {
+      this.logger.error(UserService.name, 'insert', `Error inserting user:`, error);
+      return Promise.reject(error);
+    }
   }
 
   public update(data: User): Promise<ReturnType> {

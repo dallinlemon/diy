@@ -13,6 +13,7 @@ export default class Record extends DatabaseItemModel {
     public payee: string,
     public memo: string,
     public amount: number,
+    public status: string,
     created_at: Date,
   ) {
     super(id, created_at);

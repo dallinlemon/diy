@@ -24,26 +24,17 @@ export default class FileManagerService extends BaseService {
   //read file
   //write file
   protected async ensureExits(filePath: string): Promise<boolean> {
-    // try {
-    //   
-    //     const handler = await fs.open(myPath, FileManagerFlags.WRITE);
-    //     handler.close();
-        
-    //   }
-    //   return Promise.resolve(true);
-    // } catch (error) {
-    //   return Promise.reject(error);
-    // }
-
     try {
       this.logger.info('FileManagerService', 'ensureExits', `${filePath}`);
       if (fsSync.existsSync(filePath)) {
+        this.logger.trace('FileManagerService', 'ensureExits', `File exists: ${filePath}`);
         return Promise.resolve(true);
-      }
+      } 
+      return Promise.resolve(false);
     } catch (error) {
+      this.logger.debug('FileManagerService', 'ensureExits', `Error: ${error.message}`);
       return Promise.reject(error);
     }
-
   }
 
 
@@ -51,13 +42,26 @@ export default class FileManagerService extends BaseService {
     this.logger.debug(FileManagerService.name, this.copyFile.name, `Copying file from ${copyFrom} to ${copyTo}`);
     try {
       this.ensureExits(copyFrom);
-      // await fs.readFile('./testing/file.txt', 'utf8')
       await fs.copyFile(copyFrom, copyTo);
+      this.logger.trace(FileManagerService.name, this.copyFile.name, `FileManagerService | File copied to ${copyTo}`);
       return Promise.resolve(true);
     } catch (error) {
       this.logger.debug(FileManagerService.name, this.copyFile.name, `FileManagerService | Error: ${error.message}`);
+      return Promise.reject(error);
     }
     
+  }
+
+  public async deleteFile(filePath: string): Promise<boolean> {
+    this.logger.debug(FileManagerService.name, this.deleteFile.name, `Deleting file ${filePath}`);
+    try {
+      await fs.unlink(filePath);
+      this.logger.trace(FileManagerService.name, this.deleteFile.name, `FileManagerService | File deleted: ${filePath}`);
+      return Promise.resolve(true);
+    } catch (error) {
+      this.logger.debug(FileManagerService.name, this.deleteFile.name, `File not deleted: ${error.message}`);
+      return Promise.resolve(false);
+    }
   }
 }
 

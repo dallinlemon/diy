@@ -14,9 +14,10 @@ managementRouter.get('/', async (req, res, next) => {
 managementRouter.post('/database/backup', async (req, res, next) => {
   logger.trace('managementRouter', `POST ${req.url}`, 'was hit.');
   try {
-    //TODO add controller and service to manage database
+    //TODO validate req.body
+    //TODO create management Controller and Service
     const managementDao = await ManagementDao.getInstance();
-    await managementDao.backupDB();
+    await managementDao.backupDB(req.body);
     res.sendStatus(200);
   } catch (error) {
     logger.debug('managementRouter', `POST ${req.url}`, `Error: ${error.message}`);

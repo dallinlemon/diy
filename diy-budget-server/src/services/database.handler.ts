@@ -33,7 +33,7 @@ export default class DatabaseHandler extends BaseClass {
     };
   }
 
-  protected static async openDatabase(): Promise<any> {
+  public static async openDatabase(): Promise<any> {
     try {
       console.log(`Opening database: ${databaseName}${databaseExtension}`);
       const tempDb = await open({
@@ -59,7 +59,55 @@ export default class DatabaseHandler extends BaseClass {
     }
   }
 
-  public run(sql: string): Promise<any> {
-    return this.db.run(sql);
+  public async run(sql: string): Promise<any> {
+    this.logger.info(DatabaseHandler.name, this.run.name, `Executing SQL: ${sql}`);
+    try {
+      const result = await this.db.run(sql);
+      this.logger.info(DatabaseHandler.name, this.run.name, `SQL executed successfully: ${sql}`);
+      this.logger.debug(DatabaseHandler.name, this.run.name, `SQL result: ${JSON.stringify(result)}`);
+      return Promise.resolve(result);
+    } catch (err) {
+      this.logger.error(DatabaseHandler.name, this.run.name, `Error executing SQL: ${err.message}`, err);
+      return Promise.reject(err);
+    }
+  }
+
+  public async get(sql: string): Promise<any> {
+    this.logger.info(DatabaseHandler.name, this.get.name, `Executing SQL: ${sql}`);
+    try {
+      const result = await this.db.get(sql);
+      this.logger.info(DatabaseHandler.name, this.get.name, `SQL executed successfully: ${sql}`);
+      this.logger.debug(DatabaseHandler.name, this.get.name, `SQL result: ${JSON.stringify(result)}`);
+      return Promise.resolve(result);
+    } catch (err) {
+      this.logger.error(DatabaseHandler.name, this.get.name, `Error executing SQL: ${err.message}`, err);
+      return Promise.reject(err);
+    }
+  }
+
+  public async all(sql: string): Promise<any> {
+    this.logger.info(DatabaseHandler.name, this.all.name, `Executing SQL: ${sql}`);
+    try {
+      const result = await this.db.all(sql);
+      this.logger.info(DatabaseHandler.name, this.all.name, `SQL executed successfully: ${sql}`);
+      this.logger.debug(DatabaseHandler.name, this.all.name, `SQL result: ${JSON.stringify(result)}`);
+      return Promise.resolve(result);
+    } catch (err) {
+      this.logger.error(DatabaseHandler.name, this.all.name, `Error executing SQL: ${err.message}`, err);
+      return Promise.reject(err);
+    }
+  }
+
+  public async exec(sql: string): Promise<any> {
+    this.logger.info(DatabaseHandler.name, this.exec.name, `Executing SQL: ${sql}`);
+    try {
+      const result = await this.db.exec(sql);
+      this.logger.info(DatabaseHandler.name, this.exec.name, `SQL executed successfully: ${sql}`);
+      this.logger.debug(DatabaseHandler.name, this.exec.name, `SQL result: ${JSON.stringify(result)}`);
+      return Promise.resolve(result);
+    } catch (err) {
+      this.logger.error(DatabaseHandler.name, this.exec.name, `Error executing SQL: ${err.message}`, err);
+      return Promise.reject(err);
+    }
   }
 }

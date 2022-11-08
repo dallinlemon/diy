@@ -22,7 +22,7 @@ export default class RecordDao extends DatabaseDao implements DaoActions {
     }
     return RecordDao.instance as RecordDao;
   }
-
+  // TODO - restrict the queries to the current user data or split databases
   public getAll(): Promise<Record[]> {
     return this.dbHandler.all(`SELECT * FROM ${TableNames.RECORDS}`);
   }
@@ -39,21 +39,23 @@ export default class RecordDao extends DatabaseDao implements DaoActions {
   // todo: add get by certain date
 
   public insert(data: Record): Promise<ReturnType> {
-    return this.dbHandler.run(
-        `INSERT INTO ${TableNames.RECORDS} (
-          ${RecordsColumns.ACCOUNT_ID}, ${RecordsColumns.DATE}, ${RecordsColumns.PAYEE},
-          ${RecordsColumns.MEMO}, ${RecordsColumns.AMOUNT})
-          VALUES (${data.account_id}, ${data.date}, "${data.payee}", "${data.memo}", "${data.amount}")`);
+    this.logger.info(RecordDao.name, 'insert', `Inserting record: ${JSON.stringify(data)}`);
+    const sql = `INSERT INTO ${TableNames.RECORDS} (
+      ${RecordsColumns.ACCOUNT_ID}, ${RecordsColumns.CATEGORY_ID}, ${RecordsColumns.DATE}, 
+      ${RecordsColumns.PAYEE}, ${RecordsColumns.MEMO}, ${RecordsColumns.AMOUNT}, ${RecordsColumns.STATUS})
+      VALUES (${data.account_id}, ${data.category_id}, '${data.date.toISOString()}', "${data.payee}", "${data.memo}", "${data.amount}", "${data.status}")`;
+    this.logger.debug(RecordDao.name, 'insert', `Running sql string: ${sql}`);
+    return this.dbHandler.run(sql);
   }
 
-  public update(data: Record): Promise<ReturnType> {
+  public update(data: Record, id: number): Promise<ReturnType> {
     return this.dbHandler.run(`UPDATE ${TableNames.RECORDS} SET
       ${RecordsColumns.ACCOUNT_ID} = ${data.account_id},
-      ${RecordsColumns.DATE} = ${data.date},
+      ${RecordsColumns.DATE} = "${data.date}",
       ${RecordsColumns.PAYEE} = "${data.payee}",
       ${RecordsColumns.MEMO} = "${data.memo}",
       ${RecordsColumns.PAYEE} = "${data.payee}"
-      WHERE ${RecordsColumns.ID} = ${data.id}`);
+      WHERE ${RecordsColumns.ID} = ${id}`);
   }
 
   public deleteById(id: number): Promise<ReturnType> {

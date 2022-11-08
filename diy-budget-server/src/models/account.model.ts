@@ -7,6 +7,7 @@ export default class Account extends NamedItem {
 
   constructor(
     id: number,
+    public user_id: number,
     public budget_id: number,
     name: string,
     public active: boolean,

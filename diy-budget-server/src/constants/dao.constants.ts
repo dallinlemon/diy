@@ -20,11 +20,12 @@ export enum UserColumns {
   PASSWORD = 'password',
   EMAIL = 'email',
   FIRST_NAME = 'first_name',
-  lAST_NAME = 'last_name',
+  LAST_NAME = 'last_name',
   CREATED_AT = 'created_at'
 }
 export enum AccountsColumns {
   ID = 'id',
+  USER_ID = 'user_id',
   BUDGET_ID = 'budget_id',
   NAME = 'name',
   NOTES = 'notes',
@@ -44,6 +45,7 @@ export enum GroupColumns {
   ID = 'id',
   BUDGET_ID = 'budget_id',
   NAME = 'name',
+  SHOW = 'show',
   NOTES = 'notes',
   CREATED_AT = 'created_at'
 }
@@ -57,6 +59,7 @@ export enum CategoriesColumns {
 export enum RecordsColumns {
   ID = 'id',
   ACCOUNT_ID = 'account_id',
+  CATEGORY_ID = 'category_id',
   DATE = 'date',
   PAYEE = 'payee',
   MEMO = 'memo',

@@ -11,8 +11,7 @@ type DatabaseDaoOption = (h: DatabaseDao) => void;
  */
 export default abstract class DatabaseDao extends BaseClass {
   protected static instance: DatabaseDao;
-  protected dbHandler;
-  protected databaseHandler: DatabaseHandler;
+  protected dbHandler: DatabaseHandler;
 
   /**
    * Creates a new database handler object.
@@ -39,7 +38,7 @@ export default abstract class DatabaseDao extends BaseClass {
     return this.dbHandler.closeDatabase();
   }
 
-  // // TODO - add methods to update, delete, insert that accept an array and execute them all in a single transaction
+  // TODO - add methods to update, delete, insert that accept an array and execute them all in a single transaction
   // public abstract getAll(): Promise<any[]>;
   // public abstract getById(id: number): Promise<any>;
   // public abstract insert(data: DatabaseItemModel): Promise<ReturnType>;

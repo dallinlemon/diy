@@ -12,7 +12,7 @@ export default abstract class DatabaseItemModel {
    */
   constructor(
     public id: number,
-    public created_at: Date,
+    public created_at?: Date,
   ) {
     // intentionally left blank
   }

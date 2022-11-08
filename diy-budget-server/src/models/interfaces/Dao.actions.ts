@@ -5,6 +5,6 @@ export default interface DaoActions {
   getAll(): Promise<any[]>;
   getById(id: number): Promise<any>;
   insert(data: DatabaseItemModel): Promise<ReturnType>;
-  update(data: DatabaseItemModel): Promise<ReturnType>;
+  update(data: DatabaseItemModel, id: number): Promise<ReturnType>;
   deleteById(id: number): Promise<ReturnType>;
 }

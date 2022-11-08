@@ -24,11 +24,11 @@ export default class RecordIndexDao extends DatabaseDao implements DaoActions {
   }
 
   public getAll(): Promise<RecordIndex[]> {
-    return this.dbHandler.all(`SELECT * FROM ${TableNames.RECORD_INDEX}`);
+    return this.dbHandler.run(`SELECT * FROM ${TableNames.RECORD_INDEX}`);
   }
 
   public getByIds(record_id: number, category_id: number): Promise<RecordIndex> {
-    return this.dbHandler.get(`SELECT * FROM ${TableNames.RECORD_INDEX} WHERE
+    return this.dbHandler.run(`SELECT * FROM ${TableNames.RECORD_INDEX} WHERE
     ${RecordIndexColumns.RECORD_ID} = ${record_id}
     AND ${RecordIndexColumns.CATEGORY_ID} = ${category_id}`);
   }
