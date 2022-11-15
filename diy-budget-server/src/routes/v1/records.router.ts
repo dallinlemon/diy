@@ -3,7 +3,6 @@ import { Request, Response } from "express-serve-static-core";
 import { SERVER_ROUTER_URLS } from '../../constants/api.constants';
 import RecordsController from '../../controllers/records.controller';
 import { LoggerService } from "../../services/logger.service";
-import UserService from "../../services/user-service";
 
 const recordsRouter = express.Router();
 const logger = LoggerService.getInstance();
@@ -23,7 +22,6 @@ recordsRouter.post('/', [
   async (req: Request, res: Response, _next: NextFunction) => {
     logger.trace('RecordsRouter', 'POST', `${SERVER_ROUTER_URLS.RecordsRouter}/ was hit.`);
     try {
-      // const recordsController = await RecordsController.init();
       const recordsController = new RecordsController();
       await recordsController.createRecord(req, res);
     } catch (error) {
@@ -33,13 +31,25 @@ recordsRouter.post('/', [
   }
 ]);
 
-recordsRouter.put('/:id', [
+recordsRouter.put('/record/:id', [
+  async (req: Request, res: Response, _next: NextFunction) => {
+    logger.trace('RecordsRouter', 'PUT', `${SERVER_ROUTER_URLS.RecordsRouter}/record/:id was hit.`);
+    try {
+      const recordsController = new RecordsController();
+      await recordsController.updateRecord(req, res);
+    } catch (error) {
+      logger.debug('RecordsRouter', 'POST /', `Encountered an unexpected error: ${error}`);
+      res.status(500).json({error: `Encountered an unexpected error: ${error}`});
+    }
+  }
+]);
+
+recordsRouter.put('/', [
   async (req: Request, res: Response, _next: NextFunction) => {
     logger.trace('RecordsRouter', 'PUT', `${SERVER_ROUTER_URLS.RecordsRouter}/ was hit.`);
     try {
-      // const recordsController = await RecordsController.init();
       const recordsController = new RecordsController();
-      await recordsController.updateRecord(req, res);
+      await recordsController.updateAll(req, res);
     } catch (error) {
       logger.debug('RecordsRouter', 'POST /', `Encountered an unexpected error: ${error}`);
       res.status(500).json({error: `Encountered an unexpected error: ${error}`});

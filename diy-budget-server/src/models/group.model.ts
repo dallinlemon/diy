@@ -1,5 +1,5 @@
 import NamedItem from "./named-item.model";
-// TODO add hidden field
+
 /**
  * Group Model
  */
@@ -14,6 +14,7 @@ export default class Group extends NamedItem {
     notes?: string,
   ) {
     super(id, created_at, name, notes);
+    this._show = show ? 1 : 0;
   }
 
   /**

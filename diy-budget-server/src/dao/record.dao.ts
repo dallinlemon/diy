@@ -61,4 +61,26 @@ export default class RecordDao extends DatabaseDao implements DaoActions {
   public deleteById(id: number): Promise<ReturnType> {
     return this.dbHandler.run(`DELETE FROM ${TableNames.RECORDS} WHERE ${RecordsColumns.ID} = ${id}`);
   }
+
+
+  public updateAll(data: Record[]): Promise<boolean> {
+    try {
+      const stmt = this.dbHandler.prepareStatement(`UPDATE ${TableNames.RECORDS} SET
+        ${RecordsColumns.ACCOUNT_ID} = ?,
+        ${RecordsColumns.DATE} = ?,
+        ${RecordsColumns.PAYEE} = ?,
+        ${RecordsColumns.MEMO} = ?,
+        ${RecordsColumns.PAYEE} = ?
+        WHERE ${RecordsColumns.ID} = ?`);
+        
+      data.forEach((record) => {
+        stmt.run(record.account_id, record.date, record.payee, record.memo, record.payee, record.id);
+      });
+      return Promise.resolve(true);
+
+    } catch (error) {
+      this.logger.error(RecordDao.name, 'updateAll', 'error occurred while updating records', error);
+      return Promise.reject(error);
+    }
+  }
 }

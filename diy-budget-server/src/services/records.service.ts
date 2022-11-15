@@ -65,4 +65,10 @@ export default class RecordsService extends BaseService {
     await this.dao.deleteById(id);
   }
 
+  public async updateAll(records: Record[]): Promise<boolean> {
+    this.logger.info(RecordsService.name, 'updateAll', `Updating all records`);
+    this.dao = await RecordDao.getInstance();
+    return this.dao.updateAll(records);
+  }
+
 }

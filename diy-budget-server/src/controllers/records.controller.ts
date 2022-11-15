@@ -11,15 +11,6 @@ export default class RecordsController extends BaseController {
    * Creates a new instance of the RecordsController and initializes the RecordsService.
    * @returns new instance of RecordsController
    */
-  // public static async init(): Promise<RecordsController> {
-  //   const newRecordController = new RecordsController();
-  //   // newRecordController.recordsService = await RecordsService.init();
-  //   return newRecordController;
-  // }
-
-  /**
-   * Use init method instead of constructor.
-   */
   constructor() {
     super();
   }
@@ -92,6 +83,16 @@ export default class RecordsController extends BaseController {
       this.recordsService = new RecordsService();
       const record = await this.recordsService.updateRecord(req.body, Number.parseInt(req.params.id));
       this.handleResponse(res, record);
+    } catch (err) {
+      this.handleError(res, err);
+    }
+  }
+
+  public async updateAll(req: Request, res: Response): Promise<void> {
+    try {
+      this.recordsService = new RecordsService();
+      const result = await this.recordsService.updateAll(req.body);
+      this.handleResponse(res, result);
     } catch (err) {
       this.handleError(res, err);
     }

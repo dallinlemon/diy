@@ -110,4 +110,16 @@ export default class DatabaseHandler extends BaseClass {
       return Promise.reject(err);
     }
   }
+
+  public prepareStatement(sql: string): any {
+    this.logger.info(DatabaseHandler.name, this.prepareStatement.name, `Preparing SQL statement: ${sql}`);
+    try {
+      const result = this.db.prepare(sql);
+      this.logger.info(DatabaseHandler.name, this.prepareStatement.name, `SQL statement prepared successfully: ${JSON.stringify(result)}`);
+      return Promise.resolve(result);
+    } catch (err) {
+      this.logger.error(DatabaseHandler.name, this.prepareStatement.name, `Error preparing SQL statement: ${err.message}`, err);
+      return Promise.reject(err);
+    }
+  }
 }
