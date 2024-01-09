@@ -101,3 +101,5 @@ angular-frontend/Thumbs.db
 /Thumbs.db
 
 /diy-budget-server/src/data
+
+*.swp
