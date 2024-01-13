@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^14.0.2",
     "@angular/platform-browser-dynamic": "^14.0.2",
     "@angular/router": "^14.0.2",
-    "@ngrx/store": "^13.2.0",
+    "@ngrx/store": "^15.0.0",
     "@ngrx/store-devtools": "^14.0.0",
     "csv": "^6.0.5",
     "ofx-js": "^0.1.1",
