@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
 import { Observable, Subject } from "rxjs";
 import Category from "../../models/category.model";
 import { CategoryState, resetCategories, setCategories } from "src/app/store/actions/categories.actions";
@@ -21,13 +20,12 @@ export class CategoriesStoreService extends BaseService {
   public checkedCategoriesSubject: Subject<number> = new Subject<number>();
   public checkedCategories$ = this.checkedCategoriesSubject.asObservable();
   constructor(
-    private store: Store<RootStoreInjection>,
     private monthStoreService: MonthSelectionStoreService,
     private recordStoreService: RecordStoreService,
     private menuStoreService: BudgetMenuStoreService,
     ) {
     super();
-    this.categories$ = store.select('categoriesReducer');
+    // this.categories$ = store.select('categoriesReducer');
     this.categories$.subscribe((Categories: CategoryState) => {
       this.logger.trace(CategoriesStoreService.name, 'subscription', 'was called');
       this.categories = [...Categories.categories];
@@ -59,12 +57,12 @@ export class CategoriesStoreService extends BaseService {
 
   public resetCategories() {
     this.logger.trace(CategoriesStoreService.name, 'resetCategories', 'was called');
-    this.store.dispatch(resetCategories());
+    // this.store.dispatch(resetCategories());
     this.logger.info(CategoriesStoreService.name, 'resetCategories', 'categories store was reset');
   }
   public setCategories(categories: Category[]) {
     this.logger.trace(CategoriesStoreService.name, 'setCategories', 'was called');
-    this.store.dispatch(setCategories({ categories: categories }));
+    // this.store.dispatch(setCategories({ categories: categories }));
     this.logger.info(CategoriesStoreService.name, 'setCategories', 'categories store was set');
   }
 

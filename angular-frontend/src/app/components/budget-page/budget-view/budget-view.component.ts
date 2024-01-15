@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import categories from 'src/app/mock-data/arrays/categories';
 import groups from 'src/app/mock-data/arrays/groups';
 import { setCategories } from 'src/app/store/actions/categories.actions';
@@ -15,12 +14,12 @@ import mockRecords from 'src/app/mock-data/arrays/records';
 })
 export class BudgetViewComponent implements OnInit {
 
-  constructor(private store: Store<RootStoreInjection>) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.store.dispatch(setCategories({ categories: categories }));
-    this.store.dispatch(setGroups({ groups: groups }));
-    this.store.dispatch(setRecords({ records: mockRecords }));
+    // this.store.dispatch(setCategories({ categories: categories }));
+    // this.store.dispatch(setGroups({ groups: groups }));
+    // this.store.dispatch(setRecords({ records: mockRecords }));
   }
 
 }

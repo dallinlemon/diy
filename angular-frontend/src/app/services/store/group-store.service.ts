@@ -1,14 +1,11 @@
 import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import Group from "../../models/group.model";
-import { GroupState, resetGroups, setGroups } from "src/app/store/actions/groups.actions";
-import { RootStoreInjection } from "src/app/types/store.types";
+import { GroupState } from "src/app/store/actions/groups.actions";
 import { BaseService } from "../base-service";
 import { CategoriesStoreService } from "./category-store.service";
 import { RecordStoreService } from "./record-store.service";
 import Record from "../../models/record.model";
-import { group } from "@angular/animations";
 
 @Injectable({
   providedIn: 'root'
@@ -19,21 +16,18 @@ export class GroupStoreService extends BaseService {
   checkedGroups: Map<number, boolean> = new Map<number, boolean>();
 
   constructor(
-    private store: Store<RootStoreInjection>,
     private categoriesStoreService: CategoriesStoreService,
     private recordStoreService: RecordStoreService,
     ) {
     super();
-    this.groups$ = store.select('groupsReducer');
-    this.groups$.subscribe((Groups: GroupState) => {
-      this.logger.trace(GroupStoreService.name, 'subscription', 'was called');
-      this.groups = [...Groups.groups];
+    this.groups$ = new Observable((sub) => {
+
     });
   }
 
   public addGroup(group: Group) {
     this.logger.trace(GroupStoreService.name, 'addGroup', 'Setting Groups with new record');
-    this.setGroups([...this.groups, new Group(group.id, group.budget_id, group.name, group.show, group.created_at, group.notes)]);
+    this.groups.push(new Group(group.id, group.budget_id, group.name, group.show, group.created_at, group.notes));
   }
 
   public updateGroup(group: Group) {
@@ -43,26 +37,20 @@ export class GroupStoreService extends BaseService {
         this.groups[index] = new Group(group.id, group.budget_id, group.name, group.show, group.created_at, group.notes);
       }
     });
-    this.setGroups(this.groups);
   }
 
   public deleteGroup(groupId: number) {
     this.logger.trace(GroupStoreService.name, 'deleteGroup', `was called for group ${groupId}`);
-    const updatedGroups: Group[] = this.groups.filter(element => {
+    this.checkedGroups.delete(groupId);
+    this.groups = this.groups.filter(element => {
       return element.id !== groupId;
     })
-    this.setGroups(updatedGroups);
   }
 
   public resetGroups() {
     this.logger.trace(GroupStoreService.name, 'resetGroups', 'was called');
-    this.store.dispatch(resetGroups());
+    this.groups = [];
     this.logger.info(GroupStoreService.name, 'resetGroups', 'groups store was reset');
-  }
-  public setGroups(groups: Group[]) {
-    this.logger.trace(GroupStoreService.name, 'setGroups', 'was called');
-    this.store.dispatch(setGroups({ groups: groups }));
-    this.logger.info(GroupStoreService.name, 'setGroups', 'groups store was set');
   }
 
   public checkGroup(groupId: number, checked: boolean) {
@@ -75,17 +63,20 @@ export class GroupStoreService extends BaseService {
     this.logger.trace(GroupStoreService.name, 'deleteCheckedGroups', 'was called');
     this.logger.debug(GroupStoreService.name, 'deleteCheckedGroups', `checked groups -> `, this.checkedGroups);
 
-    this.checkedGroups.forEach((value, key) => {
-      if (!value) return;
-      this.logger.trace(GroupStoreService.name, 'deleteCheckedGroups', `deleting group ${key}`);
-      this.deleteGroup(key);
-      this.checkedGroups.delete(key);
-
+    this.groups.filter(element => {
+      if(!this.checkedGroups.has(element?.id)) {
+        return true;
+      }
+      this.checkedGroups.delete(element?.id);
+      return false;
     });
     this.logger.info(GroupStoreService.name, 'deleteCheckedGroups', 'checked groups removed from store');
     this.logger.debug(GroupStoreService.name, 'deleteCheckedGroups', `checked groups ->`, this.checkedGroups);
   }
 
+  /**
+    * return total amount assigned to this group
+  */
   public getAssigned(groupId: number): number {
     this.logger.trace(GroupStoreService.name, 'getAssigned', `was called with ${groupId}`);
     const categories = this.categoriesStoreService.categories.filter(category => category.group_id === groupId);
@@ -94,7 +85,6 @@ export class GroupStoreService extends BaseService {
       assigned += this.categoriesStoreService.getAssigned(category.id);
     });
     return assigned;
-
   }
 
   public getMonthsRecords(groupId: number): Record[] {
@@ -117,5 +107,12 @@ export class GroupStoreService extends BaseService {
         monthArray.push(record);
       }
     });
+  }
+
+  /**
+    * Update observers of the groups
+  */
+  private update() {
+    this.groups$.
   }
 }

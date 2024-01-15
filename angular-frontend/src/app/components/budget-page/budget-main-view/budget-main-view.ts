@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { GroupState } from 'src/app/store/actions/groups.actions';
 import { RootStoreInjection } from 'src/app/types/store.types';
 import { GroupStoreService } from 'src/app/services/store/group-store.service';
@@ -20,7 +19,6 @@ export class BudgetMainView extends BaseComponent implements OnInit {
   public groupPopup: boolean = false;
   public categoryPopup: boolean = false;
   constructor(
-    private store: Store<RootStoreInjection>,
     private groupStoreService: GroupStoreService,
     private categoryStoreService: CategoriesStoreService,
     private cdr: ChangeDetectorRef,

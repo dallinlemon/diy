@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Store } from "@ngrx/store";
 import { BaseComponent } from "src/app/components/base-component.ts/base-component";
 import { MonthSelectionStoreService } from "src/app/services/store/month-selection-store.service";
 import { MonthSelectionState } from "src/app/store/actions/month-selection.actions";
@@ -14,7 +13,6 @@ export class MonthSelectorMainComponent extends BaseComponent implements OnInit 
   public monthDisplay: string;
   public currentDate: Date;
   constructor(
-    private store: Store<RootStoreInjection>,
     private monthSelectionStoreService: MonthSelectionStoreService,
   ) {
     super();

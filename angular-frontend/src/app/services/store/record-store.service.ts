@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
 import { trace } from "console";
 import { Observable } from "rxjs";
 import Record from "../../models/record.model";
@@ -17,11 +16,10 @@ export class RecordStoreService extends BaseService {
   checkedRecords: Map<number, boolean> = new Map<number, boolean>();
 
   constructor(
-    private store: Store<RootStoreInjection>,
     private monthStoreService: MonthSelectionStoreService
   ) {
     super();
-    this.records$ = store.select('recordsReducer');
+    // this.records$ = store.select('recordsReducer');
     this.records$.subscribe((Records: RecordState) => {
       this.logger.debug(RecordStoreService.name, 'subscription', 'Records -> ', Records);
       this.records = Records.records;
@@ -53,11 +51,11 @@ export class RecordStoreService extends BaseService {
 
   public resetRecords() {
     this.logger.trace(RecordStoreService.name, 'resetRecords', 'was called');
-    this.store.dispatch(resetRecords());
+    // this.store.dispatch(resetRecords());
     this.logger.info(RecordStoreService.name, 'resetRecords', 'records were reset');
   }
   public setRecords(records: Record[]) {
-    this.store.dispatch(setRecords({ records: records }));
+    // this.store.dispatch(setRecords({ records: records }));
     this.logger.info(RecordStoreService.name, 'setRecords', 'Record store was set');
   }
 

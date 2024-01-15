@@ -1,4 +1,3 @@
-import { createAction, props } from "@ngrx/store";
 import Record from "../../models/record.model";
 
 export interface RecordState {
@@ -8,5 +7,5 @@ export const initialState: RecordState = {
   records: []
 };
 
-export const setRecords = createAction('[Records] Set Value', props<RecordState>());
-export const resetRecords = createAction('[Records] Reset');
+// export const setRecords = createAction('[Records] Set Value', props<RecordState>());
+// export const resetRecords = createAction('[Records] Reset');

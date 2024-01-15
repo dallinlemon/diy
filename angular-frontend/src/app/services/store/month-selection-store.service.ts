@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { MonthSelectionState, setMonthSelection } from "src/app/store/actions/month-selection.actions";
 import { RootStoreInjection } from "src/app/types/store.types";
@@ -12,9 +11,9 @@ export class MonthSelectionStoreService extends BaseService {
   private _selectedDate: Date;
   monthSelection$: Observable<MonthSelectionState>
 
-  constructor(private store: Store<RootStoreInjection>) {
+  constructor() {
     super();
-    this.monthSelection$ = store.select('monthSelectionReducer');
+    // this.monthSelection$ = store.select('monthSelectionReducer');
     this.monthSelection$.subscribe((monthSelectionState: MonthSelectionState) => {
       this.logger.trace(MonthSelectionStoreService.name, 'subscription', 'was called');
       this._selectedDate = monthSelectionState.selectedDate;
@@ -23,7 +22,7 @@ export class MonthSelectionStoreService extends BaseService {
 
   public setMonthSelection(selectedDate: Date) {
     this.logger.trace(MonthSelectionStoreService.name, 'setMonthSelection', 'was called');
-    this.store.dispatch(setMonthSelection({ selectedDate }));
+    // this.store.dispatch(setMonthSelection({ selectedDate }));
     this.logger.info(MonthSelectionStoreService.name, 'setMonthSelection', 'Month selection store was set');
   }
 

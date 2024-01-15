@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
 import { RecordStoreService } from 'src/app/services/store/record-store.service';
@@ -17,7 +16,6 @@ export class BudgetSideView extends BaseComponent implements OnInit {
   menu: BudgetMenu;
   menuNames = BudgetMenuTypes;
   constructor(
-    private store: Store<RootStoreInjection>,
     private budgetMenuStoreService: BudgetMenuStoreService,
     private recordStoreService: RecordStoreService,
   ) {

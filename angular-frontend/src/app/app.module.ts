@@ -15,11 +15,9 @@ import { GroupView } from './components/budget-page/group-view/group-view';
 import { Arrow } from './components/arrow/arrow.component';
 import { CategoryView } from './components/budget-page/category-view/category-view';
 import { CurrencyPipe } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
 import { rootStore } from './store/store';
 import { CategoryAvailableMenu } from './components/budget-side-view/category-available-menu/category-available-menu';
 import { MonthSelectorMainComponent } from './components/budget-page/month-selector/month-selector-main/month-selector-main';
-// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AddGroupPopup } from './components/add-group-popup/add-group-popup';
 import { FormsModule } from '@angular/forms';
 import { CategoryMenu } from './components/budget-side-view/category-menu/category-menu';
@@ -53,11 +51,6 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot(rootStore),
-    // StoreDevtoolsModule.instrument({
-    //   name: 'NgRx Demo App',
-    //   logOnly: true,
-    // }),
     FormsModule,
     MatSelectModule,
     HttpClientModule,

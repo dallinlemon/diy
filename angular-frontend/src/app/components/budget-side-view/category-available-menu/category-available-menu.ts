@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import Category from '../../../models/category.model';
 import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
@@ -24,7 +23,6 @@ export class CategoryAvailableMenu implements OnInit {
     'test3',
   ]
   constructor(
-    private store: Store<RootStoreInjection>,
     private budgetMenuStoreService: BudgetMenuStoreService,
     private categoriesStoreService: CategoriesStoreService,
     private groupStoreService: GroupStoreService,

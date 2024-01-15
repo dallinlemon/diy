@@ -1,4 +1,3 @@
-import { createAction, props } from '@ngrx/store';
 import { BudgetMenuTypes } from 'src/app/types/budget-menu-types.enum';
 
 export type BudgetMenu = {
@@ -16,5 +15,5 @@ export const initialState: BudgetMenuState = {
   }
 };
 
-export const setBudgetMenu = createAction('[Budget Menu] Set Value', props<BudgetMenuState>());
-export const resetBudgetMenu = createAction('[Budget Menu] Reset');
+// export const setBudgetMenu = createAction('[Budget Menu] Set Value', props<BudgetMenuState>());
+// export const resetBudgetMenu = createAction('[Budget Menu] Reset');

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Category from '../../../models/category.model';
 import Record from '../../../models/record.model';
 import { CurrencyPipe } from '@angular/common';
-import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { RootStoreInjection } from 'src/app/types/store.types';
 import { CategoryState } from 'src/app/store/actions/categories.actions';
@@ -36,7 +35,6 @@ export class CategoryView extends BaseComponent implements OnInit {
 
   constructor(
     private currencyPipe: CurrencyPipe,
-    private store: Store<RootStoreInjection>,
     private recordStoreService: RecordStoreService,
     private categoryStoreService: CategoriesStoreService,
     private budgetMenuStoreService: BudgetMenuStoreService,
@@ -62,7 +60,7 @@ export class CategoryView extends BaseComponent implements OnInit {
         this.updateAssignedDisplay();
         this.updateActivity();
       });
-      this.records$ = this.store.select('recordsReducer');
+      // this.records$ = this.store.select('recordsReducer');
       this.records$.subscribe((categoryState: RecordState) => {
         this.records = this.categoryStoreService.getMonthsRecords(this.category.id);
         this.updateActivity();
