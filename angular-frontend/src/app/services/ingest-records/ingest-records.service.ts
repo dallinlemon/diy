@@ -6,7 +6,6 @@ import { WellsFargo } from 'src/app/models/records/wf';
 import { BankRecord } from '../../models/records/bank-record.model';
 import { RecordTypes } from '../../types/record-types.enum';
 import { BaseService } from '../base-service';
-import { LoggerService } from '../logger/logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +36,6 @@ export class IngestRecordsService extends BaseService {
     return bankRecords;
   }
 
-
   private mapWellsFargoToBankRecord(rawRecords: WellsFargoRecord[]): WellsFargo[] {
     const wellsFargo: WellsFargo[] = [];
     rawRecords.map((rawRecord: WellsFargoRecord) => {
@@ -54,9 +52,7 @@ export class IngestRecordsService extends BaseService {
     return wellsFargo;
   }
 
-
   public ReadCsv(File: File, recordType: RecordTypes): Promise<BankRecord[]> {
-
     return new Promise((resolve, reject) => {
       try {
         papaParse(File, {
@@ -77,9 +73,7 @@ export class IngestRecordsService extends BaseService {
     });
   }
 
-
   public WFCsv(File: File, recordType: RecordTypes): Promise<WellsFargo[]> {
-
     return new Promise((resolve, reject) => {
       try {
         papaParse(File, {
@@ -100,9 +94,7 @@ export class IngestRecordsService extends BaseService {
     });
   }
 
-
   public ReadWFCsv(File: File, recordType: RecordTypes): Promise<BankRecord[]> {
-
     return new Promise((resolve, reject) => {
       try {
         papaParse(File, {
@@ -122,5 +114,4 @@ export class IngestRecordsService extends BaseService {
       }
     });
   }
-
 }

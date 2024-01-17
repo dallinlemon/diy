@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { BudgetMenu, BudgetMenuState, resetBudgetMenu, setBudgetMenu } from "src/app/store/actions/budget-menu.actions";
+import { Subject } from "rxjs";
 import { BudgetMenuTypes } from "src/app/types/budget-menu-types.enum";
-import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";
 
 @Injectable({
@@ -10,15 +8,10 @@ import { BaseService } from "../base-service";
 })
 export class BudgetMenuStoreService extends BaseService {
   menu: BudgetMenu;
-  menu$: Observable<BudgetMenuState>
+  menu$: Subject<BudgetMenu>
 
   constructor() {
     super();
-    // this.menu$ = store.select('budgetMenuReducer');
-    this.menu$.subscribe((menuState: BudgetMenuState) => {
-      this.logger.trace(BudgetMenuStoreService.name, 'subscription', 'was called');
-      this.menu = {...menuState?.menu};
-    });
   }
 
   setBudgetMenuType(type: BudgetMenuTypes) {
@@ -32,12 +25,27 @@ export class BudgetMenuStoreService extends BaseService {
 
   public resetMenu() {
     this.logger.trace(BudgetMenuStoreService.name, 'resetBudgetMenu', 'was called');
-    // this.store.dispatch(resetBudgetMenu());
+    this.menu = {
+      type: BudgetMenuTypes.BLANK,
+      display: false
+    } as BudgetMenu;
     this.logger.info(BudgetMenuStoreService.name, 'resetBudgetMenu', 'budget store was reset');
+    this.update();
   }
   public setMenu(menu: BudgetMenu) {
     this.logger.trace(BudgetMenuStoreService.name, 'setBudgetMenu', 'was called');
-    // this.store.dispatch(setBudgetMenu({ menu: menu }));
+    this.menu = menu;
     this.logger.info(BudgetMenuStoreService.name, 'setBudgetMenu', 'budget store was set');
+    this.update();
+  }
+
+  public update() {
+    this.menu$.next(this.menu);
   }
 }
+
+export type BudgetMenu = {
+  type: BudgetMenuTypes;
+  display: boolean;
+}
+
