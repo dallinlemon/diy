@@ -1,9 +1,6 @@
 import { Injectable } from "@angular/core";
-import { trace } from "console";
-import { Observable } from "rxjs";
+import { Subject } from "rxjs";
 import Record from "../../models/record.model";
-import { RecordState, resetRecords, setRecords } from "src/app/store/actions/records.actions";
-import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";
 import { MonthSelectionStoreService } from "./month-selection-store.service";
 
@@ -12,50 +9,46 @@ import { MonthSelectionStoreService } from "./month-selection-store.service";
 })
 export class RecordStoreService extends BaseService {
   records: Record[] =[];
-  records$: Observable<RecordState>
+  records$: Subject<Record[]>
   checkedRecords: Map<number, boolean> = new Map<number, boolean>();
 
   constructor(
     private monthStoreService: MonthSelectionStoreService
   ) {
     super();
-    // this.records$ = store.select('recordsReducer');
-    this.records$.subscribe((Records: RecordState) => {
-      this.logger.debug(RecordStoreService.name, 'subscription', 'Records -> ', Records);
-      this.records = Records.records;
-    });
   }
 
   public addRecord(record: Record) {
     this.logger.trace(RecordStoreService.name, 'addRecord', 'Setting Records with new record');
-    this.setRecords([...this.records, record]);
+    this.records.push(record);
+    this.update();
   }
 
   public updateRecord(record: Record) {
     this.logger.trace(RecordStoreService.name, 'updateRecord', `was called for record ${record.id}`);
-    this.records.forEach((element, index) => {
-      if (element.id === record.id) {
-        this.records[index] = record;
-      }
-    });
-    this.setRecords(this.records);
+    const index = this.records.findIndex(element => element.id === record.id);
+    if(!index) return;
+    this.records.splice(index, 1, Record.init(record));
+    this.update();
   }
 
   public deleteRecord(recordId: number) {
     this.logger.trace(RecordStoreService.name, 'deleteRecord', `was called for record ${recordId}`);
-    const updatedRecords: Record[] = this.records.filter(element => {
+    this.records = this.records.filter(element => {
+      if(!element) return false;
       return element.id !== recordId;
     })
-    this.setRecords(updatedRecords);
+    this.update();
   }
 
   public resetRecords() {
     this.logger.trace(RecordStoreService.name, 'resetRecords', 'was called');
-    // this.store.dispatch(resetRecords());
+    this.records = [];
     this.logger.info(RecordStoreService.name, 'resetRecords', 'records were reset');
   }
+
   public setRecords(records: Record[]) {
-    // this.store.dispatch(setRecords({ records: records }));
+    this.records = records.map(element => Record.init(element));
     this.logger.info(RecordStoreService.name, 'setRecords', 'Record store was set');
   }
 
@@ -69,14 +62,19 @@ export class RecordStoreService extends BaseService {
     this.logger.trace(RecordStoreService.name, 'deleteCheckedRecords', 'was called');
     this.logger.debug(RecordStoreService.name, 'deleteCheckedRecords', `checked records -> `, this.checkedRecords);
 
-    this.checkedRecords.forEach((value, key) => {
-      if (!value) return;
-      this.logger.trace(RecordStoreService.name, 'deleteCheckedRecords', `deleting record ${key}`);
-      this.deleteRecord(key);
-      this.checkedRecords.delete(key);
+    this.records.forEach(currentRecord => {
+      if (!currentRecord) return;
+      const checked = this.checkedRecords.get(currentRecord.id);
+      if(checked) {
+        this.logger.trace(RecordStoreService.name, 'deleteCheckedRecords', `deleting record ${currentRecord.id}`);
+        const index = this.records.findIndex(record => currentRecord.id === record.id);
+        this.records.splice(index, 1);
+        this.checkedRecords.delete(currentRecord.id);
+      }
     });
     this.logger.info(RecordStoreService.name, 'deleteCheckedRecords', 'checked record removed from store');
     this.logger.debug(RecordStoreService.name, 'deleteCheckedRecords', `checked record -> `, this.checkedRecords);
+    this.update();
   }
 
   public getTotalMonthlyActivity() {
@@ -87,5 +85,12 @@ export class RecordStoreService extends BaseService {
     }, 0);
     this.logger.info(RecordStoreService.name, 'getTotalMonthlyActivity', `total monthly activity -> ${totalActivity}`);
     return totalActivity;
+  }
+
+  /**
+    * Updates Subscribers to records$
+  */
+  public update() {
+    this.records$.next(this.records);
   }
 }

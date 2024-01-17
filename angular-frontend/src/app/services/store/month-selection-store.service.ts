@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { MonthSelectionState, setMonthSelection } from "src/app/store/actions/month-selection.actions";
-import { RootStoreInjection } from "src/app/types/store.types";
+import { Subject } from "rxjs";
 import { BaseService } from "../base-service";
 
 @Injectable({
@@ -9,21 +7,17 @@ import { BaseService } from "../base-service";
 })
 export class MonthSelectionStoreService extends BaseService {
   private _selectedDate: Date;
-  monthSelection$: Observable<MonthSelectionState>
+  monthSelection$: Subject<Date>
 
   constructor() {
     super();
-    // this.monthSelection$ = store.select('monthSelectionReducer');
-    this.monthSelection$.subscribe((monthSelectionState: MonthSelectionState) => {
-      this.logger.trace(MonthSelectionStoreService.name, 'subscription', 'was called');
-      this._selectedDate = monthSelectionState.selectedDate;
-    });
   }
 
   public setMonthSelection(selectedDate: Date) {
     this.logger.trace(MonthSelectionStoreService.name, 'setMonthSelection', 'was called');
-    // this.store.dispatch(setMonthSelection({ selectedDate }));
+    this._selectedDate = selectedDate;
     this.logger.info(MonthSelectionStoreService.name, 'setMonthSelection', 'Month selection store was set');
+    this.update();
   }
 
   get selectedDate(): Date {
@@ -31,5 +25,12 @@ export class MonthSelectionStoreService extends BaseService {
   }
   get selectedDateString(): string {
     return `${this._selectedDate.getUTCMonth() + 1}/${this._selectedDate.getUTCFullYear()}`;
+  }
+
+  /**
+    * Updates Subscribers of monthSelection$
+  */
+  public update() {
+    this.monthSelection$.next(this._selectedDate);
   }
 }

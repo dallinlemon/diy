@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Subject } from "rxjs";
 import Group from "../../models/group.model";
-import { GroupState } from "src/app/store/actions/groups.actions";
 import { BaseService } from "../base-service";
 import { CategoriesStoreService } from "./category-store.service";
 import { RecordStoreService } from "./record-store.service";
@@ -12,7 +11,7 @@ import Record from "../../models/record.model";
 })
 export class GroupStoreService extends BaseService {
   groups: Group[] =[];
-  groups$: Observable<GroupState>
+  groups$: Subject<Group[]>
   checkedGroups: Map<number, boolean> = new Map<number, boolean>();
 
   constructor(
@@ -20,23 +19,21 @@ export class GroupStoreService extends BaseService {
     private recordStoreService: RecordStoreService,
     ) {
     super();
-    this.groups$ = new Observable((sub) => {
-
-    });
+    this.groups$ = new Subject();
   }
 
   public addGroup(group: Group) {
     this.logger.trace(GroupStoreService.name, 'addGroup', 'Setting Groups with new record');
     this.groups.push(new Group(group.id, group.budget_id, group.name, group.show, group.created_at, group.notes));
+    this.update();
   }
 
   public updateGroup(group: Group) {
     this.logger.trace(GroupStoreService.name, 'updateGroup', `was called for group ${group.id}`);
-    this.groups.forEach((element, index) => {
-      if (element.id === group.id) {
-        this.groups[index] = new Group(group.id, group.budget_id, group.name, group.show, group.created_at, group.notes);
-      }
-    });
+    const index = this.groups.findIndex(element => element.id === group.id);
+    if(!index) return;
+    this.groups.splice(index, 1, new Group(group.id, group.budget_id, group.name, group.show, group.created_at, group.notes));
+    this.update();
   }
 
   public deleteGroup(groupId: number) {
@@ -45,12 +42,14 @@ export class GroupStoreService extends BaseService {
     this.groups = this.groups.filter(element => {
       return element.id !== groupId;
     })
+    this.update();
   }
 
   public resetGroups() {
     this.logger.trace(GroupStoreService.name, 'resetGroups', 'was called');
     this.groups = [];
     this.logger.info(GroupStoreService.name, 'resetGroups', 'groups store was reset');
+    this.update();
   }
 
   public checkGroup(groupId: number, checked: boolean) {
@@ -63,15 +62,14 @@ export class GroupStoreService extends BaseService {
     this.logger.trace(GroupStoreService.name, 'deleteCheckedGroups', 'was called');
     this.logger.debug(GroupStoreService.name, 'deleteCheckedGroups', `checked groups -> `, this.checkedGroups);
 
-    this.groups.filter(element => {
-      if(!this.checkedGroups.has(element?.id)) {
-        return true;
-      }
+    this.groups = this.groups.filter(element => {
+      if(!this.checkedGroups.has(element?.id)) return true;
       this.checkedGroups.delete(element?.id);
       return false;
     });
     this.logger.info(GroupStoreService.name, 'deleteCheckedGroups', 'checked groups removed from store');
     this.logger.debug(GroupStoreService.name, 'deleteCheckedGroups', `checked groups ->`, this.checkedGroups);
+    this.update();
   }
 
   /**
@@ -113,6 +111,6 @@ export class GroupStoreService extends BaseService {
     * Update observers of the groups
   */
   private update() {
-    this.groups$.
+    this.groups$.next(this.groups);
   }
 }

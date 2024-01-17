@@ -17,4 +17,21 @@ export default class Record extends DatabaseItemModel {
   ) {
     super(id, created_at);
   }
+
+  /**
+    * Helper method to convert VO to model
+    * @returns Record
+  */
+  public static init(config: Record) {
+    return new Record(
+      config.id,
+      config.account_id,
+      config.category_id,
+      config.date,
+      config.payee,
+      config.memo,
+      config.amount,
+      config.created_at
+    );
+  }
 }

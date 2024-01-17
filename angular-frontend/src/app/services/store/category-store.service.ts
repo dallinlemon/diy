@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Subject } from "rxjs";
 import Category from "../../models/category.model";
-import { CategoryState, resetCategories, setCategories } from "src/app/store/actions/categories.actions";
-import { RootStoreInjection } from "src/app/types/store.types";
 import { BaseService } from "../base-service";
 import { MonthSelectionStoreService } from "./month-selection-store.service";
 import Record from "../../models/record.model";
@@ -15,7 +13,7 @@ import { BudgetMenuTypes } from "src/app/types/budget-menu-types.enum";
 })
 export class CategoriesStoreService extends BaseService {
   categories: Category[] =[];
-  categories$: Observable<CategoryState>
+  categories$: Subject<Category[]>
   private checkedCategories: Map<number, boolean> = new Map<number, boolean>();
   public checkedCategoriesSubject: Subject<number> = new Subject<number>();
   public checkedCategories$ = this.checkedCategoriesSubject.asObservable();
@@ -25,16 +23,12 @@ export class CategoriesStoreService extends BaseService {
     private menuStoreService: BudgetMenuStoreService,
     ) {
     super();
-    // this.categories$ = store.select('categoriesReducer');
-    this.categories$.subscribe((Categories: CategoryState) => {
-      this.logger.trace(CategoriesStoreService.name, 'subscription', 'was called');
-      this.categories = [...Categories.categories];
-    });
   }
 
   public addCategories(category: Category) {
     this.logger.trace(CategoriesStoreService.name, 'addCategories', 'Setting Categories with new record');
-    this.setCategories([...this.categories, new Category(category.id, category.group_id, category.name, category.assigned, category.created_at, category.notes)]);
+    this.categories.push(new Category(category.id, category.group_id, category.name, category.assigned, category.created_at, category.notes));
+    this.update();
   }
 
   public updateCategories(category: Category) {
@@ -44,26 +38,30 @@ export class CategoriesStoreService extends BaseService {
         this.categories[index] = new Category(category.id, category.group_id, category.name, category.assigned, category.created_at, category.notes);
       }
     });
-    this.setCategories(this.categories);
+    this.update();
   }
 
   public deleteCategories(categoryId: number) {
     this.logger.trace(CategoriesStoreService.name, 'deleteCategories', `was called for category ${categoryId}`);
-    const updatedCategories: Category[] = this.categories.filter(element => {
+    this.categories = this.categories.filter(element => {
       return element.id !== categoryId;
     })
-    this.setCategories(updatedCategories);
+    this.update();
   }
 
   public resetCategories() {
     this.logger.trace(CategoriesStoreService.name, 'resetCategories', 'was called');
-    // this.store.dispatch(resetCategories());
+    this.categories = [];
     this.logger.info(CategoriesStoreService.name, 'resetCategories', 'categories store was reset');
+    this.update();
   }
   public setCategories(categories: Category[]) {
     this.logger.trace(CategoriesStoreService.name, 'setCategories', 'was called');
-    // this.store.dispatch(setCategories({ categories: categories }));
+    this.categories = categories.map((category) => {
+      return new Category(category.id, category.group_id, category.name, category.assigned, category.created_at, category.notes);
+    });
     this.logger.info(CategoriesStoreService.name, 'setCategories', 'categories store was set');
+    this.update();
   }
 
   public checkCategory(categoryId: number, checked: boolean) {
@@ -77,27 +75,29 @@ export class CategoriesStoreService extends BaseService {
   public deleteCheckedCategories() {
     this.logger.trace(CategoriesStoreService.name, 'deleteCheckedCategories', 'was called');
     this.logger.debug(CategoriesStoreService.name, 'deleteCheckedCategories', `checked categories -> `, this.checkedCategories);
-
-    this.checkedCategories.forEach((value, key) => {
-      if (!value) return;
-      this.logger.trace(CategoriesStoreService.name, 'deleteCheckedCategories', `deleting category ${key}`);
-      this.deleteCategories(key);
-      this.checkedCategories.delete(key);
-
+    this.categories = this.categories.filter(element => {
+      if (!element) return false;
+      if (!this.checkedCategories.has(element.id)) {
+        return false;
+      }
+      this.logger.trace(CategoriesStoreService.name, 'deleteCheckedCategories', `deleting category ${element.id}`);
+      this.checkedCategories.delete(element.id);
+      return true;
     });
     this.logger.info(CategoriesStoreService.name, 'deleteCheckedCategories', 'checked categories removed from store');
     this.logger.debug(CategoriesStoreService.name, 'deleteCheckedCategories', `checked categories -> `, this.checkedCategories);
+    this.update();
   }
 
   public getCheckedCategories(): Category[] {
     this.logger.trace(CategoriesStoreService.name, 'getCheckedCategories', 'was called');
-    const result: Category[] = [];
-    this.checkedCategories.forEach((value, key) => {
-      if (value && key) {
-        result.push(this.categories.find(element => element.id === key) as Category); // as Category because this should alway find a category and never return undefined
+    return this.categories.filter(element => {
+      if(!element) return false;
+      if(!this.checkedCategories.has(element.id)) {
+        return false;
       }
+      return true;
     });
-    return result;
   }
 
 
@@ -129,19 +129,24 @@ export class CategoriesStoreService extends BaseService {
         category.assigned.set(date ?? this.monthStoreService.selectedDateString, amount);
       }
     });
-    this.setCategories(this.categories);
+    this.update();
   }
 
   public getMonthsRecords(categoryId: number): Record[] {
     this.logger.trace(RecordStoreService.name, 'getMonthsRecords', 'was called');
-    const months: Record[] = [];
-    this.recordStoreService.records.forEach(element => {
-      if (element.date.getUTCMonth() === this.monthStoreService.selectedDate.getUTCMonth() && element.category_id === categoryId) {
-        months.push(element);
+    return this.recordStoreService.records.filter(element => {
+      if (!element) return false;
+      if (element.date.getUTCMonth() !== this.monthStoreService.selectedDate.getUTCMonth() || element.category_id !== categoryId) {
+        return false;
       }
-    }
-    );
-    this.logger.debug(RecordStoreService.name, 'getMonthsRecords', `months -> `, months);
-    return months;
+      return true;
+    });
+  }
+
+  /**
+    * Updates latest categories to subcribers to categories$
+  */
+  public update() {
+    this.categories$.next(this.categories);
   }
 }
