@@ -1,12 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { GroupState } from 'src/app/store/actions/groups.actions';
-import { RootStoreInjection } from 'src/app/types/store.types';
+import { Component, OnInit } from '@angular/core';
 import { GroupStoreService } from 'src/app/services/store/group-store.service';
 import Group from '../../../models/group.model';
 import { BaseComponent } from '../../base-component.ts/base-component';
 import { Subject } from 'rxjs';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
-import { CategoryState } from 'src/app/store/actions/categories.actions';
+import Category from 'src/app/models/category.model';
+
 @Component({
   selector: 'budget-main-view',
   templateUrl: './budget-main-view.html',
@@ -21,16 +20,16 @@ export class BudgetMainView extends BaseComponent implements OnInit {
   constructor(
     private groupStoreService: GroupStoreService,
     private categoryStoreService: CategoriesStoreService,
-    private cdr: ChangeDetectorRef,
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.groupStoreService.groups$.subscribe((groupState: GroupState) => {
+    this.groupStoreService.groups$.subscribe((groups: Group[]) => {
+      this.groups = groups;
       this.reloadGroups();
     });
-    this.categoryStoreService.categories$.subscribe((categoryState: CategoryState) => {
+    this.categoryStoreService.categories$.subscribe((_categoryState: Category[]) => {
       this.reloadGroups();
     });
   }

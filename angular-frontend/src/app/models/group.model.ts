@@ -42,7 +42,7 @@ export default class Group extends NamedItem {
 
   /**
    * Sets the toggle state of the object.
-   * @param {boolean} showing
+   * @param {boolean} show
    * @returns {void}
    */
   setShowing(show: boolean): void {

@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Category from '../../../models/category.model';
-import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
+import { BudgetMenu, BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
-import { BudgetMenu, BudgetMenuState } from 'src/app/store/actions/budget-menu.actions';
-import { CategoryState } from 'src/app/store/actions/categories.actions';
-import { RootStoreInjection } from 'src/app/types/store.types';
 import { GroupStoreService } from 'src/app/services/store/group-store.service';
 
 @Component({
@@ -31,12 +28,12 @@ export class CategoryAvailableMenu implements OnInit {
   }
 
   ngOnInit(): void {
-    this.budgetMenuStoreService.menu$.subscribe((menuState: BudgetMenuState) => {
-      this.menu = {...menuState?.menu};
+    this.budgetMenuStoreService.menu$.subscribe((menu: BudgetMenu) => {
+      this.menu = {...menu};
     });
-    this.categoriesStoreService.categories$.subscribe((categoriesState: CategoryState) => {
-      this.categories = [...categoriesState?.categories];
-      this.groups = [...categoriesState?.categories];
+    this.categoriesStoreService.categories$.subscribe((categories: Category[]) => {
+      this.categories = [...categories];
+      //this.groups = [...categoriesState?.categories];
     });
     // this.cat.groups$.subscribe((groupsState: GroupState) => {
     //   this.groups = [...groupsState?.groups];

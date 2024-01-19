@@ -2,8 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import Category from "src/app/models/category.model";
 import { CategoriesStoreService } from "src/app/services/store/category-store.service";
 import { MonthSelectionStoreService } from "src/app/services/store/month-selection-store.service";
-import { CategoryState } from "src/app/store/actions/categories.actions";
-import { MonthSelectionState } from "src/app/store/actions/month-selection.actions";
 import { BaseComponent } from "../../base-component.ts/base-component";
 
 
@@ -29,7 +27,7 @@ export class CategoryMenu extends BaseComponent implements OnInit {
   ngOnInit() {
     this.logger.trace(CategoryMenu.name, 'onInit', "Was called");
 
-    this.categoryStoreService.categories$.subscribe((categoriesState: CategoryState) => {
+    this.categoryStoreService.categories$.subscribe((categories: Category[]) => {
       this.updateMenu();
     });
     this.categoryStoreService.checkedCategories$.subscribe((checkedCategories: number) => {
@@ -38,7 +36,7 @@ export class CategoryMenu extends BaseComponent implements OnInit {
       this.numSelected = checkedCategories;
       this.updateMenu();
     });
-    this.monthStoreService.monthSelection$.subscribe((selectedMonths: MonthSelectionState) => {
+    this.monthStoreService.monthSelection$.subscribe((month: Date) => {
       this.updateMenu();
     });
   }

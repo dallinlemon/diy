@@ -1,4 +1,3 @@
-import DatabaseItemModel from "./database-item.model";
 
 /**
  * Record Model

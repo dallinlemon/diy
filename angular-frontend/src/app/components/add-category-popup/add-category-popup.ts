@@ -4,7 +4,6 @@ import Category from "src/app/models/category.model";
 import Group from "src/app/models/group.model";
 import { CategoriesStoreService } from "src/app/services/store/category-store.service";
 import { GroupStoreService } from "src/app/services/store/group-store.service";
-import { GroupState } from "src/app/store/actions/groups.actions";
 import { BaseComponent } from "../base-component.ts/base-component";
 
 @Component({
@@ -33,8 +32,8 @@ export class AddCategoryPopup extends BaseComponent implements OnInit {
       this.logger.trace(AddCategoryPopup.name, 'createButtonPressed', 'was called');
       this.popup = true;
     });
-    this.groupStoreService.groups$.subscribe((groupsState: GroupState) => {
-      this.groups = groupsState.groups
+    this.groupStoreService.groups$.subscribe((groups: Group[]) => {
+      this.groups = groups;
     });
   }
 

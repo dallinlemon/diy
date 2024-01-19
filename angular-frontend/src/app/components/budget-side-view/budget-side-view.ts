@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
-import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
+import { BudgetMenu, BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
 import { RecordStoreService } from 'src/app/services/store/record-store.service';
-import { BudgetMenu, BudgetMenuState } from 'src/app/store/actions/budget-menu.actions';
 import { BudgetMenuTypes } from 'src/app/types/budget-menu-types.enum';
-import { RootStoreInjection } from 'src/app/types/store.types';
 import { BaseComponent } from '../base-component.ts/base-component';
 
 @Component({
@@ -20,8 +17,8 @@ export class BudgetSideView extends BaseComponent implements OnInit {
     private recordStoreService: RecordStoreService,
   ) {
     super();
-    this.budgetMenuStoreService.menu$.subscribe((menuState: BudgetMenuState) => {
-      this.menu = {...menuState?.menu};
+    this.budgetMenuStoreService.menu$.subscribe((menu: BudgetMenu) => {
+      this.menu = {...menu};
     });
   }
 

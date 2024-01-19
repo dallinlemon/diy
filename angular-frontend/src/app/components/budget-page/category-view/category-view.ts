@@ -3,16 +3,12 @@ import Category from '../../../models/category.model';
 import Record from '../../../models/record.model';
 import { CurrencyPipe } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
-import { RootStoreInjection } from 'src/app/types/store.types';
-import { CategoryState } from 'src/app/store/actions/categories.actions';
 import { BaseComponent } from 'src/app/components/base-component.ts/base-component';
 import { RecordStoreService } from 'src/app/services/store/record-store.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
 import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
 import { BudgetMenuTypes } from 'src/app/types/budget-menu-types.enum';
 import { MonthSelectionStoreService } from 'src/app/services/store/month-selection-store.service';
-import { MonthSelectionState } from 'src/app/store/actions/month-selection.actions';
-import { RecordState } from 'src/app/store/actions/records.actions';
 
 @Component({
   selector: 'category-view',
@@ -31,7 +27,7 @@ export class CategoryView extends BaseComponent implements OnInit {
   activity: number = 0;
   available: number = 0;
   formattedAmount: any = 0;
-  records$: Observable<RecordState>
+  records$: Observable<Record[]>
 
   constructor(
     private currencyPipe: CurrencyPipe,
@@ -44,8 +40,9 @@ export class CategoryView extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // why ???
     if (this.category) {
-      this.categoryStoreService.categories$.subscribe((categoriesState: CategoryState) => {
+      this.categoryStoreService.categories$.subscribe((_categories: Category[]) => {
         this.updateAssignedDisplay();
       });
       this.updateAvailable();
@@ -55,13 +52,12 @@ export class CategoryView extends BaseComponent implements OnInit {
         this.categoryStoreService.checkCategory(this.category.id, this.checked);
         this.dispatchNewMenu(BudgetMenuTypes.CATEGORY);
       });
-      this.monthSelectionStoreService.monthSelection$.subscribe((monthState: MonthSelectionState) => {
+      this.monthSelectionStoreService.monthSelection$.subscribe((_month: Date) => {
         this.logger.trace(`${CategoryView.name} ${this.category.id}`, 'monthSelectionStoreService', 'subscription was called');
         this.updateAssignedDisplay();
         this.updateActivity();
       });
-      // this.records$ = this.store.select('recordsReducer');
-      this.records$.subscribe((categoryState: RecordState) => {
+      this.records$.subscribe((_categories: Record[]) => {
         this.records = this.categoryStoreService.getMonthsRecords(this.category.id);
         this.updateActivity();
       });

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import Group from '../../../models/group.model';
 import Category from '../../../models/category.model';
 import { GroupStoreService } from 'src/app/services/store/group-store.service';
@@ -45,12 +45,12 @@ export class GroupView extends BaseComponent implements OnInit {
       return total + currentCategory.getAssigned(new Date());
     }, 0);
 
-    this.categoryStoreService.categories$.subscribe(state => {
+    this.categoryStoreService.categories$.subscribe((state: Category[]) => {
       this.logger.trace(`${GroupView.name} ${this.currentGroup.id}`, 'categoriesSubscription', 'was called');
-      this.categories = state.categories.filter(category => category.group_id === this.currentGroup.id);
+      this.categories = state.filter(category => category.group_id === this.currentGroup.id);
       this.updateAssigned(null);
     });
-    this.recordStoreService.records$.subscribe(state => {
+    this.recordStoreService.records$.subscribe((state: Record[]) => {
       this.logger.trace(`${GroupView.name} ${this.currentGroup.id}`, 'recordsSubscription', 'was called');
       this.records = this.groupStoreService.getMonthsRecords(this.currentGroup.id);
       this.activity = this.records.reduce((total, currentRecord) => {

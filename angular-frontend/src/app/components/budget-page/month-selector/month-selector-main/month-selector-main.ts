@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { BaseComponent } from "src/app/components/base-component.ts/base-component";
 import { MonthSelectionStoreService } from "src/app/services/store/month-selection-store.service";
-import { MonthSelectionState } from "src/app/store/actions/month-selection.actions";
-import { RootStoreInjection } from "src/app/types/store.types";
 
 @Component({
   selector: 'month-selector-main',
@@ -19,8 +17,8 @@ export class MonthSelectorMainComponent extends BaseComponent implements OnInit 
   }
   ngOnInit(): void {
     this.currentDate = new Date();
-    this.monthSelectionStoreService.monthSelection$.subscribe((monthSelectionState: MonthSelectionState) => {
-      this.currentDate = monthSelectionState.selectedDate;
+    this.monthSelectionStoreService.monthSelection$.subscribe((month: Date) => {
+      this.currentDate = month;
       this.setMonth();
     });
   }

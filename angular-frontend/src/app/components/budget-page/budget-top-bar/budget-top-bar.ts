@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { CategoryState } from 'src/app/store/actions/categories.actions';
 import { BaseComponent } from 'src/app/components/base-component.ts/base-component';
 import { RecordStoreService } from 'src/app/services/store/record-store.service';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
 import { BudgetMenuStoreService } from 'src/app/services/store/budget-menu.service';
 import { MonthSelectionStoreService } from 'src/app/services/store/month-selection-store.service';
-import { MonthSelectionState } from 'src/app/store/actions/month-selection.actions';
-import { RecordState } from 'src/app/store/actions/records.actions';
 import { AssignedColors, Messages } from 'src/app/constants/budget-top-bar.constants';
+import Record from 'src/app/models/record.model';
+import Category from 'src/app/models/category.model';
 
 @Component({
   selector: 'budget-top-bar',
@@ -34,18 +33,18 @@ export class BudgetTopBarView extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.monthSelectionStoreService.monthSelection$.subscribe((monthState: MonthSelectionState) => {
+    this.monthSelectionStoreService.monthSelection$.subscribe((month: Date) => {
       this.logger.trace(`${BudgetTopBarView.name}`, 'monthSelectionStoreService', 'subscription was called');
-      this.currentMonth = monthState.selectedDate;
+      this.currentMonth = month;
       this.getActivity();
       this.getAssigned();
       this.calculateTotalAvailable();
     });
-    this.recordStoreService.records$.subscribe((categoryState: RecordState) => {
+    this.recordStoreService.records$.subscribe((_records: Record[]) => {
       this.getActivity();
       this.calculateTotalAvailable();
     });
-    this.categoriesStoreService.categories$.subscribe((categoryState: CategoryState) => {
+    this.categoriesStoreService.categories$.subscribe((_categories: Category[]) => {
       this.getAssigned();
       this.calculateTotalAvailable();
     });

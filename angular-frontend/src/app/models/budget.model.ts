@@ -1,5 +1,3 @@
-import DatabaseItemModel from "./database-item.model";
-import NamedItem from "./named-item.model";
 import UserIdItemModel from "./user-id-item.model";
 
 /**
