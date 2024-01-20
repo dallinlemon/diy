@@ -15,8 +15,7 @@ export class CategoriesStoreService extends BaseService {
   categories: Category[] =[];
   categories$: BehaviorSubject<Category[]> = new BehaviorSubject(this.categories);
   private checkedCategories: Map<number, boolean> = new Map<number, boolean>();
-  public checkedCategoriesSubject: Subject<number> = new Subject<number>();
-  public checkedCategories$ = this.checkedCategoriesSubject.asObservable();
+  public checkedCategories$ = new BehaviorSubject<number>(0);
   constructor(
     private monthStoreService: MonthSelectionStoreService,
     private recordStoreService: RecordStoreService,
@@ -71,7 +70,7 @@ export class CategoriesStoreService extends BaseService {
     this.logger.trace(CategoriesStoreService.name, 'checkCategory', `was called with ${categoryId} and ${checked}`);
     this.checkedCategories.set(categoryId, checked);
     this.menuStoreService.setBudgetMenuType(BudgetMenuTypes.CATEGORY);
-    this.checkedCategoriesSubject.next(this.totalChecked());
+    this.checkedCategories$.next(this.totalChecked());
     this.logger.debug(CategoriesStoreService.name, 'checkCategory', `checked categories -> `, this.checkedCategories);
   }
 
@@ -90,6 +89,7 @@ export class CategoriesStoreService extends BaseService {
     this.logger.info(CategoriesStoreService.name, 'deleteCheckedCategories', 'checked categories removed from store');
     this.logger.debug(CategoriesStoreService.name, 'deleteCheckedCategories', `checked categories -> `, this.checkedCategories);
     this.update();
+    this.updateChecked();
   }
 
   public getCheckedCategories(): Category[] {
@@ -99,7 +99,7 @@ export class CategoriesStoreService extends BaseService {
       if(!this.checkedCategories.has(element.id)) {
         return false;
       }
-      return true;
+      return this.checkedCategories.get(element.id);
     });
   }
 
@@ -147,9 +147,16 @@ export class CategoriesStoreService extends BaseService {
   }
 
   /**
-    * Updates latest categories to subcribers to categories$
+    * Updates latest categories to subscribers to categories$
   */
   public update() {
     this.categories$.next(this.categories);
+  }
+
+  /**
+    * Updates latest categories to subscribers to checkedCategories$
+  */
+  public updateChecked() {
+    this.checkedCategories$.next(this.totalChecked());
   }
 }
