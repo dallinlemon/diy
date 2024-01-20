@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, Inject } from "@angular/core";
 import { Observable } from "rxjs";
 import Group from "src/app/models/group.model";
 import { GroupStoreService } from "src/app/services/store/group-store.service";
 import { BaseComponent } from "../base-component.ts/base-component";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: 'add-group-popup',
@@ -10,23 +11,18 @@ import { BaseComponent } from "../base-component.ts/base-component";
   styleUrls: ['./add-group-popup.css'],
 })
 export class AddGroupPopup extends BaseComponent implements OnInit {
-  @Input() createButtonPressed: Observable<null>;
-  public popup: boolean = false;
   public groupName: string = '';
   public groupNotes: string = '';
 
   constructor(
     private groupStoreService: GroupStoreService,
+    private dialogRef: MatDialogRef<AddGroupPopup>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     super();
   }
   ngOnInit(): void {
     this.logger.trace(AddGroupPopup.name, 'ngOnInit', 'was called');
-
-    this.createButtonPressed.subscribe(() => {
-      this.logger.trace(AddGroupPopup.name, 'createButtonPressed', 'was called');
-      this.popup = true;
-    });
   }
 
   public groupNameChanged(event: any) {
@@ -54,8 +50,7 @@ export class AddGroupPopup extends BaseComponent implements OnInit {
       new Date(),
       this.groupNotes,
     ));
-    this.resetForm();
-    this.popup = false;
+    this.dialogRef.close();
   }
 
   private resetForm() {

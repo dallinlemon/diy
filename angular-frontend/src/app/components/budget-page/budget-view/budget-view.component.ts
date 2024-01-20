@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import categories from 'src/app/mock-data/arrays/categories';
+import groups from 'src/app/mock-data/arrays/groups';
+import mockRecords from 'src/app/mock-data/arrays/records';
+import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
+import { GroupStoreService } from 'src/app/services/store/group-store.service';
+import { RecordStoreService } from 'src/app/services/store/record-store.service';
 
 @Component({
   selector: 'app-budget-view',
@@ -7,12 +13,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BudgetViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public categoriesService: CategoriesStoreService,
+    public groupsService: GroupStoreService,
+    public recordsService: RecordStoreService
+  ) { }
 
   ngOnInit(): void {
-    // this.store.dispatch(setCategories({ categories: categories }));
-    // this.store.dispatch(setGroups({ groups: groups }));
-    // this.store.dispatch(setRecords({ records: mockRecords }));
+    this.categoriesService.setCategories(categories);
+    this.groupsService.setGroups(groups);
+    this.recordsService.setRecords(mockRecords);
   }
 
 }

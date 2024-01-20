@@ -8,7 +8,7 @@ import { BaseService } from "../base-service";
 })
 export class BudgetMenuStoreService extends BaseService {
   menu: BudgetMenu;
-  menu$: Subject<BudgetMenu>
+  menu$: Subject<BudgetMenu> = new Subject();
 
   constructor() {
     super();

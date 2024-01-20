@@ -15,7 +15,6 @@ import { GroupView } from './components/budget-page/group-view/group-view';
 import { Arrow } from './components/arrow/arrow.component';
 import { CategoryView } from './components/budget-page/category-view/category-view';
 import { CurrencyPipe } from '@angular/common';
-import { rootStore } from './store/store';
 import { CategoryAvailableMenu } from './components/budget-side-view/category-available-menu/category-available-menu';
 import { MonthSelectorMainComponent } from './components/budget-page/month-selector/month-selector-main/month-selector-main';
 import { AddGroupPopup } from './components/add-group-popup/add-group-popup';
@@ -25,6 +24,7 @@ import { BudgetTopBarView } from './components/budget-page/budget-top-bar/budget
 import { AddCategoryPopup } from './components/add-category-popup/add-category-popup';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -54,9 +54,14 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     MatSelectModule,
     HttpClientModule,
+    MatDialogModule
   ],
   providers: [
-    CurrencyPipe
+    CurrencyPipe,
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { hasBackdrop: true, restoreFocus: true }
+    }
   ],
   bootstrap: [AppComponent]
 })

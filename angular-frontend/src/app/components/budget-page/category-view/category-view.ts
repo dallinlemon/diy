@@ -57,7 +57,7 @@ export class CategoryView extends BaseComponent implements OnInit {
         this.updateAssignedDisplay();
         this.updateActivity();
       });
-      this.records$.subscribe((_categories: Record[]) => {
+      this.recordStoreService.records$.subscribe((_records: Record[]) => {
         this.records = this.categoryStoreService.getMonthsRecords(this.category.id);
         this.updateActivity();
       });

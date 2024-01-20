@@ -7,7 +7,7 @@ import { BaseService } from "../base-service";
 })
 export class MonthSelectionStoreService extends BaseService {
   private _selectedDate: Date;
-  monthSelection$: Subject<Date>
+  monthSelection$: Subject<Date> = new Subject();
 
   constructor() {
     super();
@@ -21,7 +21,7 @@ export class MonthSelectionStoreService extends BaseService {
   }
 
   get selectedDate(): Date {
-    return this._selectedDate;
+    return this._selectedDate || new Date(Date.now());
   }
   get selectedDateString(): string {
     return `${this._selectedDate.getUTCMonth() + 1}/${this._selectedDate.getUTCFullYear()}`;

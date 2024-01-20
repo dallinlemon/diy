@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import Group from "../../models/group.model";
 import { BaseService } from "../base-service";
 import { CategoriesStoreService } from "./category-store.service";
@@ -11,7 +11,7 @@ import Record from "../../models/record.model";
 })
 export class GroupStoreService extends BaseService {
   groups: Group[] =[];
-  groups$: Subject<Group[]>
+  groups$: BehaviorSubject<Group[]> = new BehaviorSubject<Group[]>([]);;
   checkedGroups: Map<number, boolean> = new Map<number, boolean>();
 
   constructor(
@@ -19,7 +19,9 @@ export class GroupStoreService extends BaseService {
     private recordStoreService: RecordStoreService,
     ) {
     super();
-    this.groups$ = new Subject();
+    this.groups$.subscribe((groups: Group[]) => {
+      this.logger.debug('', GroupStoreService.name, 'groups$ subscription', 'was called');
+    });
   }
 
   public addGroup(group: Group) {
@@ -112,5 +114,10 @@ export class GroupStoreService extends BaseService {
   */
   private update() {
     this.groups$.next(this.groups);
+  }
+
+  public setGroups(groups: Group[]) {
+    this.groups = groups;
+    this.update();
   }
 }

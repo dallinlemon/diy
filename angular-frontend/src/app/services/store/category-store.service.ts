@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import Category from "../../models/category.model";
 import { BaseService } from "../base-service";
 import { MonthSelectionStoreService } from "./month-selection-store.service";
@@ -13,7 +13,7 @@ import { BudgetMenuTypes } from "src/app/types/budget-menu-types.enum";
 })
 export class CategoriesStoreService extends BaseService {
   categories: Category[] =[];
-  categories$: Subject<Category[]>
+  categories$: BehaviorSubject<Category[]> = new BehaviorSubject(this.categories);
   private checkedCategories: Map<number, boolean> = new Map<number, boolean>();
   public checkedCategoriesSubject: Subject<number> = new Subject<number>();
   public checkedCategories$ = this.checkedCategoriesSubject.asObservable();
@@ -23,6 +23,9 @@ export class CategoriesStoreService extends BaseService {
     private menuStoreService: BudgetMenuStoreService,
     ) {
     super();
+    this.categories$.subscribe((categories: Category[]) => {
+      this.logger.debug('', CategoriesStoreService.name, 'categories$ subscription', 'was called');
+    });
   }
 
   public addCategories(category: Category) {

@@ -5,6 +5,9 @@ import { BaseComponent } from '../../base-component.ts/base-component';
 import { Subject } from 'rxjs';
 import { CategoriesStoreService } from 'src/app/services/store/category-store.service';
 import Category from 'src/app/models/category.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AddGroupPopup } from '../../add-group-popup/add-group-popup';
+import { AddCategoryPopup } from '../../add-category-popup/add-category-popup';
 
 @Component({
   selector: 'budget-main-view',
@@ -20,13 +23,13 @@ export class BudgetMainView extends BaseComponent implements OnInit {
   constructor(
     private groupStoreService: GroupStoreService,
     private categoryStoreService: CategoriesStoreService,
+    private dialog: MatDialog
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.groupStoreService.groups$.subscribe((groups: Group[]) => {
-      this.groups = groups;
       this.reloadGroups();
     });
     this.categoryStoreService.categories$.subscribe((_categoryState: Category[]) => {
@@ -39,24 +42,30 @@ export class BudgetMainView extends BaseComponent implements OnInit {
   }
 
   public addGroup() {
-    this.emitCreateGroupEvent();
+    this.dialog.open(AddGroupPopup, {
+      maxHeight: '92vh',
+      data: {},
+      panelClass: '',
+      autoFocus: true,
+      disableClose:true,
+      role: 'dialog'
+    });
   }
 
   public addCategory() {
-    this.emitCreateCategoryEvent();
+    this.dialog.open(AddCategoryPopup, {
+      maxHeight: '92vh',
+      data: {},
+      panelClass: '',
+      autoFocus: true,
+      disableClose:true,
+      role: 'dialog'
+    });
   }
 
   public deleteGroup() {
     this.logger.trace(BudgetMainView.name, 'deleteGroup', 'was called');
     this.groupStoreService.deleteCheckedGroups();
-  }
-
-  emitCreateGroupEvent() {
-    this.createGroupPressed.next(null);
-  }
-
-  emitCreateCategoryEvent() {
-    this.createCategoryPressed.next(null);
   }
 
 }

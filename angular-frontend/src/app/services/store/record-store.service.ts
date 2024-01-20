@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import Record from "../../models/record.model";
 import { BaseService } from "../base-service";
 import { MonthSelectionStoreService } from "./month-selection-store.service";
@@ -9,7 +9,7 @@ import { MonthSelectionStoreService } from "./month-selection-store.service";
 })
 export class RecordStoreService extends BaseService {
   records: Record[] =[];
-  records$: Subject<Record[]>
+  records$: BehaviorSubject<Record[]> = new BehaviorSubject(this.records);
   checkedRecords: Map<number, boolean> = new Map<number, boolean>();
 
   constructor(

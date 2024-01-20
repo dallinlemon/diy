@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, Inject } from "@angular/core";
 import { Observable } from "rxjs";
 import Category from "src/app/models/category.model";
 import Group from "src/app/models/group.model";
 import { CategoriesStoreService } from "src/app/services/store/category-store.service";
 import { GroupStoreService } from "src/app/services/store/group-store.service";
 import { BaseComponent } from "../base-component.ts/base-component";
+import { DialogRef } from "@angular/cdk/dialog";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
   selector: 'add-category-popup',
@@ -12,8 +14,6 @@ import { BaseComponent } from "../base-component.ts/base-component";
   styleUrls: ['./add-category-popup.css'],
 })
 export class AddCategoryPopup extends BaseComponent implements OnInit {
-  @Input() createButtonPressed: Observable<null>;
-  public popup: boolean = true;
   public categoryGroupID: string = '';
   public categoryName: string = '';
   public categoryNotes: string = '';
@@ -22,16 +22,14 @@ export class AddCategoryPopup extends BaseComponent implements OnInit {
   constructor(
     private groupStoreService: GroupStoreService,
     private categoryStoreService: CategoriesStoreService,
+    private dialogRef: DialogRef<AddCategoryPopup>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     super();
   }
   ngOnInit(): void {
     this.logger.trace(AddCategoryPopup.name, 'ngOnInit', 'was called');
 
-    this.createButtonPressed.subscribe(() => {
-      this.logger.trace(AddCategoryPopup.name, 'createButtonPressed', 'was called');
-      this.popup = true;
-    });
     this.groupStoreService.groups$.subscribe((groups: Group[]) => {
       this.groups = groups;
     });
@@ -62,8 +60,7 @@ export class AddCategoryPopup extends BaseComponent implements OnInit {
       new Date(),
       this.categoryNotes,
     ));
-    this.resetForm();
-    this.popup = false;
+    this.dialogRef.close();
   }
 
   private resetForm() {
